@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!-- ids for jtext_activity.xml -->
+    <item type="id" name="scroller"/>
+    <item type="id" name="booktext"/>
+    <item type="id" name="definition_view"/>
+    <item type="id" name="brightness_seeker"/>
+    <item type="id" name="text_seeker"/>
+    <item type="id" name="action_bar"/>
+    <item type="id" name="secondary_option_bar"/>
+    <item type="id" name="main_option_bar"/>
+    <item type="id" name="overflow_button"/>
+    <item type="id" name="word_action_bar"/>
+
+    <!-- ids for tags -->
+    <item type="id" name="tag_span"/>
+</resources>

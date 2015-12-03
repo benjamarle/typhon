@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2013 Ray Zhou
+
+JadeRead is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+JadeRead is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with JadeRead.  If not, see <http://www.gnu.org/licenses/>
+
+Author: Ray Zhou
+Date: 2013 04 26
+
+-->
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+    <org.rikai.glosslist.PinchableListView
+            android:id="@+id/gloss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:paddingTop="20dp"
+            android:background="#C7000000"
+            android:fadeScrollbars="false"
+            android:textColor="#ffffffff"
+            android:divider="#C7C0C0C0"
+            android:dividerHeight="1dp"
+            />
+    <!--  android:fadeScrollbars="false" always shows scrollbar -->
+
+    <Button android:id="@+id/gloss_close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="invisible"
+            android:text="@string/close_button"
+            android:textSize="15sp"
+            android:textColor="#aaffffff"
+            android:background="@color/transparent"
+            android:paddingRight="5dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@id/gloss"
+            />
+    <Button android:id="@+id/gloss_drag"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:textColor="#aaffffff"
+            android:text="@string/drag_symbol"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:background="@color/transparent"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@id/gloss_close"
+            />
+</RelativeLayout>

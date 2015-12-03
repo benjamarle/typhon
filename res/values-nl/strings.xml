@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="title">Titel</string>
+    <string name="app_desc">PageTurner is een synchroniserende e-book reader waarmee je je voortgang op meerdere apparaten synchroon kan houden.</string>
+    <string name="browse">Bladeren…</string>
+    <string name="open_file">Open ePub-bestand</string>
+    <string name="open_library">Mijn boeken</string>
+    
+    <string name="profile_day">Schakel naar dagstand</string>  
+    <string name="profile_night">Schakel naar nachtstand</string>
+    <string name="manual_sync">Synchroniseer voortgang</string>
+    <string name="prefs">Instellingen</string>
+    
+    <string name="show_toc">Inhoudsopgave</string>   
+    <string name="rolling_blind">Auto-scroll</string>
+    <string name="about">Over PageTurner</string>
+    <string name="about_gpl">PageTurner is vrije software onder de GPL v3.</string>
+    <string name="error_open_bk">Fout bij het openen van het boek: %s</string>
+    
+    <string name="dictionary_lookup">Opzoeken in woordenboek</string>
+    <string name="wikipedia_lookup">Zoeken op Wikipedia</string>
+    <string name="google_lookup">Zoeken op Google</string>    
+    <string name="word_select">"Selectie van '%s'</string>    
+        
+    <string name="loading_wait">Bezig met lezen… Even geduld aub.</string>
+    <string name="install_oi">Installeer a.u.b. de OI File Manager uit de Android Market.</string>
+    
+    <string name="cloud_bm">Online bladwijzers</string>
+    <string name="toc_label">Inhoudsopgave</string>
+    <string name="syncing">"Bezig met synchroniseren…"</string>
+    <string name="sync_failed">Synchronisatie mislukt</string>
+    <string name="connection_fail">Kon geen verbinding maken met de synchronisatieserver</string>
+    
+    <string name="never_read">Nooit</string>
+        
+    <string name="library">Bibliotheek</string>
+    <string name="book_details">Boekdetails</string>
+    
+    <string name="book_by">Door %s</string>
+    <string name="last_read">Laatst gelezen: %s</string>
+    <string name="added_to_lib">Toegevoegd: %s</string>
+    
+    <string name="view_details">Bekijk details</string>
+    <string name="delete">Verwijderen</string>
+    <string name="scan_books">Naar nieuwe boeken zoeken</string>    
+    
+    <string name="importing_books">Boeken aan het importeren…</string>
+    <string name="scanning_epub">Aan het zoeken naar ePub-bestanden…</string>
+    <string name="importing">Bestand %1$d van %2$d aan het importeren.</string>
+    <string name="scan_folders">Bezig met zoeken naar ePub-bestanden.\nAantal doorzochte mappen: %d</string>
+    <string name="import_errors">Niet alle boeken konden geïmporteerd worden:</string>
+    <string name="no_books_found">Geen boeken gevonden.</string>
+    <string name="no_bks_fnd_text">Er zijn geen boeken gevonden op het apparaat.\nGa naar gutenberg.org of feedbooks.com om gratis boeken te downloaden.</string>
+    <string name="loading_library">Bezig met laden van de bibliotheek…</string>
+    <string name="scan_bks_question">De bibliotheek is leeg.\nWil je automatisch zoeken naar boeken?</string>    
+    <string name="brightness">Helderheid</string> 
+    
+    <string-array name="v_animLabels">
+        <item>Schuivende tekst</item>
+        <item>Geen</item>        
+    </string-array>
+    
+    <string-array name="h_animLabels">
+        <item>Pagina omslaan</item>
+        <item>Schuivende tekst</item>
+        <item>Geen</item>
+    </string-array>
+        
+    <string-array name="orientationLabels">
+        <item>Niet vergrendelen</item>
+        <item>Staand</item>
+        <item>Liggend</item>
+        <item>Omgekeerd Staand</item>
+        <item>Omgekeerd liggend</item>
+    </string-array>  
+   
+    <string-array name="autoscrollLabels">
+        <item>Afrollende pagina</item>
+        <item>Paginawisselingstimer</item>
+    </string-array>    
+        
+    <string-array name="libraryQueries">
+        <item>Recent gelezen boeken</item>
+        <item>Recent toegevoegde boeken</item>
+        <item>Ongelezen boeken</item>
+        <item>Alles gesorteerd op titel</item>
+        <item>Alles gesorteerd op auteur</item> 
+    </string-array>
+      
+    <string name="access_denied">Uw toegangssleutel is ongeldig. Ga naar pageturner-reader.org om een geldige sleutel te verkrijgen.</string>
+    <string name="import_books">Boeken importeren</string>
+    <string name="import_desc">Je kan je hele SD-kaart scannen of een specifieke map kiezen om te doorzoeken.</string>
+    <string name="scan_whole_card">Scan mijn hele SD-kaart</string>
+    <string name="scan_folder">Scan een specifieke map</string>
+    <string name="copy_to_library">Boeken naar mijn bibliotheek kopieren</string>
+    <string name="no_such_folder">De map %s bestaat niet.</string>
+    <string name="import_failed">Importeren mislukt</string>
+    
+    <string name="list_view">Omschakelen naar lijstweergave</string>    
+	<string name="shelves_view">Omschakelen naar boekenplanken</string>
+	<string name="read">Nu lezen</string>
+	
+	<string name="download">Boeken downloaden</string>
+	<string name="downloading">Boek wordt gedownload…</string>
+
+     <string name="search_books">Boeken zoeken</string>
+    <string name="enter_query">Voer a.u.b. een zoek-term in</string>
+    <string name="buy_now">Nu kopen</string>
+    <string name="enter_email">Cloud-synchronisatie is momenteel uitgeschakeld. Voer a.u.b. een e-mailadres in bij voorkeuren om het in te schakelen.</string>
+    <string name="add_to_library">Toevoegen aan mijn boeken</string>
+    
+     <string name="search_wait">Bezig met zoeken… Even geduld a.u.b.</string>
+    <string name="search_text">Tekst zoeken</string>
+    <string name="search_hits">Bezig met zoeken…\n%d resultaten gevonden.</string>
+    <string name="search_cancelled">Zoeken geannuleerd</string>
+    <string name="search_no_matches">Er zijn geen resultaten gevonden.</string>
+    <string name="search_results">Zoekresultaten</string>
+    
+     <string name="opening_file">Bestand wordt geopend…</string>
+    <string name="loading_text">Tekst wordt geladen…</string>
+
+    <string name="end_of_section">Einde van het hoofdstuk.\nKlik hier om verder te gaan.</string>
+    <string name="download_complete">Download gereed.\nHet boek is toegevoegd aan je boeken.</string>
+
+    <string name="feed_failed">Kon geen verbinding maken met de site. Probeer het a.u.b. opnieuw.</string>
+    <string name="book_failed">Kon het boek niet downloaden. Probeer het a.u.b. opnieuw.</string>
+
+    <string name="custom_site">Mijn OPDS-sites</string>
+    <string name="add_site">Eigen site toevoegen</string>
+    <string name="edit_site">Site bewerken</string>
+    <string name="add_site_header">Wat voor site wil je toevoegen?</string>
+    <string name="calibre_server">Calibre content server</string>
+    <string name="cops_server">COPS server</string>
+    <string name="c2opds_server">Calibre2OPDS</string>
+    <string name="generic_server">Generic OPDS-site</string>
+    <string name="save">Wijzigingen opslaan</string>
+
+    <string name="custom_site_desc">Je eigen OPDS- / Calibre-sites. Je kan nieuwe sites toevoegen vanuit het voorkeurenscherm.</string>
+    <string name="site_name">Sitenaam</string>
+    <string name="site_url">Site-URL</string>
+    <string name="site_desc">Omschrijving</string>
+    <string name="site_username">Gebruikersnaam</string>
+    <string name="site_password">Wachtwoord</string>
+
+    <string name="msg_name_blank">Vul a.u.b. een naam in.</string>
+    <string name="msg_url_blank">Vul a.u.b. een URL in.</string>
+
+    <string name="edit">Bewerken</string>
+
+    <string name="no_custom_sites">Je hebt nog geen sites toegevoegd. Voeg eerst één of meer sites toe vanuit het voorkeurenscherm.</string>
+    <string name="text_to_speech">Voorlezen (TTS)</string>
+
+    <string name="init_tts">TTS wordt gestart…\nEven geduld a.u.b.</string>
+    <string name="tts_failed">TTS kon niet worden gestart.</string>
+
+    <string name="search_library">Bibliotheek doorzoeken</string>
+    <string name="no_sync_points">Je hebt nog geen opgeslagen cloud-sync-punten.\nSync-punten worden opgeslagen bij het verlaten van PageTurner.</string>
+    <string name="no_new_books_found">De scan heeft geen nieuwe boeken gevonden.</string>
+
+    <string name="next_page">Volgende pagina…</string>
+    <string name="prev_page">Vorige pagina…</string>
+
+    <string name="empty_opds_feed">De feed was leeg. Controleer a.u.b. of de URL correct is.</string>
+    <string name="search_results_item">Zoekresultaten…</string>
+    <string name="lookup_wiktionary">Zoeken op Wiktionary</string>
+
+    <string name="no_search_results">Je zoekopdracht heeft geen resultaten opgeleverd.</string>
+
+    <string name="dead_link">Sorry, de link waar je op geklikt hebt lijkt niet te werken.</string>
+    <string name="could_not_load">Er is een fout opgetreden tijdens het laden van de tekst: %s</string>
+    <string name="out_of_memory">Sorry, PageTurner kon niet genoeg geheugen vrij maken om dit bestand te openen.</string>
+
+    <string name="highlight">Markeren</string>
+    <string name="highlights">Markeringen</string>
+
+    <string name="highlight_options">Markeringsopties</string>
+    <string name="text_note">Notitie toevoegen</string>
+    <string name="clear_note">Notitie verwijderen</string>
+    <string name="save_note">Notitie bewaren</string>
+
+    <string name="set_colour">Wijzig kleur</string>
+
+    <string name="page_number_of">Pagina %1$d van %2$d</string>
+
+    <string name="import_this">Importeer deze map</string>
+    <string name="cancelling">Wordt geannuleerd…</string>
+
+    <string name="no_bks_fnd_text2">Er zijn geen boeken gevonden op je apparaat.\nWil je boeken downloaden?</string>
+    <string name="notes_attached">Er is een notitie gekoppeld aan deze markering.\nWeet je zeker dat je hem wil verwijderen?</string>
+    <string name="highlight_deleted">Notitie verwijderd</string>
+
+    <string name="add_bookmark">Bladwijzer toevoegen</string>
+    <string name="add">Toevoegen</string>
+    <string name="bookmarks">Bladwijzers</string>
+    <string name="bookmark_options">Bladwijzer opties</string>
+    <string name="bookmark_deleted">Bladwijzer is verwijderd</string>
+
+    <string name="now_reading">Nu aan het lezen: %s</string>
+    <string name="library_failed">Kon de bibliotheek niet openen.</string>
+
+
+    <!-- Preferences -->
+        
+    <string name="pref_sync_settings">Synchronisatie-instellingen</string>
+    <string name="pref_email">E-mailadres</string>
+    <string name="pref_email_summary">Voor het koppelen van apparaten. Laat leeg om synchronisatie uit te schakelen.</string>
+    <string name="pref_email_message">Voer a.u.b. een gelding e-mail adres in.</string>
+    <string name="pref_device_name">Apparaatnaam</string>
+    <string name="pref_device_name_summary">Unieke naam voor dit apparaat, om conflicten op te lossen.</string>
+    <string name="pref_device_name_message">Voer a.u.b. een naam in voor dit apparaat.</string>
+    <string name="pref_access_key">Toegangssleutel</string>
+    <string name="pref_access_key_summary">Om de synchronisatie service te gebruiken is een toegangssleutel vereist. Ga naar de site om een sleutel te krijgen.</string>
+    <string name="pref_access_key_message">Voer a.u.b. uw toegangssleutel in.</string>
+
+    <string name="pref_autoscroll_settings">Auto-scroll-instellingen</string>
+    <string name="pref_scroll_style">Auto-scroll-stijl</string>
+    <string name="pref_scroll_style_summary">Afrollende pagina of paginatimer.</string>
+    <string name="pref_scroll_speed">Auto-scroll-snelheid</string>
+    <string name="pref_scroll_speed_summary">Hoe lang een pagina wordt weergegeven in seconden.</string>
+
+    <string name="pref_my_books_settings">Mijn Boeken-instellingen</string>
+    <string name="pref_copy_to_library">Kopieren naar bibliotheekmap</string>
+    <string name="pref_copy_to_library_summary">Bepaalt of PageTurner boeken naar zijn eigen bibliotheek map moet kopieren.</string>
+    <string name="pref_calibre_server">Calibre content server</string>
+    <string name="pref_calibre_server_summary">Maak verbinding met je eigen Calibre-bibliotheek.</string>
+    <string name="pref_calibre_server_message">Calibre-URL</string>
+    <string name="pref_calibre_server_hint">http://192.168.1.1:8080/opds</string>
+    <string name="pref_calibre_user">Gebruikersnaam</string>
+    <string name="pref_calibre_user_summary">De gebruikersnaam voor Calibre.</string>
+    <string name="pref_calibre_user_hint">calibre</string>
+    <string name="pref_calibre_password">Wachtwoord</string>
+    <string name="pref_calibre_password_summary">Het wachtwoord voor Calibre.</string>
+
+    <string name="pref_visual_settings">Weergave-instellingen</string>
+    <string name="pref_full_screen">Volledig scherm</string>
+    <string name="pref_full_screen_summary">Verbergt alle statusbalken.</string>
+    <string name="pref_screen_orientation">Schermorientatie</string>
+    <string name="pref_screen_orientation_summary">Vergrendeling van de schermorientatie.</string>
+    <string name="pref_keep_screen_on">Voorkom vergrendeling</string>
+    <string name="pref_keep_screen_on_summary">Voorkomt dat het scherm vergrendelt tijdens het lezen.</string>
+    <string name="pref_set_brightness">Helderheidsinstellingen</string>
+    <string name="pref_set_brightness_summary">Laat PageTurner de schermhelderheid beheren.</string>
+    <string name="pref_day_bright">Schermhelderheid</string>
+    <string name="pref_day_bright_summary">Voor dagstand.</string>
+    <string name="pref_day_night">Schermhelderheid</string>
+    <string name="pref_day_night_summary">Voor nachtstand.</string>
+    <string name="pref_text_display_settings">Tekstweergaveinstellingen</string>
+    <string name="pref_font_face">Lettertype</string>
+    <string name="pref_font_face_summary">Lettertype voor boeken.</string>
+    <string name="pref_strip_whitespace">Verwijder lege ruimte</string>
+    <string name="pref_strip_whitespace_summary">Verwijderd onnodige lege ruimte uit boeken.</string>
+    <string name="pref_itext_size">Tekstgrootte</string>
+    <string name="pref_itext_size_summary">De tekstgrootte voor het weergeven van boeken.</string>
+    <string name="pref_margin_h">Horizontale marges</string>
+    <string name="pref_margin_h_summary">De hoeveelheid lege ruimte aan de zijkanten van het scherm.</string>
+    <string name="pref_margin_v">Verticale marges</string>
+    <string name="pref_margin_v_summary">De hoeveelheid lege ruimte boven en onder aan het scherm.</string>
+    <string name="pref_line_spacing">Regelafstand</string>
+    <string name="pref_line_spacing_summary">Voegt extra ruimte tussen regels toe.</string>
+
+    <string name="pref_colour_settings">Kleurinstellingen</string>
+    <string name="pref_day_text">Tekstkleur</string>
+    <string name="pref_day_text_summary">Voor dagstand.</string>
+    <string name="pref_day_bg">Achtergrondkleur</string>
+    <string name="pref_day_bg_summary">Voor dagstand.</string>
+    <string name="pref_day_link">Linkkleur</string>
+    <string name="pref_day_link_summary">Voor dagstand.</string>
+    <string name="pref_night_text">Tekstkleur</string>
+    <string name="pref_night_text_summary">Voor nachtstand.</string>
+    <string name="pref_night_bg">Achtergrondkleur</string>
+    <string name="pref_night_bg_summary">Voor nachtstand.</string>
+    <string name="pref_night_link">Linkkleur</string>
+    <string name="pref_night_link_summary">Voor nachtstand.</string>
+
+    <string name="pref_animations">Animatieinstellingen</string>
+    <string name="pref_h_animation">Horizontale animaties</string>
+    <string name="pref_h_animation_summary">Animaties bij horizontale paginawisseling.</string>
+    <string name="pref_v_animation">Verticale animaties</string>
+    <string name="pref_v_animation_summary">Animaties bij verticale paginawisseling.</string>
+    
+    <string name="pref_navigation_settings">Navigatieinstellingen</string>
+    <string name="pref_scrolling">Activeer scrollen</string>
+    <string name="pref_scrolling_summary">Maakt scrollen zoals in een browser mogelijk.</string>
+    <string name="pref_nav_vol">Gebruik volumeknoppen</string>
+    <string name="pref_nav_vol_summary">Sla pagina\'s om met de volumeknoppen.</string>
+    <string name="pref_nav_swipe_h">Gebruik horizontale swipe</string>
+    <string name="pref_nav_swipe_h_summary">Swipe naar links of rechts om pagina\'s om te slaan.</string>
+    <string name="pref_nav_swipe_v">Gebruik verticale swipe</string>
+    <string name="pref_nav_swipe_v_summary">Swipe op of neer om pagina\'s om te slaan.</string>
+    <string name="pref_nav_tap_h">Gebruik zijkanten scherm</string>
+    <string name="pref_nav_tap_h_summary">Tik aan de linker of rechter kant van het scherm om pagina\'s om te slaan.</string>
+    <string name="pref_nav_tap_v">Gebruik boven- en onderkant</string>
+    <string name="pref_nav_tap_v_summary">Tik aan de boven- of onderkant van het scherm om pagina\'s om te slaan.</string>
+    
+   
+    <string name="pref_show_pagenum">Toon paginanummers</string>
+    <string name="pref_show_pagenum_summary">Laat paginanummers zien tijdens het lezen. Het kan een paar seconden duren voordat paginanummers getoond worden.</string>
+
+    <string name="pref_nook_touch">Nook Touch-voorkeuren</string>
+    <string name="pref_nook_touch_button_nav">Navigationknoppen</string>
+    <string name="pref_nook_touch_button_nav_summary">Hoe moeten de navigatieknoppen aan de zijkant van de Nook gebruikt worden?</string>
+
+    <string name="pref_reading_direction">Leesrichting</string>
+    <string name="pref_reading_direction_summary">Lees van links naar rechts of rechts naar links (Hebreeuws en Arabisch)</string>
+
+    <string-array name="reading_directionsLabels">
+        <item>Links naar rechts</item>
+        <item>Rechts naar links</item>
+    </string-array>
+
+    <string name="pref_manage_sites">Beheer OPDS- / Calibre Catalog-sites</string>
+    <string name="pref_manage_sites_summary">Beheer je eigen OPDS-sites of Calibre-servers.</string>
+
+    <string name="pref_serif_font">Serif-lettertype</string>
+    <string name="pref_serif_summary">Het lettertype dat gebruikt wordt als een boek een Serif font vraagt.</string>
+
+    <string name="pref_sans_serif_font">Sans-Serif-lettertype</string>
+    <string name="pref_sans_serif_summary">Het lettertype dat gebruikt wordt als een boek een Sans-Serif-font vraagt.</string>
+
+    <string name="pref_lang">UI-taal</string>
+    <string name="pref_lang_summary">Schakel PageTurner naar een andere taal.</string>
+    <string name="language_switch_message">De nieuwe taalinstelling wordt actief bij het openen van een nieuw boek.</string>
+
+    <string name="pref_accept_self_signed">Accepteer alle certificaten</string>
+    <string name="pref_accept_self_signed_summary">Staat toe dat PageTurner verbinding maakt met sites die een niet-vertrouwd certificaat gebruiken.</string>
+
+    <string-array name="supported_languagesLabels">
+        <item>Gebruik apparaatinstelling</item>
+        <item>Engels</item>
+        <item>Nederlands</item>
+        <item>Duits</item>
+        <item>Spaans</item>
+        <item>Italiaans</item>
+        <item>Arabisch</item>
+        <item>Hebreeuws</item>
+        <item>Farsi</item>
+    </string-array>
+
+
+    <string name="pref_dim_system_ui">Dim systeemknoppen</string>
+    <string name="pref_dim_system_ui_summary">Dimt de systeemtoetsen in volledigschermstand.</string>
+
+    <string name="pref_long_short">Verwissel lange klik / korte klik</string>
+    <string name="pref_long_short_summary">Bepaalt hoe boeken geopend worden in de bibliotheek.</string>
+
+    <string-array name="long_short_labels">
+        <item>Vasthouden opent direct, kort klikken voor details</item>
+        <item>Kort klikken opent direct, vasthouden voor details</item>
+    </string-array>
+
+    <string name="pref_dev_settings">Ontwikkelaarsinstellingen</string>
+
+    <string name="pref_acra">Verstuur foutrapportages</string>
+    <string name="pref_acra_summary">Staat PageTurner toe om anonieme rapporten te versturen bij crashes.</string>
+
+    <string name="opds_settings">OPDS-instellingen</string>
+
+    <!-- Not yet translated -->
+
+    <string name="pref_use_publisher_style">Gebruik uitgevers-stijl (CSS)</string>
+    <string name="pref_use_publisher_style_summary">Laat het boek kleuren, lettertypen, etc. bepalen.</string>
+
+    <string name="drawer_open">La geopend</string>
+    <string name="drawer_close">La gesloten</string>
+    <string name="drawer_layout">La layout</string>
+
+    <string name="pref_allow_css_colours">Laat het boek kleuren bepalen</string>
+    <string name="pref_css_colours_day_summary">Voor dagstand</string>
+    <string name="pref_css_colours_night_summary">Voor nachtstand</string>
+
+    <string name="pref_always_open_book">Open altijd het laatste boek</string>
+    <string name="pref_always_open_book_summary">PageTurner zal altijd in het meest recent gelezen boek starten, in plaats van in het laatst geopende scherm</string>
+
+    <string name="pref_sync_server">Sync Server</string>
+    <string name="pref_sync_server_summary">Bepaalt welke server gebruikt wordt voor synchronisatie.</string>
+    <string name="pref_sync_server_message">Voer een sync server-url in.</string>
+
+
+
+</resources>

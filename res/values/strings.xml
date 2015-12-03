@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    
+    <string name="app_name" translatable="false">PageTurner</string>
+    
+    <string name="title">Title</string>
+    <string name="app_desc">PageTurner is a syncing e-book reader that allows you to sync your reading progress over multiple devices.</string>
+    <string name="browse">Browse…</string>
+    <string name="open_file">Open ePub file</string>
+    <string name="open_library">My Books</string>
+    <string name="profile_day">Switch to day mode</string>
+    <string name="profile_night">Switch to night mode</string>
+    <string name="manual_sync">Sync reading progress</string>
+    <string name="prefs">Settings</string>
+    <string name="show_toc">Show TOC</string>
+    <string name="rolling_blind">Auto-scroll</string>
+    <string name="about">About PageTurner</string>
+    <string name="about_gpl">PageTurner is free software under the GPL v3.</string>
+    <string name="error_open_bk">Error opening book: %s</string>
+    <string name="dictionary_lookup">Look up in Dictionary</string>
+    <string name="wikipedia_lookup">Search on Wikipedia</string>
+    <string name="google_lookup">Search on Google</string>
+    <string name="word_select">"You selected '%s'</string>
+    <string name="loading_wait">Loading, please wait</string>
+    <string name="install_oi">Please install OI File Manager from the Android Market.</string>
+    <string name="cloud_bm">Cloud bookmarks</string>
+    <string name="toc_label">Table of contents</string>
+    <string name="syncing">"Syncing progress…"</string>
+    <string name="sync_failed">Sync failed</string>
+    <string name="connection_fail">Could not connect to the sync server.</string>
+    <string name="never_read">Never</string>
+    <string name="library">Library</string>
+    <string name="book_details">Book details</string>
+    <string name="book_by">By %s</string>
+    <string name="last_read">Last read: %s</string>
+    <string name="added_to_lib">Added to library: %s</string>
+    <string name="view_details">View details</string>
+    <string name="delete">Delete</string>
+    <string name="scan_books">Scan for books</string>
+    <string name="importing_books">Importing books…</string>
+    <string name="scanning_epub">Scanning for EPUB files.</string>
+    <string name="importing">Importing %1$d of %2$d</string>
+    <string name="scan_folders">Scanning for EPUB files.\nFolders scanned: %d</string>
+    <string name="import_errors">Some files had errors while importing:</string>
+    <string name="no_books_found">No books found.</string>
+
+    <string name="no_bks_fnd_text">No books were found on your device.\nYou can download books at gutenberg.org or feedbooks.com</string>
+
+    <string name="loading_library">Loading library…</string>
+    <string name="scan_bks_question">There are no books in your library.\nWould you like to scan your device for books?</string>
+    <string name="brightness">Brightness</string>
+
+    <string-array name="v_animLabels">
+        <item>Slide</item>
+        <item>None</item>
+    </string-array>
+    <string-array name="h_animLabels">
+        <item>Page flip</item>
+        <item>Slide</item>
+        <item>None</item>
+    </string-array>
+    <string-array name="orientationLabels">
+        <item>Don\'t lock orientation</item>
+        <item>Portrait</item>
+        <item>Landscape</item>
+        <item>Reverse Portrait</item>
+        <item>Reverse Landscape</item>
+    </string-array>
+    <string-array name="autoscrollLabels">
+        <item>Rolling blind</item>
+        <item>Page change timer</item>
+    </string-array>
+
+    <string-array name="nook_touch_direction_labels">
+        <item>Top buttons move forward</item>
+        <item>Bottom buttons move forward</item>
+    </string-array>
+        
+    <string-array name="libraryQueries">
+        <item>Most recently read books</item>
+        <item>Most recently added books</item>
+        <item>Unread books</item>
+        <item>All books by title</item>
+        <item>All books by author</item>
+    </string-array>
+ 
+
+    <string name="access_denied">Your access-key is invalid. Please visit pageturner-reader.org to obtain a valid access key.</string>
+    <string name="import_books">Import Books</string>
+    <string name="import_desc">You can either scan your entire SD-Card, or specify a folder to search.</string>
+    <string name="scan_whole_card">Scan my entire SD Card</string>
+    <string name="scan_folder">Scan a specific folder</string>
+    <string name="copy_to_library">Copy books to my library folder</string>
+    <string name="no_such_folder">The folder %s does not exist.</string>
+    <string name="import_failed">Import failed</string>
+    <string name="list_view">Switch to list view</string>
+    <string name="shelves_view">Switch to shelves view</string>
+    <string name="read">Read now</string>
+    <string name="download">Download books</string>
+    <string name="downloading">Downloading book…</string>
+    <string name="search_books">Search for books</string>
+    <string name="enter_query">Please enter a search-term</string>
+    <string name="buy_now">Buy now</string>
+    <string name="enter_email">Cloud sync is currently disabled. To enable it, please enter an e-mail address in the preferences.</string>
+    <string name="add_to_library">Add to library</string>
+    <string name="search_wait">Searching… please wait.</string>
+    <string name="search_text">Text search</string>
+    <string name="search_hits">Searching…\nFound %d matches.</string>
+    <string name="search_cancelled">Search cancelled.</string>
+    <string name="search_no_matches">Search did not find any matches.</string>
+    <string name="search_results">Search results</string>
+    <string name="opening_file">Opening file…</string>
+    <string name="loading_text">Loading text…</string>
+    <string name="end_of_section">End of chapter.\nClick here to continue.</string>
+    <string name="download_complete">Download complete.\nThe book has been added to your library</string>
+
+
+    <string name="feed_failed">Could not contact the site. Please try again.</string>
+    <string name="book_failed">Could not download the book. Please try again.</string>
+
+    <string name="custom_site">My custom OPDS sites</string>
+    <string name="add_site">Add custom site</string>
+    <string name="edit_site">Edit custom site</string>
+    <string name="add_site_header">What kind of site would you like to add?</string>
+    <string name="calibre_server">Calibre content server</string>
+    <string name="cops_server">COPS server</string>
+    <string name="c2opds_server">Calibre2OPDS</string>
+    <string name="generic_server">Generic OPDS site</string>
+    <string name="save">Save changes</string>
+    
+    <string name="custom_site_desc">Your own OPDS / Calibre sites. You can add sites from the Preferences screen.</string>
+    <string name="site_name">Site name</string>
+    <string name="site_url">Site URL</string>
+    <string name="site_desc">Description</string>
+    <string name="site_username">Username</string>
+    <string name="site_password">Password</string>
+    
+    <string name="msg_name_blank">Please fill in a name.</string>
+    <string name="msg_url_blank">Please fill in a URL.</string>
+    
+    <string name="edit">Edit</string>
+    
+    <string name="no_custom_sites">You don\'t have any custom sites defined. Please add some in the preferences.</string>
+    <string name="text_to_speech">Read out loud (TTS)</string>    
+    
+    <string name="init_tts">Initializing TTS…\nPlease wait.</string>
+    <string name="tts_failed">TTS Failed.</string>
+
+    <string name="search_library">Search library</string>
+    <string name="no_sync_points">You don\'t have any cloud-sync points stored yet.\nSync points are stored automatically when you leave PageTurner.</string>
+    <string name="no_new_books_found">The scan did not find any new books.</string>
+
+    <string name="next_page">Next page…</string>
+    <string name="prev_page">Previous page…</string>
+
+    <string name="empty_opds_feed">The feed was empty. Please check that you are using the correct URL.</string>
+    <string name="search_results_item">Search results…</string>
+    <string name="lookup_wiktionary">Search on Wiktionary</string>
+
+	<string name="no_search_results">Your search yielded no results.</string>
+
+    <string name="dead_link">Sorry, it looks like the link you clicked is broken.</string>
+    <string name="could_not_load">Could not load text: %s</string>
+    <string name="out_of_memory">Sorry, PageTurner could not free enough memory to load this file.</string>
+
+    <string name="highlight">Highlight</string>
+    <string name="highlights">Highlights</string>
+
+    <string name="highlight_options">Highlight options</string>
+    <string name="text_note">Text note</string>
+    <string name="clear_note">Clear note</string>
+    <string name="save_note">Save note</string>
+
+    <string name="set_colour">Set colour</string>
+
+    <string name="page_number_of">Page %1$d of %2$d</string>
+
+    <string name="import_this">Import this folder</string>
+    <string name="cancelling">Cancelling…</string>
+
+    <string name="no_bks_fnd_text2">No books were found on your device.\nWould you like to download some books?</string>
+    <string name="notes_attached">This highlight has an attached text note.\nAre you sure you to delete it?</string>
+    <string name="highlight_deleted">Highlight has been removed</string>
+
+    <string name="add_bookmark">Add Bookmark</string>
+    <string name="add">Add</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="bookmark_options">Bookmark options</string>
+    <string name="bookmark_deleted">Bookmark has been removed</string>
+
+    <string name="now_reading">Now reading: %s</string>
+    <string name="library_failed">Could not load library data.</string>
+
+
+    <!-- Preferences -->
+
+    <string name="pref_sync_settings">Sync settings</string>
+    <string name="pref_email">E-mail address</string>
+    <string name="pref_email_summary">Used to sync your progress across devices. Leave blank to disable syncing.</string>
+    <string name="pref_email_message">Please enter a valid e-mail address</string>
+    <string name="pref_device_name">Device name</string>
+    <string name="pref_device_name_summary">Unique name for this device, for conflict resolution.</string>
+    <string name="pref_device_name_message">Please enter a name for this device.</string>
+    <string name="pref_access_key">Access Key</string>
+    <string name="pref_access_key_summary">An access key is required to use the synchronization service. Visit the site to learn how to get a key.</string>
+    <string name="pref_access_key_message">Please enter your access key.</string>
+    <string name="pref_autoscroll_settings">Autoscroll settings</string>
+    <string name="pref_scroll_style">Autoscroll style</string>
+    <string name="pref_scroll_style_summary">Rolling blind or timer</string>
+    <string name="pref_scroll_speed">Autoscrolling speed</string>
+    <string name="pref_scroll_speed_summary">How many seconds a page will be displayed.</string>
+    <string name="pref_my_books_settings">My Books settings</string>
+    <string name="pref_copy_to_library">Copy to library folder</string>
+    <string name="pref_copy_to_library_summary">Should PageTurner copy files to its own library folder</string>
+    <string name="pref_calibre_server">Calibre content server</string>
+    <string name="pref_calibre_server_summary">Connect to your own Calibre library</string>
+    <string name="pref_calibre_server_message">Calibre URL</string>
+    <string name="pref_calibre_server_hint">http://192.168.1.1:8080/opds</string>
+    <string name="pref_calibre_user">User name</string>
+    <string name="pref_calibre_user_summary">Your calibre user name</string>
+    <string name="pref_calibre_user_hint">calibre</string>
+    <string name="pref_calibre_password">Password</string>
+    <string name="pref_calibre_password_summary">Your calibre password</string>
+    <string name="pref_visual_settings">Visual settings</string>
+    <string name="pref_full_screen">Full screen</string>
+    <string name="pref_full_screen_summary">Hides all status bars.</string>
+    <string name="pref_screen_orientation">Screen orientation</string>
+    <string name="pref_screen_orientation_summary">Allows you to lock the screen orientation</string>
+    <string name="pref_keep_screen_on">Keep screen on</string>
+    <string name="pref_keep_screen_on_summary">Prevents the screen from locking while reading</string>
+    <string name="pref_set_brightness">Brightness controls</string>
+    <string name="pref_set_brightness_summary">Lets PageTurner control screen brightness</string>
+    <string name="pref_day_bright">Screen brightness</string>
+    <string name="pref_day_bright_summary">For day mode</string>
+    <string name="pref_day_night">Screen brightness</string>
+    <string name="pref_day_night_summary">For night mode</string>
+    <string name="pref_text_display_settings">Text display settings</string>
+    <string name="pref_font_face">Font face</string>
+    <string name="pref_font_face_summary">Main font for text display</string>
+    <string name="pref_strip_whitespace">Strip whitespace</string>
+    <string name="pref_strip_whitespace_summary">Strips out unneeded blank lines.</string>
+    <string name="pref_itext_size">Text size</string>
+    <string name="pref_itext_size_summary">The size of the font used for displaying books.</string>
+    <string name="pref_margin_h">Horizontal margins</string>
+    <string name="pref_margin_h_summary">Space on the left and right edge of the screen.</string>
+    <string name="pref_margin_v">Vertical margins</string>
+    <string name="pref_margin_v_summary">Space on the top and bottom edge of the screen.</string>
+    <string name="pref_line_spacing">Line spacing</string>
+    <string name="pref_line_spacing_summary">Adds extra vertical space between lines.</string>
+    <string name="pref_colour_settings">Colour settings</string>
+    <string name="pref_day_text">Text colour</string>
+    <string name="pref_day_text_summary">For day mode</string>
+    <string name="pref_day_highlight">Text highlight colour</string>
+    <string name="pref_day_highlight_summary">For day mode</string>
+    <string name="pref_day_bg">Background colour</string>
+    <string name="pref_day_bg_summary">For day mode</string>
+    <string name="pref_day_link">Link colour</string>
+    <string name="pref_day_link_summary">For day mode</string>
+    <string name="pref_night_text">Text colour</string>
+    <string name="pref_night_text_summary">For night mode</string>
+    <string name="pref_night_highlight">Text highlight colour</string>
+    <string name="pref_night_highlight_summary">For night mode</string>
+    <string name="pref_night_bg">Background colour</string>
+    <string name="pref_night_bg_summary">For night mode</string>
+    <string name="pref_night_link">Link colour</string>
+    <string name="pref_night_link_summary">For night mode</string>
+    <string name="pref_animations">Animations</string>
+    <string name="pref_h_animation">Horizontal animations</string>
+    <string name="pref_h_animation_summary">Horizontal page change animations</string>
+    <string name="pref_v_animation">Vertical animations</string>
+    <string name="pref_v_animation_summary">Vertical page change animations</string>
+    <string name="pref_navigation_settings">Navigation settings</string>
+    <string name="pref_scrolling">Enable scrolling</string>
+    <string name="pref_scrolling_summary">Enabled browser-style scrolling</string>
+    <string name="pref_nav_vol">Enable volume buttons</string>
+    <string name="pref_nav_vol_summary">Press volume up/down to change pages.</string>
+    <string name="pref_nav_swipe_h">Enable horizontal swiping</string>
+    <string name="pref_nav_swipe_h_summary">Swipe left/right to change pages.</string>
+    <string name="pref_nav_swipe_v">Enable vertical swiping</string>
+    <string name="pref_nav_swipe_v_summary">Swipe up/down to change pages.</string>
+    <string name="pref_nav_tap_h">Enable tapping sides</string>
+    <string name="pref_nav_tap_h_summary">Tap the left/right edge of the screen to change pages.</string>
+    <string name="pref_nav_tap_v">Enable tapping top/bottom</string>
+    <string name="pref_nav_tap_v_summary">Tap the top/bottom edge of the screen to change pages.</string>
+    <string name="pref_show_pagenum">Show page numbers</string>
+    <string name="pref_show_pagenum_summary">Shows page numbers while reading. It may take a few seconds for page numbers to be displayed the first time.</string>
+
+    <string name="pref_nook_touch">Nook Touch Preferences</string>
+   <string name="pref_nook_touch_button_nav">Button Navigation</string>
+   <string name="pref_nook_touch_button_nav_summary">How should the buttons on the side of the Nook turn the page?</string>
+    
+    <string name="pref_reading_direction">Reading direction</string>
+    <string name="pref_reading_direction_summary">Read left to right or right to left (Hebrew and Arabic)</string>
+       
+    <string-array name="reading_directionsLabels">
+        <item>Left to right</item>
+        <item>Right to left</item>        
+    </string-array>    
+    
+    <string name="pref_manage_sites">Manage OPDS / Calibre Catalogs</string>
+    <string name="pref_manage_sites_summary">Add and remove custom online catalogs and Calibre servers.</string>
+
+    
+    <string name="pref_serif_font">Serif font</string>
+    <string name="pref_serif_summary">Font to use if a book requests a Serif font.</string>
+   
+    <string name="pref_sans_serif_font">Sans-Serif font</string>
+    <string name="pref_sans_serif_summary">Font to use if a book requests a Sans-Serif font.</string>   
+    
+    <string name="pref_lang">UI Language</string>
+    <string name="pref_lang_summary">Allows you to switch PageTurner\'s language settings.</string>
+    <string name="language_switch_message">The new language setting will become active the next time you open a book.</string>
+
+    <string name="pref_accept_self_signed">Accept self-signed certificates</string>
+    <string name="pref_accept_self_signed_summary">Allows you to connect to OPDS sites which use self-signed certificates.</string>
+    
+    <string-array name="supported_languagesLabels">
+ 	    <item>Use device setting</item>
+ 	    <item>English</item>
+ 	    <item>Dutch</item>
+ 	    <item>German</item>
+ 	    <item>Spanish</item>
+ 	    <item>Italian</item>
+ 	    <item>Arabic</item> 	    
+ 	    <item>Hebrew</item>
+ 	    <item>Farsi</item> 	    
+ 	</string-array>
+
+
+    <string name="pref_dim_system_ui">Dim System UI</string>
+    <string name="pref_dim_system_ui_summary">Dims the System UI buttons when reading in fullscreen mode.</string>
+
+    <string name="pref_long_short">Switch long press / short press</string>
+    <string name="pref_long_short_summary">How to open books in the library</string>
+
+    <string-array name="long_short_labels">
+        <item>Long press to open, short press for details</item>
+        <item>Short press to open, long press for details</item>
+     </string-array>
+
+    <string name="pref_dev_settings">Development settings</string>
+
+    <string name="pref_acra">Send error reports</string>
+    <string name="pref_acra_summary">Allow PageTurner to send anonymous error reports when it crashes.</string>
+
+    <string name="opds_settings">OPDS settings</string>
+
+    <string name="pref_use_publisher_style">Use Publisher style (CSS)</string>
+    <string name="pref_use_publisher_style_summary">Allow the book to change fonts, colours, etc.</string>
+
+    <string name="drawer_open">Drawer open</string>
+    <string name="drawer_close">Drawer closed</string>
+    <string name="drawer_layout">Drawer layout</string>
+
+    <string name="pref_allow_css_colours">Allow the book to set colours</string>
+    <string name="pref_css_colours_day_summary">For day mode</string>
+    <string name="pref_css_colours_night_summary">For night mode</string>
+
+    <string name="pref_always_open_book">Always open last book</string>
+    <string name="pref_always_open_book_summary">PageTurner will always start in the last read book instead of last open screen.</string>
+
+    <string name="pref_sync_server">Sync Server</string>
+    <string name="pref_sync_server_summary">Select which server you would like to sync with.</string>
+    <string name="pref_sync_server_message">Please enter a sync server url.</string>
+
+
+    <!-- Translation is not needed for the strings below -->
+    <string name="no_author_byline" translatable="false">by John Doe</string>
+    <string name="zero_percent" translatable="false">0%  </string>
+    <string name="default_timestamp" translatable="false">01-01-2012 13:44</string>
+    <string name="default_device_name_and_progress" translatable="false">Phone - 15%</string>
+    <string name="folder_name" translatable="false">Folder Name</string>
+    <string name="small_text" translatable="false">Small Text</string>
+    <string name="large_text" translatable="false">Large Text</string>
+    <string name="default_added_to_library" translatable="false">Added to library: never</string>
+    <string name="default_last_read" translatable="false">Last read: never</string>
+    <string name="default_filename" translatable="false">book.epub</string>
+    <string name="default_book_title" translatable="false">Title of the book</string>
+    <string name="hello_world" translatable="false">Hello world!</string>
+
+    
+<!-- jade strings -->
+    <string name="rate_my_app">If you enjoyed using %s, please take a moment to rate the app. Thank
+        you for your support!
+    </string>
+    <string name="msg_rate">Rate</string>
+    <string name="msg_later">Later</string>
+    <string name="msg_never">Never</string>
+
+    <!-- miscellenous -->
+    <string name="history_title">Recently opened files</string>
+    <string name="jtext">JText</string>
+    <string name="choose_file">Choose File</string>
+    <string name="definition">Definitions</string>
+    <string name="build_dict">Build Dictionary</string>
+    <string name="settings">Settings</string>
+    <string name="text_size_change_dialog">Change Font Size</string>
+    <string name="cursor">cursor</string>
+    <string name="delete_history_title">Remove recently opened files from list</string>
+    <string name="delete_history">Remove from list</string>
+    <string name="delete_all_history">Remove all from list</string>
+    <string name="delete_from_phone">Delete from phone</string>
+    <string name="change_display_name">Change display name</string>
+    <string name="go_to_directory">Go to file location</string>
+
+    <string name="first_time_help">Help:\n\nSingle Click to search for definition.\n\n Long touch to
+        open the option bar.\n\nCheers!
+    </string>
+
+    <!-- download message box -->
+    <string name="dm_dict_message">You need to download the Japanese dictionary for this
+        reader to show definitions of words
+    </string>
+    <string name="dm_dict_title">Download Dictionary</string>
+    <string name="dm_dict_yes">Download</string>
+    <string name="dm_dict_no">Cancel</string>
+    <string name="dm_dict_success">Download successful</string>
+    <string name="dm_dict_failed">Download failed</string>
+    <string name="dm_dict_downloading">Downloading the dictionary database</string>
+    <string name="dm_dict_unzipping">Extracting the dictionary. \nThis may take a while.</string>
+    <string name="dm_dict_unzip_failed">Failed to extract</string>
+    <string name="dm_dict_unzip_success">Extract successful</string>
+    <string name="dm_dict_failed_to_load">Failed to load the dictionary. Do you want to delete the
+        dictionary data and re-download the dictionary?
+    </string>
+    <string name="dm_dict_alternate_download_address">If you have trouble downloading the
+        dictionary, please email me at steinsgate.sg@gmail.com.\nSorry for the inconvenience.
+    </string>
+
+    <!-- option menu text -->
+    <string name="opt_brightness">Brightness</string>
+    <string name="opt_text_size">Text Size</string>
+    <string name="opt_settings">Option</string>
+    <string name="opt_seek_text">Scroll</string>
+    <string name="opt_text_select">Select Text</string>
+    <string name="opt_my_note">My Note</string>
+    <string name="opt_add_bookmark">Bookmark</string>
+    <string name="opt_bookmark">Bookmark</string>
+
+    <!-- action menu text -->
+    <string name="edit_highlight">Highlight</string>
+    <string name="edit_copy">Copy</string>
+    <string name="edit_google">Google</string>
+    <string name="edit_share">Share</string>
+    <string name="edit_delete">Delete</string>
+    <string name="edit_save">Save</string>
+
+    <!-- message box -->
+    <string name="msg_ok">OK</string>
+    <string name="msg_yes">Yes</string>
+    <string name="msg_no">No</string>
+    <string name="msg_cancel">Cancel</string>
+    <string name="msg_default">Default</string>
+    <string name="msg_try_again">Try Again</string>
+
+
+    <string name="failed_dir_not_found">Unable to find the directory</string>
+    <string name="failed_word_not_found">Cannot find any valid words</string>
+    <string name="failed_no_filemanager">No file manager is installed</string>
+    <string name="failed_to_open_file">Failed to open the specified file&#160;</string>
+    <string name="failed_to_receive_text">Failed to get shared text</string>
+    <string name="failed_load_dict">Failed to load dictionary</string>
+    <string name="failed_to_save_word">Failed to save word</string>
+    <string name="failed_to_share_word">Failed to share word</string>
+    <string name="failed_file_not_found">File not found</string>
+    <string name="failed_unknown_error">An unkonwn error has occured</string>
+    <string name="success_save_word">%s Saved</string>
+
+    <string name="clipboard_copy_success">%s\nCopied to clipboard</string>
+    <string name="clipboard_copy_failed">Failed to copy word to the clipboard.</string>
+
+    <!-- file manager -->
+    <string name="filemanager">Jade Reader File Manager</string>
+    <string name="files_empty_folder">Empty directory</string>
+    <string name="files_no_sd_card">SD Card empty or umounted.</string>
+    <string name="files_copied">Files are copied</string>
+    <string name="files_cut">Files are cut</string>
+    <string name="files_copy_failed">Copy failed</string>
+    <string name="files_cut_failed">Cut failed</string>
+    <string name="files_no_selection">No files are selected</string>
+    <string name="files_paste_failed">Failed to paste files</string>
+    <string name="files_pasted">Files are pasted</string>
+    <string name="files_delete_confirm">Are you sure you want to delete the selected files?</string>
+    <string name="file_delete_confirm">Are you sure you want to delete the selected file?</string>
+    <string name="files_delete_failed">Failed to delete files</string>
+    <string name="files_deleted">Files are deleted</string>
+    <string name="files_select_ready">Multi Select Ready</string>
+    <string name="files_rename">Rename file</string>
+    <string name="files_rename_failed">Rename failed</string>
+    <string name="files_no_multi_rename">Multiple files rename not supported</string>
+    <string name="files_choose_title">Choose file</string>
+    <string name="files_chosen">The following file will be used to save words:\n\n%s</string>
+    <string name="files_created">File created successfully</string>
+    <string name="files_created_failed">Failed to create file</string>
+    <string name="files_new">New File</string>
+    <string name="folder_new">New Folder</string>
+    <string name="folder_new_title">New Folder or File</string>
+    <string name="folder_created_failed">Failed to create folder</string>
+    <string name="folder_created">Folder created successfully</string>
+    <string name="folder_chosen">The following folder will be used to save shared text:\n\n%s
+    </string>
+    <string name="folder_choose_title">Choose Folder</string>
+    <string name="folder_choose_must_be_folder">You must choose a folder!</string>
+
+    <!-- file manager context menu -->
+    <string name="file_manager_context_menu_title">Operation</string>
+
+    <!-- action string -->
+    <string name="action_cut">Cut</string>
+    <string name="action_copy">Copy</string>
+    <string name="action_paste">Paste</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_rename">Rename</string>
+    <string name="action_new">New</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_up">Up</string>
+    <string name="action_select">Select</string>
+    <string name="action_choose">Pick this</string>
+    <string name="action_choose_file">Long click to pick file</string>
+    <string name="action_choose_folder">Long click to pick folder</string>
+    <string name="action_span_goto">Go to bookmark</string>
+    <string name="action_span_delete">Delete</string>
+
+    <string name="overflow_new">New</string>
+    <string name="overflow_back">Back</string>
+    <string name="overflow_multiselect">Multi Select</string>
+    <string name="overflow_copy">Copy</string>
+    <string name="overflow_cut">Cut</string>
+    <string name="overflow_paste">Paste</string>
+    <string name="overflow_delete">Delete</string>
+    <string name="overflow_cancel">Cancel</string>
+    <string name="overflow_rename">Rename</string>
+
+    <!-- preference key
+    the sring content doesn't matter, as long as
+    they are different
+    -->
+    <string name="pref_bg_color">jtext_color</string>
+    <string name="pref_highlight_color">highlight_color</string>
+    <string name="pref_highlight_time">highlight_time</string>
+    <string name="pref_vocabulary_save_location">saving_location</string>
+    <string name="pref_vocabulary_save_location_summary">The file to save vocabulary. Currently set
+        to %s
+    </string>
+    <string name="pref_share_text_save_location">p_share_save_location</string>
+    <string name="pref_share_text_save_location_summary">Shared text is saved to: %s</string>
+    <string name="pref_long_click_save_word">long_click_save_word</string>
+    <string name="pref_long_click_find_word">long_click_find_word</string>
+    <string name="pref_gloss_height">gloss_height</string>
+    <string name="pref_gloss_text_size">gloss_text_size</string>
+    <string name="pref_show_status_bar">show_status_bar</string>
+    <string name="pref_precise_offset">precise_offset</string>
+    <string name="pref_reopen_immediately">reopen_immediately</string>
+    <string name="pref_long_click_to_select">long_click_to_select_word</string>
+    <string name="pref_reminder_reset_time">pref_reminder_reset_time</string>
+    <string name="pref_reminder_countdown">pref_reminder_countdown</string>
+    <string name="pref_reminder_never_show">pref_reminder_never_show</string>
+    <string name="pref_orientation">pref_orientation</string>
+    <string name="pref_text_color">pref_text_color</string>
+    <string name="pref_text_padding">pref_text_padding</string>
+    <string name="pref_definition_text_color">pref_def_text_color</string>
+    <string name="pref_definition_bg_color">pref_def_bg_color</string>
+    <string name="pref_location_history">pref_loc_history</string>
+    <string name="pref_auto_dismiss_defn_view">pref_auto_dismiss_defn</string>
+    <string name="pref_save_color_scheme">pref_save_color_scheme</string>
+    <string name="pref_load_color_scheme">pref_load_color_scheme</string>
+    <string name="pref_ignore_bracket">pref_ignore_bracket</string>
+
+    <string name="default_highlight_duration">3000</string>
+
+    <string name="cd_choose_book">Choose Book</string>
+
+    <!--suppress AndroidLintTypographyEllipsis -->
+    <string name="drag_symbol">...</string>
+    <string name="close_button">X</string>
+    <string name="wrong_path">Unable to open file. An incorrect path has been specified.</string>
+    <string name="open_book">Open\nFile</string>
+    <string name="help">Help</string>
+    <string name="option">Option</string>
+    <string name="reminder">Reminder</string>
+    <string name="new_name">New Name</string>
+    <string name="confirm_recent_file_list_corruption">Jade Reader failed to load the list of
+        recently opened files.
+        Do you want to clear the list?
+    </string>
+    <string name="fyi_encoding">The text is loaded in encoding %s.</string>
+    <string name="fyi_converted_from_html">Converted from HTML</string>
+    <string name="fyi_list_is_empty">The list is currently empty.</string>
+    <string name="fyi_press_again_to_exit">Press again to exit</string>
+
+    <string name="change_encoding">Change encoding</string>
+    <string name="title_highlight_picker">Pick a color for the highlight</string>
+    <string name="highlight_tip">Long-tap to change color</string>
+    <string name="bookmark_saved">Bookmark Saved</string>
+
+    <string name="tab_highlights">Highlight</string>
+    <string name="tab_bookmarks">Bookmarks</string>
+    <string name="tab_history">History</string>
+
+    <string name="key_bookdata">key_bookdata</string>
+    <string name="key_bookmark_offset">key_offset</string>
+
+    <!-- keys for setTag getTag-->
+    <string name="tag_word_pos">tag_word_pos</string>
+    <string name="tag_word_list">tag_entries</string>
+    <string name="tag_word_view">tag_word_view</string>
+
+</resources>

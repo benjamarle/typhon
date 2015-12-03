@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:id="@+id/mainLayout">
+
+<include layout="@layout/catalog_download_buttons" android:id="@+id/bottomButtonBar"
+        />
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_above="@id/bottomButtonBar"
+    android:layout_alignParentTop="true">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/topBlock">
+
+        <include layout="@layout/large_book_cover"
+                 android:id="@+id/itemIcon"/>
+
+        <LinearLayout android:layout_height="wrap_content"
+                      android:layout_width="wrap_content"
+                      android:orientation="vertical"
+                      android:layout_centerInParent="true"
+                      android:layout_toRightOf="@id/itemIcon">
+        <TextView
+                android:id="@+id/itemTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/large_text"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                />
+
+        <TextView
+                android:id="@+id/itemAuthor"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_author_byline"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+        <View style="@style/Divider"
+              android:layout_marginLeft="4dip"
+              android:layout_marginRight="4dip"/>
+
+        <TextView
+                android:id="@+id/itemDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/small_text"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginLeft="4dip"
+                android:layout_marginRight="4dip"
+                />
+
+        <!--
+        <View style="@style/Divider"/>
+
+
+        <LinearLayout
+
+                android:id="@+id/relatedLinksContainer"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        -->
+
+    </LinearLayout>
+
+</ScrollView>
+
+
+
+
+</RelativeLayout>
+

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rel"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/mainContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+
+        <net.nightwhistler.pageturner.view.bookview.BookView
+            android:id="@+id/bookView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+
+            <view
+                android:id="@+id/innerView"
+                class="net.nightwhistler.pageturner.view.bookview.BookView$InnerView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" />
+        </net.nightwhistler.pageturner.view.bookview.BookView>
+        <net.nightwhistler.pageturner.view.AnimatedImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/dummyView" />
+    </ViewSwitcher>
+
+    <TextView
+        android:id="@+id/pageNumberView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/mainContainer" />
+
+    <RelativeLayout
+        android:id="@+id/myTitleBarLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/mainContainer"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/myTitleBarTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/translucent_black"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/opaque_white" />/>
+
+        <TextView
+            android:id="@+id/authorField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myTitleBarTextView"
+            android:background="@color/translucent_black"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/opaque_white" />
+
+
+        <TextView
+            android:id="@+id/percentageField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/authorField"
+            android:background="@color/translucent_black"
+            android:text="@string/zero_percent"
+
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/opaque_white" />
+
+        <SeekBar
+            android:id="@+id/titleProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/percentageField"
+            android:background="@color/translucent_black"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp" />
+    </RelativeLayout>
+
+
+    <org.rikai.glosslist.ExpandableListView
+        android:id="@id/definition_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/mainContainer"
+        android:layout_above="@id/myTitleBarLayout"
+        android:orientation="vertical"
+        android:visibility="gone"
+        custom:background_color="@color/control_background"
+        custom:bar_height="40dp"
+        custom:base_text_size="20sp"
+        custom:close_button_width="50dp"
+        custom:show_bar="true" />
+
+    <include layout="@layout/media_player_bar" />
+</RelativeLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="opaque_white">#ffffff</color>
+    <color name="dark_grey">#888888</color>
+    <color name="translucent_black">#C0000000</color>
+    <color name="opaque_black">#000000</color>
+    <color name="orange">#ff5500</color>
+
+    <color name="kanji">#B7E7FF</color>
+    <color name="kana">#C0FFC0</color>
+    <color name="definition">#FFFFFF</color>
+    <color name="reason">#FFE0A0</color>
+    <color name="index">#FFE0A0</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="control_background">#C7000000</color>
+    <color name="default_def_bg_color">#C7000000</color>
+    <color name="default_def_text_color">#ffffff</color>
+</resources>
