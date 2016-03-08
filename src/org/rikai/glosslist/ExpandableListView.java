@@ -36,311 +36,323 @@ import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 
 
-import net.nightwhistler.pageturner.R;
+import net.rikaiwhistler.pageturner.R;
 
 public class ExpandableListView extends RelativeLayout implements Concealable, View.OnTouchListener {
 
-	@SuppressWarnings("unused")
-	private static final String TAG = "JTEXT";
+    @SuppressWarnings("unused")
+    private static final String TAG = "JTEXT";
+    public static final int MAX_SIZE = 80;
+    public static final int MIN_SIZE = 20;
+    public static final int DEFAULT_SIZE = 40;
 
-	/**
-	 * the Views that made up of this ExpandableListView
-	 */
-	private PinchableListView mContentView;
+    /**
+     * the Views that made up of this ExpandableListView
+     */
+    private PinchableListView mContentView;
 
-	private Button mCloseButton;
-	private Button mDragBar;
+    private Button mCloseButton;
+    private Button mDragBar;
 
-	private boolean mShowBar;
+    private boolean mShowBar;
+    private int mTextSize = DEFAULT_SIZE;
 
-	private int mTextColor;
-	private int mBackgroundColor;
+    private int mTextColor;
+    private int mBackgroundColor;
 
-	private float mDragBarOriginalY;
+    private float mDragBarOriginalY;
 
-	/**
-	 * default size of the text in pixel
-	 */
-	private int mTextDefaultPixelSize;
+    private SizeChangeListener mSizeChangeListener;
 
-	/**
-	 * the current scale factor
-	 */
-	private float mTextScaleFactor = 1.0f;
+    /**
+     * true if the user is dragging the mDragBar
+     */
+    private boolean mResizing = false;
 
-	/**
-	 * true if the user is dragging the mDragBar
-	 */
-	private boolean mResizing = false;
+    private OnConcealListener mOnConcealListener = null;
+    private OnRevealListener mOnRevealListener = null;
 
-	private OnConcealListener mOnConcealListener = null;
-	private OnRevealListener mOnRevealListener = null;
+    @SuppressWarnings("unused")
+    public ExpandableListView(Context context) {
+        super(context);
+        init(context, null);
+    }
 
-	@SuppressWarnings("unused")
-	public ExpandableListView(Context context) {
-		super(context);
-		init(context, null);
-	}
+    @SuppressWarnings("unused")
+    public ExpandableListView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context, attrs);
+    }
 
-	@SuppressWarnings("unused")
-	public ExpandableListView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init(context, attrs);
-	}
+    @SuppressWarnings("unused")
+    public ExpandableListView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init(context, attrs);
+    }
 
-	@SuppressWarnings("unused")
-	public ExpandableListView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		init(context, attrs);
-	}
+    private void init(Context context, AttributeSet attrs) {
+        LayoutInflater inflater =
+                (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.expandable_listview, this);
 
-	private void init(Context context, AttributeSet attrs) {
-		LayoutInflater inflater =
-				  (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.expandable_listview, this);
+        mContentView = (PinchableListView) view.findViewById(R.id.gloss);
 
-		mContentView = (PinchableListView) view.findViewById(R.id.gloss);
+        // prevent the ListView from changing its background colour when scrolling
+        mContentView.setCacheColorHint(Color.TRANSPARENT);
+        mContentView.setOnPinchListener(new PinchableListView.OnPinchListener() {
+            @Override
+            public boolean onPinch(float scale) {
+                if(!scaleTextSize(scale))
+                    return false;
 
-		// prevent the ListView from changing its background colour when scrolling
-		mContentView.setCacheColorHint(Color.TRANSPARENT);
-		mContentView.setOnPinchListener(new PinchableListView.OnPinchListener() {
-			@Override
-			public void onPinch(float scale) {
-				setTextSizeScaleFactor(mTextScaleFactor * scale);
-				setTextPixelSize((int) (mTextDefaultPixelSize * mTextScaleFactor));
+                mContentView.invalidateViews();
+                return true;
+            }
+        });
 
-				mContentView.invalidateViews();
-			}
-		});
-
-		mCloseButton = (Button) view.findViewById(R.id.gloss_close);
-		mDragBar = (Button) view.findViewById(R.id.gloss_drag);
+        mCloseButton = (Button) view.findViewById(R.id.gloss_close);
+        mDragBar = (Button) view.findViewById(R.id.gloss_drag);
 
 
-		TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ExpandableListView);
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ExpandableListView);
 
-		ViewGroup.LayoutParams p;
+        ViewGroup.LayoutParams p;
 
-		Resources r = getResources();
-		float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
-		//TODO check this dodgy cast
-		mTextDefaultPixelSize = a.getDimensionPixelSize(R.styleable.ExpandableListView_base_text_size,
-				(int) px);
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
 
 		/* the height of the top bar */
-		int bar_height = a.getDimensionPixelSize(R.styleable.ExpandableListView_bar_height, 0);
-		if (bar_height != 0) {
-			// set mCloseButton height
-			p = mCloseButton.getLayoutParams();
-			p.height = bar_height;
-			mCloseButton.setLayoutParams(p);
+        int bar_height = a.getDimensionPixelSize(R.styleable.ExpandableListView_bar_height, 0);
+        if (bar_height != 0) {
+            // set mCloseButton height
+            p = mCloseButton.getLayoutParams();
+            p.height = bar_height;
+            mCloseButton.setLayoutParams(p);
 
-			// set mDragBar height
-			p = mDragBar.getLayoutParams();
-			p.height = bar_height;
-			mDragBar.setLayoutParams(p);
+            // set mDragBar height
+            p = mDragBar.getLayoutParams();
+            p.height = bar_height;
+            mDragBar.setLayoutParams(p);
 
-			// set top padding of the ListView to contain the mDragBar and mCloseButton
-			mContentView.setPadding(0, bar_height, 0, 0);
-		}
+            // set top padding of the ListView to contain the mDragBar and mCloseButton
+            mContentView.setPadding(0, bar_height, 0, 0);
+        }
 
 		/* width of the close button */
-		int close_button_width =
-				  a.getDimensionPixelSize(R.styleable.ExpandableListView_close_button_width, 0);
-		if (close_button_width != 0) {
-			p = mCloseButton.getLayoutParams();
-			p.width = close_button_width;
-			mCloseButton.setLayoutParams(p);
-		}
+        int close_button_width =
+                a.getDimensionPixelSize(R.styleable.ExpandableListView_close_button_width, 0);
+        if (close_button_width != 0) {
+            p = mCloseButton.getLayoutParams();
+            p.width = close_button_width;
+            mCloseButton.setLayoutParams(p);
+        }
 
-		mTextColor = getResources().getColor(R.color.default_def_text_color);
+        mTextColor = getResources().getColor(R.color.default_def_text_color);
 
 		/* background color of this view */
-		mBackgroundColor =
-				  a.getColor(R.styleable.ExpandableListView_background_color, getResources().getColor(R.color.default_def_bg_color));
-		mContentView.setBackgroundColor(mBackgroundColor);
+        mBackgroundColor =
+                a.getColor(R.styleable.ExpandableListView_background_color, getResources().getColor(R.color.default_def_bg_color));
+        mContentView.setBackgroundColor(mBackgroundColor);
 
 		/* the initial height of the view, -1 if not set */
-		int initial_height = a.getDimensionPixelSize(R.styleable.ExpandableListView_initial_height, -1);
-		if (initial_height != -1) {
-			setHeight(initial_height);
-		}
+        int initial_height = a.getDimensionPixelSize(R.styleable.ExpandableListView_initial_height, -1);
+        if (initial_height != -1) {
+            setHeight(initial_height);
+        }
 
-		mShowBar = a.getBoolean(R.styleable.ExpandableListView_show_bar, true);
-		if (mShowBar) {
-			mCloseButton.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					conceal();
-				}
-			});
-			mDragBar.setOnTouchListener(this); // drag to resize this compound control
-		}
-		else {
-			mCloseButton.setText("");
-		}
+        mShowBar = a.getBoolean(R.styleable.ExpandableListView_show_bar, true);
+        if (mShowBar) {
+            mCloseButton.setOnClickListener(new OnClickListener() {
+                public void onClick(View v) {
+                    conceal();
+                }
+            });
+            mDragBar.setOnTouchListener(this); // drag to resize this compound control
+        } else {
+            mCloseButton.setText("");
+        }
 
-		a.recycle();
-	}
+        a.recycle();
+    }
 
-	/**
-	 * set the data behind the listview of this compound control
-	 *
-	 * @param adapter the ListAdapter which is responsible for maintaining the data backing this list
-	 *                and for producing a view to represent an item in that data set.
-	 */
-	public void setAdapter(ListAdapter adapter) {
-		if (adapter instanceof AdvancedArrayAdapter) {
-			AdvancedArrayAdapter advancedArrayAdapter = (AdvancedArrayAdapter) adapter;
-			advancedArrayAdapter.setTextPixelSize((int) (mTextDefaultPixelSize * mTextScaleFactor));
-			advancedArrayAdapter.setColor(mTextColor);
-		}
-		mContentView.setAdapter(adapter);
-	}
+    /**
+     * set the data behind the listview of this compound control
+     *
+     * @param adapter the ListAdapter which is responsible for maintaining the data backing this list
+     *                and for producing a view to represent an item in that data set.
+     */
+    public void setAdapter(ListAdapter adapter) {
+        if (adapter instanceof AdvancedArrayAdapter) {
+            AdvancedArrayAdapter advancedArrayAdapter = (AdvancedArrayAdapter) adapter;
+            advancedArrayAdapter.setTextPixelSize(getTextSize());
+            advancedArrayAdapter.setColor(mTextColor);
+        }
+        mContentView.setAdapter(adapter);
+    }
 
-	/**
-	 * return the adapter behind the listview of this compound control
-	 *
-	 * @return the adapter behind the listview of this compound control
-	 */
-	@SuppressWarnings("unused")
-	public ListAdapter getAdapter() {
-		return mContentView.getAdapter();
-	}
+    /**
+     * return the adapter behind the listview of this compound control
+     *
+     * @return the adapter behind the listview of this compound control
+     */
+    @SuppressWarnings("unused")
+    public ListAdapter getAdapter() {
+        return mContentView.getAdapter();
+    }
 
-	private void setTextPixelSize(int size) {
-		if (mContentView.getAdapter() instanceof AdvancedArrayAdapter) {
-			((AdvancedArrayAdapter) mContentView.getAdapter()).setTextPixelSize(size);
-		}
-	}
 
-	public void setTextSizeScaleFactor(float scale) {
-		mTextScaleFactor = Math.max(0.5f, Math.min(scale, 2.0f));
-	}
+    public void setTextSize(int size) {
+        mTextSize = size;
+        if (mContentView.getAdapter() instanceof AdvancedArrayAdapter) {
+            ((AdvancedArrayAdapter) mContentView.getAdapter()).setTextPixelSize(size);
+        }
+        fireSizeChangeEvent(size);
+    }
 
-	public float getTextSizeScaleFactor() {
-		return mTextScaleFactor;
-	}
+    public int getTextSize() {
+        return mTextSize;
+    }
 
-	public void setTextColor(int color) {
-		mTextColor = color;
+    public boolean scaleTextSize(float scale) {
+        int oldSize = getTextSize();
+        int newSize = (int) Math.round(oldSize * scale);
+        newSize = Math.min(newSize, MAX_SIZE);
+        newSize = Math.max(MIN_SIZE, newSize);
 
-		if (mContentView.getAdapter() instanceof AdvancedArrayAdapter) {
-			((AdvancedArrayAdapter) mContentView.getAdapter()).setColor(color);
-		}
-	}
+        if (newSize == oldSize)
+            return false;
+        this.setTextSize(newSize);
+        return true;
+    }
 
-	public void setDefintionBackgroundColor(int color) {
-		mBackgroundColor = color;
-		mContentView.setBackgroundColor(color);
-	}
+    public void setTextColor(int color) {
+        mTextColor = color;
 
-	/**
-	 * set the height of this compound control
-	 *
-	 * @param height the height
-	 */
-	public void setHeight(int height) {
-		ViewGroup.LayoutParams layout_params = mContentView.getLayoutParams();
-		layout_params.height = height;
-		mContentView.setLayoutParams(layout_params);
-	}
+        if (mContentView.getAdapter() instanceof AdvancedArrayAdapter) {
+            ((AdvancedArrayAdapter) mContentView.getAdapter()).setColor(color);
+        }
+    }
 
-	public void invertItemColor(int position) {
-	}
+    public void setDefintionBackgroundColor(int color) {
+        mBackgroundColor = color;
+        mContentView.setBackgroundColor(color);
+    }
 
-	/**
-	 * set the visibility of every view in this ExpandableListView
-	 *
-	 * @param visibility vsibility can be VISIBLE, INVISIBLE or NONE
-	 */
-	private void internalSetVisibility(int visibility) {
-		if (visibility == VISIBLE && mOnRevealListener != null) {
-			mOnRevealListener.onReveal(this);
-		}
-		else if ((visibility == INVISIBLE || visibility == GONE) && mOnConcealListener != null) {
-			mOnConcealListener.onConceal(this);
-		}
-		this.setVisibility(visibility);
-		mContentView.setVisibility(visibility);
-		mCloseButton.setVisibility(visibility);
-		mDragBar.setVisibility(visibility);
-	}
+    /**
+     * set the height of this compound control
+     *
+     * @param height the height
+     */
+    public void setHeight(int height) {
+        ViewGroup.LayoutParams layout_params = mContentView.getLayoutParams();
+        layout_params.height = height;
+        mContentView.setLayoutParams(layout_params);
+    }
 
-	/**
-	 * show this View
-	 */
-	@Override
-	public void reveal() {
-		internalSetVisibility(View.VISIBLE);
-	}
+    public void invertItemColor(int position) {
+    }
 
-	/**
-	 * Hide this view
-	 */
-	@Override
-	public void conceal() {
-		internalSetVisibility(View.INVISIBLE);
-	}
+    /**
+     * set the visibility of every view in this ExpandableListView
+     *
+     * @param visibility vsibility can be VISIBLE, INVISIBLE or NONE
+     */
+    private void internalSetVisibility(int visibility) {
+        if (visibility == VISIBLE && mOnRevealListener != null) {
+            mOnRevealListener.onReveal(this);
+        } else if ((visibility == INVISIBLE || visibility == GONE) && mOnConcealListener != null) {
+            mOnConcealListener.onConceal(this);
+        }
+        this.setVisibility(visibility);
+        mContentView.setVisibility(visibility);
+        mCloseButton.setVisibility(visibility);
+        mDragBar.setVisibility(visibility);
+    }
 
-	/**
-	 * returns whether this is visible
-	 *
-	 * @return true if the widget is visible, false otherwise
-	 */
-	@Override
-	public boolean isDisplaying() {
-		return mContentView.getVisibility() == View.VISIBLE;
-	}
+    /**
+     * show this View
+     */
+    @Override
+    public void reveal() {
+        internalSetVisibility(View.VISIBLE);
+    }
 
-	public void setOnConcealListener(OnConcealListener onConcealListener) {
-		mOnConcealListener = onConcealListener;
-	}
+    /**
+     * Hide this view
+     */
+    @Override
+    public void conceal() {
+        internalSetVisibility(View.INVISIBLE);
+    }
 
-	@SuppressWarnings("unused")
-	public void setOnRevealListener(OnRevealListener onRevealListener) {
-		mOnRevealListener = onRevealListener;
-	}
+    /**
+     * returns whether this is visible
+     *
+     * @return true if the widget is visible, false otherwise
+     */
+    @Override
+    public boolean isDisplaying() {
+        return mContentView.getVisibility() == View.VISIBLE;
+    }
 
-	public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
-		mContentView.setOnItemClickListener(listener);
-	}
+    public void setOnConcealListener(OnConcealListener onConcealListener) {
+        mOnConcealListener = onConcealListener;
+    }
 
-	public void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener) {
-		mContentView.setOnItemLongClickListener(listener);
-	}
+    @SuppressWarnings("unused")
+    public void setOnRevealListener(OnRevealListener onRevealListener) {
+        mOnRevealListener = onRevealListener;
+    }
 
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		if (v == mDragBar) {
-			int dark = 0xB7000000;
+    public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
+        mContentView.setOnItemClickListener(listener);
+    }
 
-			switch (event.getAction()) {
-				case MotionEvent.ACTION_DOWN:
-					// make the bar darker
-					mDragBarOriginalY = event.getY();
-					mDragBar.setBackgroundColor(dark);
-					mCloseButton.setBackgroundColor(dark);
-					mResizing = true;
-					break;
-				case MotionEvent.ACTION_UP:
-					// transparent
-					mDragBar.setBackgroundColor(0);
-					mCloseButton.setBackgroundColor(0);
-					mResizing = false;
-					break;
-				case MotionEvent.ACTION_MOVE:
-					if (mResizing) {
-						ViewGroup.LayoutParams layout_params = mContentView.getLayoutParams();
-						layout_params.height = (int) (layout_params.height - (event.getY() - mDragBarOriginalY));
-						mContentView.setLayoutParams(layout_params);
-						mContentView.invalidate();
-						return true;
-					}
-					break;
-			}
-			return true;
-		}
-		return false;
-	}
+    public void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener) {
+        mContentView.setOnItemLongClickListener(listener);
+    }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if (v == mDragBar) {
+            int dark = 0xB7000000;
+
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    // make the bar darker
+                    mDragBarOriginalY = event.getY();
+                    mDragBar.setBackgroundColor(dark);
+                    mCloseButton.setBackgroundColor(dark);
+                    mResizing = true;
+                    break;
+                case MotionEvent.ACTION_UP:
+                    // transparent
+                    mDragBar.setBackgroundColor(0);
+                    mCloseButton.setBackgroundColor(0);
+                    mResizing = false;
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    if (mResizing) {
+                        ViewGroup.LayoutParams layout_params = mContentView.getLayoutParams();
+                        layout_params.height = (int) (layout_params.height - (event.getY() - mDragBarOriginalY));
+                        mContentView.setLayoutParams(layout_params);
+                        mContentView.invalidate();
+                        return true;
+                    }
+                    break;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public void setSizeChangeListener(SizeChangeListener sizeChangeListener) {
+        this.mSizeChangeListener = sizeChangeListener;
+    }
+
+    public void fireSizeChangeEvent(int newSize){
+        if(mSizeChangeListener != null){
+            mSizeChangeListener.onSizeChange(newSize);
+        }
+    }
 }

@@ -2,7 +2,7 @@
 <resources>
 
     
-    <string name="app_name" translatable="false">PageTurner</string>
+    <string name="app_name" translatable="false">RikaiTurner</string>
     
     <string name="title">Title</string>
     <string name="app_desc">PageTurner is a syncing e-book reader that allows you to sync your reading progress over multiple devices.</string>
@@ -273,6 +273,10 @@
     <string name="pref_navigation_settings">Navigation settings</string>
     <string name="pref_scrolling">Enable scrolling</string>
     <string name="pref_scrolling_summary">Enabled browser-style scrolling</string>
+    <string name="pref_rikai">Enable rikai</string>
+    <string name="pref_rikai_summary">Enabled rikai Japanese dictionary lookup</string>
+    <string name="pref_rikai_font_size">Rikai font size</string>
+    <string name="pref_rikai_font_size_summary">Size of the font of the dictionary lookup</string>
     <string name="pref_nav_vol">Enable volume buttons</string>
     <string name="pref_nav_vol_summary">Press volume up/down to change pages.</string>
     <string name="pref_nav_swipe_h">Enable horizontal swiping</string>

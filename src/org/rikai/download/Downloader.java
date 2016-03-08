@@ -20,17 +20,6 @@ Date: 2013 04 26
 */
 package org.rikai.download;
 
-import android.content.Context;
-import android.content.IntentSender;
-import android.os.Bundle;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.drive.Drive;
-import com.google.android.gms.drive.DriveFile;
-import com.google.android.gms.drive.DriveId;
-
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -43,33 +32,16 @@ import java.nio.channels.ReadableByteChannel;
  * User: ray
  * Date: 2013-01-13
  */
-public class Downloader implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class Downloader {
+
 
 	private OnProgressListener mOnProgressListener;
 
 	private transient volatile boolean mInterrupt;
 
-	private Context mContext;
-
-	public Downloader(OnProgressListener p, Context context) {
+	public Downloader(OnProgressListener p) {
 		mOnProgressListener = p;
 		mInterrupt = false;
-		this.mContext = context;
-	}
-
-	@Override
-	public void onConnected(Bundle bundle) {
-
-	}
-
-	@Override
-	public void onConnectionSuspended(int i) {
-
-	}
-
-	@Override
-	public void onConnectionFailed(ConnectionResult connectionResult) {
-
 	}
 
 	/**
@@ -117,19 +89,6 @@ public class Downloader implements GoogleApiClient.ConnectionCallbacks, GoogleAp
 	 * @throws IOException
 	 */
 	public void download(String urlString, String outputFilename) throws IOException {
-		GoogleApiClient client =  new GoogleApiClient.Builder(mContext)
-				.addApi(Drive.API)
-				.addScope(Drive.SCOPE_FILE)
-				.addScope(Drive.SCOPE_APPFOLDER) // required for App Folder sample
-				.addConnectionCallbacks(this)
-				.addOnConnectionFailedListener(this)
-				.build();
-		client.connect();
-		DriveFile file = Drive.DriveApi.getFile(client, DriveId.decodeFromString("0B7RvDCZvFbTbTWxBT2lEbVFENGM"));
-		file.open(client, DriveFile.MODE_READ_ONLY, null).setResultCallback(driveContentsResult -> {
-
-		});
-
 		BufferedInputStream in = null;
 		FileOutputStream fout = null;
 		URL url = new URL(urlString);
@@ -173,8 +132,9 @@ public class Downloader implements GoogleApiClient.ConnectionCallbacks, GoogleAp
 	/**
 	 * a method that simulate a download by setting the OnPgoress listener preiodically
 	 * this method does not download any content from the given url string
+	 *
 	 * @param urlString ignored
-	 * @param output ignored
+	 * @param output    ignored
 	 * @throws IOException
 	 */
 	public void fakedownload(String urlString, String output) throws IOException {
@@ -197,5 +157,4 @@ public class Downloader implements GoogleApiClient.ConnectionCallbacks, GoogleAp
 			}
 		}
 	}
-
 }

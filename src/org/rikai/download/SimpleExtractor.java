@@ -26,7 +26,7 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import net.nightwhistler.pageturner.R;
+import net.rikaiwhistler.pageturner.R;
 
 import java.io.IOException;
 

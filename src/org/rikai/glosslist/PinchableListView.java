@@ -67,7 +67,7 @@ public class PinchableListView extends ListView {
 		@Override
 		public boolean onScale(ScaleGestureDetector detector) {
 			if (mOnPinchListener != null) {
-				mOnPinchListener.onPinch(detector.getScaleFactor());
+				return mOnPinchListener.onPinch(detector.getScaleFactor());
 			}
 			return true;
 		}
@@ -75,6 +75,6 @@ public class PinchableListView extends ListView {
 
 	public interface OnPinchListener {
 
-		public void onPinch(float scale);
+		public boolean onPinch(float scale);
 	}
 }

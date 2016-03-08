@@ -27,12 +27,12 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import net.nightwhistler.pageturner.R;
+import net.rikaiwhistler.pageturner.R;
 
 import java.io.IOException;
 
 public class SimpleDownloader extends AsyncTask<String, Integer, Boolean>
-		  implements OnProgressListener, DialogInterface.OnClickListener {
+		implements OnProgressListener, DialogInterface.OnClickListener {
 
 	private ProgressDialog mProgressDialog;
 	private Context mContext;
@@ -42,7 +42,7 @@ public class SimpleDownloader extends AsyncTask<String, Integer, Boolean>
 
 	public SimpleDownloader(Context context) {
 		mContext = context;
-		mDownloader = new Downloader(this, context);
+		mDownloader = new Downloader(this);
 	}
 
 	@Override
@@ -95,7 +95,9 @@ public class SimpleDownloader extends AsyncTask<String, Integer, Boolean>
 
 	@Override
 	protected Boolean doInBackground(String... params) {
+
 		if (params.length >= 2) {
+
 			try {
 				String url = params[0];
 				String output = params[1];

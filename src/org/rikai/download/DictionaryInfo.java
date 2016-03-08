@@ -39,7 +39,7 @@ final public class DictionaryInfo {
     private static final String DICTIONARY_NAMES_FILE = "polarnames.sqlite";
     private static final String DICTIONARY_DEINFECT_FILE = "deinflect.dat";
     private static final String DICTIONARY_KANJI_FILE = "kanji.dat";
-    private static final String DICTIONARY_FOLDER_URL = "https://googledrive.com/host/0B7RvDCZvFbTbTWxBT2lEbVFENGM";
+    private static final String DICTIONARY_FOLDER_URL = "https://www.dropbox.com/s/2o32yg2sf4hhoe9";
     private final Context mContext;
 
     public DictionaryInfo(Context context) {
@@ -51,7 +51,7 @@ final public class DictionaryInfo {
     }
 
     public String getDownloadUrl() {
-        return DICTIONARY_FOLDER_URL + "/" + DICTIONARY_ZIP_FILE;
+        return DICTIONARY_FOLDER_URL + "/" + DICTIONARY_ZIP_FILE + "?dl=1";
     }
 
     public File getZipPath() {

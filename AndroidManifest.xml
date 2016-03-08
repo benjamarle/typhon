@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="net.nightwhistler.pageturner"
+      package="net.rikaiwhistler.pageturner"
       android:versionName="2.4.0_SNAPSHOT"
       android:versionCode="62"
       android:installLocation="auto">
@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="net.nightwhistler.pageturner.PageTurner"
+        android:name="net.rikaiwhistler.pageturner.PageTurner"
         android:description="@string/app_desc"
         android:icon="@drawable/page_turner"
         android:label="@string/app_name"
@@ -27,7 +27,7 @@
     	</receiver>
         
         <activity
-            android:name="net.nightwhistler.pageturner.activity.ReadingActivity"
+            android:name="net.rikaiwhistler.pageturner.activity.ReadingActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -45,17 +45,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="net.nightwhistler.pageturner.activity.PageTurnerPrefsActivity"
+            android:name="net.rikaiwhistler.pageturner.activity.PageTurnerPrefsActivity"
             android:label="@string/prefs" />
         <activity
-            android:name="net.nightwhistler.pageturner.activity.LibraryActivity"
+            android:name="net.rikaiwhistler.pageturner.activity.LibraryActivity"
             android:label="@string/library" />
         <activity
-            android:name="net.nightwhistler.pageturner.activity.FileBrowseActivity"
+            android:name="net.rikaiwhistler.pageturner.activity.FileBrowseActivity"
             android:label="@string/browse" />
 
         <activity
-                android:name="net.nightwhistler.pageturner.activity.CatalogBookDetailsActivity"
+                android:name="net.rikaiwhistler.pageturner.activity.CatalogBookDetailsActivity"
                 android:label="@string/book_details" >
 
             <intent-filter>
@@ -70,15 +70,15 @@
         </activity>
         
         <activity
-            android:name="net.nightwhistler.pageturner.activity.CatalogActivity"
+            android:name="net.rikaiwhistler.pageturner.activity.CatalogActivity"
             android:label="@string/download" />
         
         <activity
-            android:name="net.nightwhistler.pageturner.activity.ManageSitesActivity"
+            android:name="net.rikaiwhistler.pageturner.activity.ManageSitesActivity"
             android:label="@string/pref_manage_sites" >
                    
         	<intent-filter>
-           		<action android:name="net.nightwhistler.pageturner.activity.ManageSitesActivity" />
+           		<action android:name="net.rikaiwhistler.pageturner.activity.ManageSitesActivity" />
            		<category android:name="android.intent.category.DEFAULT" />
        		</intent-filter>
         </activity>        

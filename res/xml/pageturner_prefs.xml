@@ -86,7 +86,7 @@
             android:title="@string/pref_copy_to_library" />
 
         <ListPreference
-            android:defaultValue="normal"
+            android:defaultValue="reversed"
             android:entries="@array/long_short_labels"
             android:entryValues="@array/long_short"
             android:key="long_short"
@@ -101,7 +101,7 @@
             android:summary="@string/pref_manage_sites_summary"
             android:title="@string/pref_manage_sites">
 
-            <intent android:action="net.nightwhistler.pageturner.activity.ManageSitesActivity" />
+            <intent android:action="net.rikaiwhistler.pageturner.activity.ManageSitesActivity" />
 
         </PreferenceScreen>
 
@@ -117,7 +117,7 @@
         android:key="visual_prefs"
         android:title="@string/pref_visual_settings">
 
-        <net.nightwhistler.pageturner.prefs.LanguageSwitchPreference
+        <net.rikaiwhistler.pageturner.prefs.LanguageSwitchPreference
             android:defaultValue="default"
             android:entries="@array/supported_languagesLabels"
             android:entryValues="@array/supported_languages"
@@ -189,13 +189,9 @@
             android:max="100"
             android:summary="@string/pref_day_night_summary"
             android:title="@string/pref_day_night" />
-
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_text_display_settings">
-
-
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="allow_styling"
@@ -264,54 +260,62 @@
             android:summary="@string/pref_line_spacing_summary"
             android:title="@string/pref_line_spacing" />
 
+        <ListPreference
+            android:defaultValue="left_to_right"
+            android:entries="@array/reading_directionsLabels"
+            android:entryValues="@array/reading_directions"
+            android:key="reading_direction"
+            android:summary="@string/pref_reading_direction_summary"
+            android:title="@string/pref_reading_direction" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_colour_settings">
 
-        <net.nightwhistler.pageturner.prefs.ColourChooserPref
+        <net.rikaiwhistler.pageturner.prefs.ColourChooserPref
             android:defaultValue="-16777216"
             android:key="day_text"
             android:summary="@string/pref_day_text_summary"
             android:title="@string/pref_day_text" />
 
-        <net.nightwhistler.pageturner.prefs.ColourChooserPref
+        <net.rikaiwhistler.pageturner.prefs.ColourChooserPref
             android:defaultValue="-256"
             android:key="day_highlight"
             android:summary="@string/pref_day_highlight_summary"
             android:title="@string/pref_day_highlight" />
 
-        <net.nightwhistler.pageturner.prefs.ColourChooserPref
+        <net.rikaiwhistler.pageturner.prefs.ColourChooserPref
             android:defaultValue="-1"
             android:key="day_bg"
             android:summary="@string/pref_day_bg_summary"
             android:title="@string/pref_day_bg" />
 
-        <net.nightwhistler.pageturner.prefs.ColourChooserPref
+        <net.rikaiwhistler.pageturner.prefs.ColourChooserPref
             android:defaultValue="-16776961"
             android:key="day_link"
             android:summary="@string/pref_day_link_summary"
             android:title="@string/pref_day_link" />
 
 
-        <net.nightwhistler.pageturner.prefs.ColourChooserPref
+        <net.rikaiwhistler.pageturner.prefs.ColourChooserPref
             android:defaultValue="-7829368"
             android:key="night_text"
             android:summary="@string/pref_night_text_summary"
             android:title="@string/pref_night_text" />
 
-        <net.nightwhistler.pageturner.prefs.ColourChooserPref
+        <net.rikaiwhistler.pageturner.prefs.ColourChooserPref
             android:defaultValue="-256"
             android:key="night_highlight"
             android:summary="@string/pref_night_highlight_summary"
             android:title="@string/pref_night_highlight" />
 
-        <net.nightwhistler.pageturner.prefs.ColourChooserPref
+        <net.rikaiwhistler.pageturner.prefs.ColourChooserPref
             android:defaultValue="-16777216"
             android:key="night_bg"
             android:summary="@string/pref_night_bg_summary"
             android:title="@string/pref_night_bg" />
 
-        <net.nightwhistler.pageturner.prefs.ColourChooserPref
+        <net.rikaiwhistler.pageturner.prefs.ColourChooserPref
             android:defaultValue="-23296"
             android:key="night_link"
             android:summary="@string/pref_night_link_summary"
@@ -334,10 +338,30 @@
 
     </PreferenceCategory>
 
+
+
+
+    <PreferenceCategory android:title="@string/pref_rikai">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:disableDependentsState="true"
+            android:key="rikai"
+            android:summary="@string/pref_rikai_summary"
+            android:title="@string/pref_rikai" />
+        <com.hlidskialf.android.preference.SeekBarPreference
+            android:defaultValue="40"
+            android:dialogTitle="@string/pref_rikai_font_size"
+            android:key="rikai_font_size"
+            android:max="80"
+            android:summary="@string/pref_rikai_font_size_summary"
+            android:title="@string/pref_rikai_font_size" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_animations">
 
         <ListPreference
             android:defaultValue="slide"
+            android:dependency="rikai"
             android:entries="@array/h_animLabels"
             android:entryValues="@array/h_anim"
             android:key="h_animation"
@@ -347,6 +371,7 @@
 
         <ListPreference
             android:defaultValue="slide"
+            android:dependency="rikai"
             android:entries="@array/v_animLabels"
             android:entryValues="@array/v_anim"
             android:key="v_animation"
@@ -358,21 +383,13 @@
 
     <PreferenceCategory android:title="@string/pref_navigation_settings">
 
-        <ListPreference
-            android:defaultValue="left_to_right"
-            android:entries="@array/reading_directionsLabels"
-            android:entryValues="@array/reading_directions"
-            android:key="reading_direction"
-            android:summary="@string/pref_reading_direction_summary"
-            android:title="@string/pref_reading_direction" />
-
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:disableDependentsState="true"
+            android:dependency="rikai"
             android:key="scrolling"
             android:summary="@string/pref_scrolling_summary"
             android:title="@string/pref_scrolling" />
-
 
         <CheckBoxPreference
             android:defaultValue="false"

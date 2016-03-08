@@ -2,7 +2,7 @@ package org.rikai;
 
 import android.content.res.Resources;
 
-import net.nightwhistler.pageturner.R;
+import net.rikaiwhistler.pageturner.R;
 
 import org.rikai.deinflector.DeinflectedWord;
 import org.rikai.deinflector.Deinflector;

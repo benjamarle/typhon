@@ -29,5 +29,4 @@ Date: 2013 04 26
         <attr name="base_text_size" format="dimension|integer"/>
         <attr name="show_bar" format="boolean"/>
     </declare-styleable>
-
 </resources>
