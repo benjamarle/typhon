@@ -168,7 +168,7 @@ public class DownloadFileTask extends QueueableAsyncTask<String, Long, Void> {
 						}
 
 						total += len1;						
-						publishProgress(total, lenghtOfFile, (long) ((total * 100) / lenghtOfFile));
+						publishProgress(total, lenghtOfFile, (total * 100) / lenghtOfFile);
 						f.write(buffer, 0, len1);
 					}
 				} finally {

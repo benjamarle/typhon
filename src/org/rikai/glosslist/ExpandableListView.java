@@ -215,7 +215,7 @@ public class ExpandableListView extends RelativeLayout implements Concealable, V
 
     public boolean scaleTextSize(float scale) {
         int oldSize = getTextSize();
-        int newSize = (int) Math.round(oldSize * scale);
+        int newSize = Math.round(oldSize * scale);
         newSize = Math.min(newSize, MAX_SIZE);
         newSize = Math.max(MIN_SIZE, newSize);
 

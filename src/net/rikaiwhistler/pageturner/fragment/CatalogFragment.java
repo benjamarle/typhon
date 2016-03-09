@@ -324,7 +324,7 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
 
         Option<Feed> feed = adapter.getFeed();
 
-        boolean searchEnabled = !isEmpty( (Option<Link>) feed.flatMap(Feed::getSearchLink) );
+        boolean searchEnabled = !isEmpty( feed.flatMap(Feed::getSearchLink) );
 
 		for ( int i=0; i < menu.size(); i++ ) {
 			MenuItem item = menu.getItem(i);
