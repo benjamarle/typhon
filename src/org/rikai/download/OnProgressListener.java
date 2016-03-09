@@ -28,5 +28,5 @@ package org.rikai.download;
  */
 public interface OnProgressListener {
 
-    public void OnProgress(long pos, long length);
+    void OnProgress(long pos, long length);
 }

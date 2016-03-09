@@ -60,9 +60,9 @@ public class PageOffsets {
 
 	private List<List<Integer>> offsets;
 	
-	private static enum Fields { fontSize, fontFamily, vMargin, hMargin, lineSpacing, fullScreen, offsets,
-        allowStyling, algorithmVersion };
-	
+	private enum Fields { fontSize, fontFamily, vMargin, hMargin, lineSpacing, fullScreen, offsets,
+        allowStyling, algorithmVersion }
+
 	private PageOffsets() {}
 	
 	public boolean isValid( Configuration config ) {

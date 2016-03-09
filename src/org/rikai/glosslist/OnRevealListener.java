@@ -26,5 +26,5 @@ package org.rikai.glosslist;
  * To change this template use File | Settings | File Templates.
  */
 public interface OnRevealListener {
-	public void onReveal(Concealable concealable);
+	void onReveal(Concealable concealable);
 }

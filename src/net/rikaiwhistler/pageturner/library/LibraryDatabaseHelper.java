@@ -42,7 +42,7 @@ public class LibraryDatabaseHelper extends SQLiteOpenHelper {
 		
 		private String fieldDef;
 	
-		private Field(String fieldDef) { this.fieldDef = fieldDef; }		
+		Field(String fieldDef) { this.fieldDef = fieldDef; }
 	}
 
 	public enum Order { ASC , DESC }

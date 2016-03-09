@@ -18,7 +18,7 @@ import static jedi.option.Options.some;
  */
 public class TaskQueue {
 
-    public static interface TaskQueueListener {
+    public interface TaskQueueListener {
         void queueEmpty();
     }
 

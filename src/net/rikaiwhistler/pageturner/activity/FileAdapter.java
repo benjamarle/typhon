@@ -24,7 +24,7 @@ public class FileAdapter extends BaseAdapter {
 
     private ItemSelectionListener itemSelectionListener;
 
-    public static interface ItemSelectionListener {
+    public interface ItemSelectionListener {
         void fileSelected( File file );
     }
 

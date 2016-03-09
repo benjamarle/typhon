@@ -56,7 +56,7 @@ public class ResourceLoader  {
 		this.fileName = fileName;
 	}
 	
-	public static interface ResourceCallback {
+	public interface ResourceCallback {
 		void onLoadResource( String href, InputStream stream );
 	}
 	

@@ -148,9 +148,7 @@ public class AmbilWarnaDialog {
 		if (y == viewHue.getMeasuredHeight()) y = 0.f;
 		RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) viewCursor.getLayoutParams();
 		layoutParams.leftMargin = (int) (viewHue.getLeft() - Math.floor(viewCursor.getMeasuredWidth() / 2) - viewContainer.getPaddingLeft());
-		;
 		layoutParams.topMargin = (int) (viewHue.getTop() + y - Math.floor(viewCursor.getMeasuredHeight() / 2) - viewContainer.getPaddingTop());
-		;
 		viewCursor.setLayoutParams(layoutParams);
 	}
 

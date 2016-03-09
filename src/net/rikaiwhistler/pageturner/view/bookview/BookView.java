@@ -1473,7 +1473,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
         }
     }
 
-	private static enum BookReadPhase {
+	private enum BookReadPhase {
 		START, OPEN_FILE, PARSE_TEXT, DONE
 	}
 

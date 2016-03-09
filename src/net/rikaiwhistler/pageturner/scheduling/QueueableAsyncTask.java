@@ -37,7 +37,7 @@ import static jedi.option.Options.none;
  */
 public class QueueableAsyncTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Option<Result>> {
 
-    public static interface QueueCallback {
+    public interface QueueCallback {
         void taskCompleted( QueueableAsyncTask<?,?,?> task, boolean wasCancelled );
     }
 

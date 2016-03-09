@@ -46,7 +46,7 @@ public class CatalogListAdapter extends BaseAdapter {
 
     private CatalogImageLoader imageLoader;
 
-    public static interface CatalogImageLoader {
+    public interface CatalogImageLoader {
         Option<Drawable> getThumbnailFor( String baseURL, Link link );
     }
 

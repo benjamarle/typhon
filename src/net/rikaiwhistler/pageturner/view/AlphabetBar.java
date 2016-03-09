@@ -173,8 +173,8 @@ public class AlphabetBar extends LinearLayout
         setMeasuredDimension(resolveSize(maxWidth, wSpec), hSize); 
     }   
     
-    public static interface AlphabetCallback {
-    	public void characterClicked( Character c );
+    public interface AlphabetCallback {
+    	void characterClicked(Character c);
     }
 }
 

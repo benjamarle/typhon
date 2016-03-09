@@ -36,25 +36,25 @@ public interface LibraryService {
 	 * @param copyFile
 	 * @throws IOException
 	 */
-	public void storeBook( String fileName, Book book, boolean updateLastRead, boolean copyFile ) throws IOException;
+	void storeBook(String fileName, Book book, boolean updateLastRead, boolean copyFile) throws IOException;
 	
-	public void updateReadingProgress( String fileName, int progress );
+	void updateReadingProgress(String fileName, int progress);
 	
-	public QueryResult<LibraryBook> findAllByLastRead(String filter);
+	QueryResult<LibraryBook> findAllByLastRead(String filter);
 	
-	public QueryResult<LibraryBook> findAllByLastAdded(String filter);
+	QueryResult<LibraryBook> findAllByLastAdded(String filter);
 	
-	public QueryResult<LibraryBook> findAllByTitle(String filter);
+	QueryResult<LibraryBook> findAllByTitle(String filter);
 	
-	public QueryResult<LibraryBook> findAllByAuthor(String filter);
+	QueryResult<LibraryBook> findAllByAuthor(String filter);
 	
-	public QueryResult<LibraryBook> findUnread(String filter);
+	QueryResult<LibraryBook> findUnread(String filter);
 	
-	public Option<LibraryBook> getBook( String fileName );
+	Option<LibraryBook> getBook(String fileName);
 	
-	public boolean hasBook( String fileName );
+	boolean hasBook(String fileName);
 	
-	public void deleteBook( String fileName );
+	void deleteBook(String fileName);
 	
-	public void close();
+	void close();
 }

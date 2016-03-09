@@ -88,7 +88,7 @@ public class LinkTagHandler extends TagNodeHandler {
         spanStack.pushSpan(span, start, end);
     }
 
-    public static interface LinkCallBack {
+    public interface LinkCallBack {
         void linkClicked( String href );
     }
 }

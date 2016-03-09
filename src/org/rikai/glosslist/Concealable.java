@@ -25,8 +25,8 @@ package org.rikai.glosslist;
  */
 public interface Concealable {
 
-	public void conceal();
-	public void reveal();
-	public boolean isDisplaying();
+	void conceal();
+	void reveal();
+	boolean isDisplaying();
 
 }

@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class HighLight {
 
-    private static enum Fields { displayText, textNote, index, start, end, color };
+    private enum Fields { displayText, textNote, index, start, end, color }
 
     private String textNote;
 

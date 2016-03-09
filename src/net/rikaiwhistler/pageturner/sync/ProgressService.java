@@ -27,11 +27,11 @@ public interface ProgressService {
 	/**
 	 * Stores the progress for the given book.
 	 */
-	public void storeProgress( String fileName, int index, int progress, int percentage ) throws AccessException;
+	void storeProgress(String fileName, int index, int progress, int percentage) throws AccessException;
 
 	/**
 	 * Returns the progress, or -1 of it wasn't found.
 	 */
-	public Option<List<BookProgress>> getProgress( String fileName ) throws AccessException;
+	Option<List<BookProgress>> getProgress(String fileName) throws AccessException;
 
 }

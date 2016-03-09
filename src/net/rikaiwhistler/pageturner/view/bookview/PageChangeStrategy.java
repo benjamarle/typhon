@@ -30,39 +30,39 @@ public interface PageChangeStrategy {
 	 * 
 	 * @param text
 	 */
-	public void loadText( Spanned text );
+	void loadText(Spanned text);
 
     /**
      * Called on the main thread to actually update the TextView
      */
-    public void updateGUI();
+	void updateGUI();
 	
 	/**
 	 * Returns the text-offset of the top-left character on the screen.
 	 * 
 	 * @return
 	 */
-	public int getTopLeftPosition();
+	int getTopLeftPosition();
 
 
     /**
      * Gets the current reading progress in the chapter.
      * @return
      */
-    public int getProgressPosition();
+	int getProgressPosition();
 
 	
 	/**
 	 * Returns if we're at the start of the current section
 	 * @return
 	 */
-	public boolean isAtStart();
+	boolean isAtStart();
 	
 	/**
 	 * Returns if we're at the end of the current section
 	 * @return
 	 */
-	public boolean isAtEnd();
+	boolean isAtEnd();
 	
 	/**
 	 * Tells this strategy to move the window so the specified
@@ -70,7 +70,7 @@ public interface PageChangeStrategy {
 	 * 
 	 * @param pos
 	 */
-	public void setPosition( int pos );	
+	void setPosition(int pos);
 	
 	/**
 	 * Sets a position relative to the text length:
@@ -79,62 +79,62 @@ public interface PageChangeStrategy {
 	 * 
 	 * @param position a value between 0 and 1
 	 */
-	public void setRelativePosition( double position );
+	void setRelativePosition(double position);
 	
 	/**
 	 * Move the view one page up.
 	 */
-	public void pageUp();
+	void pageUp();
 	
 	/**
 	 * Move the view one page down.
 	 */
-	public void pageDown();
+	void pageDown();
 	
 	/** Simple way to differentiate without instanceof **/
-	public boolean isScrolling();
+	boolean isScrolling();
 	
 	/**
 	 * Clears all text held in this strategy's buffer.
 	 */
-	public void clearText();
+	void clearText();
 	
 	/**
 	 * Clears the stored position in this strategy.
 	 */
-	public void clearStoredPosition();
+	void clearStoredPosition();
 	
 	/**
 	 * Updates all fields to reflect a new configuration.
 	 */
-	public void updatePosition();
+	void updatePosition();
 	
 	/**
 	 * Clears both the buffer and stored position.
 	 */
-	public void reset();
+	void reset();
 	
 	/**
 	 * Gets the text held in this strategy's buffer.
 	 * 
 	 * @return the text
 	 */
-	public Option<Spanned> getText();
+	Option<Spanned> getText();
 	
 	/**
 	 * Gets the text for the next page to be displayed, or null if we've reached the end.
 	 * 
 	 * @return
 	 */
-	public Option<CharSequence> getNextPageText();
+	Option<CharSequence> getNextPageText();
 	
 	/**
 	 * Gets the text for the previous page to be displayed, or null if we've reached the start.
 	 * 
 	 * @return
 	 */
-	public Option<CharSequence> getPreviousPageText();
+	Option<CharSequence> getPreviousPageText();
 
-    public void setBookView(BookView bookView);
+    void setBookView(BookView bookView);
 	
 }

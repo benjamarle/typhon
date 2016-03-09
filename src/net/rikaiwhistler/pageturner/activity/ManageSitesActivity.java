@@ -56,8 +56,8 @@ public class ManageSitesActivity extends RoboListActivity {
 	
 	private CustomOPDSSiteAdapter adapter;
 	
-	private static enum ContextAction { EDIT, DELETE };
-	
+	private enum ContextAction { EDIT, DELETE }
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Configuration config = RoboGuice.getInjector(this).getInstance(Configuration.class); 

@@ -46,7 +46,7 @@ public class AnchorHandler extends TagNodeHandler {
         this.callback = callback;
     }
 
-    public static interface AnchorCallback {
+    public interface AnchorCallback {
         void registerAnchor( String anchor, int position );
     }
 }

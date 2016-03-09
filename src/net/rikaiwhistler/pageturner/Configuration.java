@@ -73,39 +73,39 @@ public class Configuration {
 
     private Map<String, FontFamily> fontCache = new HashMap<>();
 
-    public static enum ScrollStyle {
+    public enum ScrollStyle {
         ROLLING_BLIND, PAGE_TIMER
     }
 
-    public static enum AnimationStyle {
+    public enum AnimationStyle {
         CURL, SLIDE, NONE
     }
 
-    public static enum OrientationLock {
+    public enum OrientationLock {
         PORTRAIT, LANDSCAPE, REVERSE_PORTRAIT, REVERSE_LANDSCAPE, NO_LOCK
     }
 
-    public static enum ColourProfile {
+    public enum ColourProfile {
         DAY, NIGHT
     }
 
-    public static enum LibraryView {
+    public enum LibraryView {
         BOOKCASE, LIST
     }
 
-    public static enum CoverLabelOption {
+    public enum CoverLabelOption {
         ALWAYS, NEVER, WITHOUT_COVER
     }
 
-    public static enum LibrarySelection {
-        BY_LAST_READ, LAST_ADDED, UNREAD, BY_TITLE, BY_AUTHOR;
+    public enum LibrarySelection {
+        BY_LAST_READ, LAST_ADDED, UNREAD, BY_TITLE, BY_AUTHOR
     }
 
-    public static enum ReadingDirection {
-        LEFT_TO_RIGHT, RIGHT_TO_LEFT;
+    public enum ReadingDirection {
+        LEFT_TO_RIGHT, RIGHT_TO_LEFT
     }
 
-    public static enum LongShortPressBehaviour {
+    public enum LongShortPressBehaviour {
         NORMAL, REVERSED
     }
 

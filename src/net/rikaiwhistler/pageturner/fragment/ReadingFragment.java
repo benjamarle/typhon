@@ -323,7 +323,7 @@ public class ReadingFragment extends RoboFragment implements
 
     private List<Dictionary> dictionaries = new ArrayList<Dictionary>();
 
-    private static enum Orientation {
+    private enum Orientation {
         HORIZONTAL, VERTICAL
     }
 

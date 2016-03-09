@@ -45,7 +45,7 @@ public class BookmarkDatabaseHelper extends SQLiteOpenHelper {
 
         public String fieldDef;
 
-        private Field(String fieldDef) {
+        Field(String fieldDef) {
             this.fieldDef = fieldDef;
         }
     }

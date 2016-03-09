@@ -75,6 +75,6 @@ public class PinchableListView extends ListView {
 
 	public interface OnPinchListener {
 
-		public boolean onPinch(float scale);
+		boolean onPinch(float scale);
 	}
 }

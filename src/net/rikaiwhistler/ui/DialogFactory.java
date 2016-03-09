@@ -34,7 +34,7 @@ public class DialogFactory {
     @Inject
     private Context context;
 
-    public static interface SearchCallBack {
+    public interface SearchCallBack {
         void performSearch(String query);
     }
 

@@ -26,5 +26,5 @@ package org.rikai.download;
  * To change this template use File | Settings | File Templates.
  */
 public interface OnFinishTaskListener {
-	public void onFinishTask(boolean success);
+	void onFinishTask(boolean success);
 }

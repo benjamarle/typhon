@@ -40,7 +40,7 @@ public class CleanFilesTask extends QueueableAsyncTask<Void, Void, Void> {
 
     private int deletedFiles = 0;
 
-    public static interface DeleteBooksCallback {
+    public interface DeleteBooksCallback {
         void booksDeleted(int numberOfDeletedBooks);
     }
 

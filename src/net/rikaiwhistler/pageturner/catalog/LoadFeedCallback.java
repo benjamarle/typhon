@@ -25,7 +25,7 @@ import net.rikaiwhistler.nucular.atom.Link;
 
 public interface LoadFeedCallback {
 
-    public static enum ResultType { REPLACE, APPEND }
+    enum ResultType { REPLACE, APPEND }
 
 	void setNewFeed(Feed feed, ResultType resultType );
 

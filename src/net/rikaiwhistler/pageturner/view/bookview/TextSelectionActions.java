@@ -39,7 +39,7 @@ public class TextSelectionActions implements ActionMode.Callback {
 
     private Context context;
 
-    public static interface SelectedTextProvider {
+    public interface SelectedTextProvider {
         Option<String> getSelectedText();
 
         int getSelectionStart();
