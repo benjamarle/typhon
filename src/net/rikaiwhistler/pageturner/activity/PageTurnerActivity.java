@@ -1,34 +1,34 @@
 package net.rikaiwhistler.pageturner.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ExpandableListView;
+
 import com.google.inject.Inject;
-import jedi.option.Option;
+
 import net.rikaiwhistler.pageturner.Configuration;
 import net.rikaiwhistler.pageturner.PageTurner;
 import net.rikaiwhistler.pageturner.R;
 import net.rikaiwhistler.pageturner.view.NavigationCallback;
 
-import org.rikai.download.DictionaryInfo;
-import org.rikai.download.SimpleDownloader;
-import org.rikai.download.SimpleExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import roboguice.RoboGuice;
-import roboguice.inject.InjectView;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import jedi.option.Option;
+import roboguice.RoboGuice;
+import roboguice.inject.InjectView;
 
 /**
  * Superclass for all PageTurner activity classes.

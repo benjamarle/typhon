@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with PageTurner.  If not, see <http://www.gnu.org/licenses/>.*
  */
-package net.nightwhistler.pageturner.fragment;
+package net.rikaiwhistler.pageturner.fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -39,20 +39,20 @@ import com.google.inject.Inject;
 import jedi.functional.FunctionalPrimitives;
 import jedi.option.Option;
 import net.nightwhistler.htmlspanner.HtmlSpanner;
-import net.nightwhistler.pageturner.Configuration;
-import net.nightwhistler.pageturner.Configuration.ColourProfile;
-import net.nightwhistler.pageturner.Configuration.LibrarySelection;
-import net.nightwhistler.pageturner.Configuration.LibraryView;
-import net.nightwhistler.pageturner.PlatformUtil;
-import net.nightwhistler.pageturner.R;
-import net.nightwhistler.pageturner.activity.*;
-import net.nightwhistler.ui.DialogFactory;
-import net.nightwhistler.ui.UiUtils;
-import net.nightwhistler.pageturner.library.*;
-import net.nightwhistler.pageturner.scheduling.QueueableAsyncTask;
-import net.nightwhistler.pageturner.scheduling.TaskQueue;
-import net.nightwhistler.pageturner.view.BookCaseView;
-import net.nightwhistler.pageturner.view.FastBitmapDrawable;
+import net.rikaiwhistler.pageturner.Configuration;
+import net.rikaiwhistler.pageturner.Configuration.ColourProfile;
+import net.rikaiwhistler.pageturner.Configuration.LibrarySelection;
+import net.rikaiwhistler.pageturner.Configuration.LibraryView;
+import net.rikaiwhistler.pageturner.PlatformUtil;
+import net.rikaiwhistler.pageturner.R;
+import net.rikaiwhistler.pageturner.activity.*;
+import net.rikaiwhistler.ui.DialogFactory;
+import net.rikaiwhistler.ui.UiUtils;
+import net.rikaiwhistler.pageturner.library.*;
+import net.rikaiwhistler.pageturner.scheduling.QueueableAsyncTask;
+import net.rikaiwhistler.pageturner.scheduling.TaskQueue;
+import net.rikaiwhistler.pageturner.view.BookCaseView;
+import net.rikaiwhistler.pageturner.view.FastBitmapDrawable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import roboguice.fragment.RoboFragment;
@@ -68,9 +68,9 @@ import static jedi.functional.FunctionalPrimitives.isEmpty;
 import static jedi.option.Options.none;
 import static jedi.option.Options.option;
 import static jedi.option.Options.some;
-import static net.nightwhistler.ui.UiUtils.onCollapse;
-import static net.nightwhistler.ui.UiUtils.onMenuPress;
-import static net.nightwhistler.pageturner.PlatformUtil.isIntentAvailable;
+import static net.rikaiwhistler.ui.UiUtils.onCollapse;
+import static net.rikaiwhistler.ui.UiUtils.onMenuPress;
+import static net.rikaiwhistler.pageturner.PlatformUtil.isIntentAvailable;
 
 public class LibraryFragment extends RoboFragment implements ImportCallback {
 

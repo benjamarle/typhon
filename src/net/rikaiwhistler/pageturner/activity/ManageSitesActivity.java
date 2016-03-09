@@ -20,27 +20,34 @@ package net.rikaiwhistler.pageturner.activity;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.*;
+import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.inject.Inject;
 
 import net.rikaiwhistler.pageturner.Configuration;
 import net.rikaiwhistler.pageturner.CustomOPDSSite;
 import net.rikaiwhistler.pageturner.PageTurner;
 import net.rikaiwhistler.pageturner.PlatformUtil;
-
-import roboguice.RoboGuice;
-import roboguice.activity.RoboListActivity;
+import net.rikaiwhistler.pageturner.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import roboguice.RoboGuice;
+import roboguice.activity.RoboListActivity;
 
 public class ManageSitesActivity extends RoboListActivity {
 

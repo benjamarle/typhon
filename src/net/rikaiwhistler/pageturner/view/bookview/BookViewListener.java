@@ -19,7 +19,7 @@
 
 package net.rikaiwhistler.pageturner.view.bookview;
 
-import net.nightwhistler.pageturner.dto.HighLight;
+import net.rikaiwhistler.pageturner.dto.HighLight;
 
 import nl.siegmann.epublib.domain.Book;
 import net.rikaiwhistler.pageturner.dto.HighLight;
