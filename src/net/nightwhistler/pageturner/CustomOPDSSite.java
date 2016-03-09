@@ -19,8 +19,12 @@
 
 package net.nightwhistler.pageturner;
 
+import jedi.option.Option;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static jedi.option.Options.none;
+import static jedi.option.Options.some;
 
 public class CustomOPDSSite {
 

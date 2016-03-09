@@ -8,7 +8,7 @@ import org.robolectric.RobolectricTestRunner;
 import net.nightwhistler.pageturner.Configuration;
 import net.nightwhistler.pageturner.dto.HighLight;
 import net.nightwhistler.pageturner.view.HighlightManager;
-
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

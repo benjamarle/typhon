@@ -19,7 +19,11 @@
 
 package net.nightwhistler.pageturner.scheduling;
 
+import android.os.AsyncTask;
+import jedi.option.Option;
 import net.nightwhistler.pageturner.PlatformUtil;
+
+import static java.lang.Integer.toHexString;
 
 /**
  * Wraps a QueueableAsyncTask and its parameters, so that it can be executed later.

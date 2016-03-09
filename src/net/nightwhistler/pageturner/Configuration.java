@@ -30,7 +30,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import com.google.inject.Inject;
-
+import jedi.functional.FunctionalPrimitives;
 import jedi.option.Option;
 import net.nightwhistler.htmlspanner.FontFamily;
 import net.nightwhistler.pageturner.activity.PageTurnerActivity;
@@ -53,7 +53,9 @@ import static jedi.functional.FunctionalPrimitives.isEmpty;
 import static jedi.functional.FunctionalPrimitives.select;
 import static jedi.option.Options.none;
 import static jedi.option.Options.option;
+import static jedi.option.Options.some;
 import static net.nightwhistler.pageturner.CustomOPDSSite.fromJSON;
+import static net.nightwhistler.pageturner.PlatformUtil.isAtLeast;
 
 /**
  * Application configuration class which provides a friendly API to the various
@@ -281,7 +283,7 @@ public class Configuration {
 
     public Class<? extends PageTurnerActivity> getLastActivity() {
         String lastActivityString = settings.getString( KEY_LAST_ACTIVITY,
-                "ReadingActivity" );
+                "net.nightwhistler.pageturner.activity.ReadingActivity" );
 
         try {
             return (Class<? extends PageTurnerActivity>) Class.forName( lastActivityString );
@@ -610,9 +612,9 @@ public class Configuration {
 
 	public int getTheme() {
 		if (getColourProfile() == ColourProfile.NIGHT) {
-			return R.style.Theme_Sherlock;
+			return R.style.Theme_AppCompat;
 		} else {
-			return R.style.Theme_Sherlock_Light_DarkActionBar;
+			return R.style.Theme_AppCompat_Light_DarkActionBar;
 		}
 
 	}

@@ -20,6 +20,7 @@ package net.nightwhistler.pageturner.catalog;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import com.google.inject.Inject;
 import jedi.option.Option;

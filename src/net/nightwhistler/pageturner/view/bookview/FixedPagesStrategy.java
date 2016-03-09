@@ -20,9 +20,16 @@
 package net.nightwhistler.pageturner.view.bookview;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.text.*;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ClickableSpan;
+import android.text.style.ImageSpan;
+import android.view.View;
 
 import com.google.inject.Inject;
 

@@ -20,7 +20,7 @@
 package net.nightwhistler.pageturner.view.bookview;
 
 import net.nightwhistler.pageturner.dto.HighLight;
-
+import net.nightwhistler.pageturner.view.HighlightManager;
 import nl.siegmann.epublib.domain.Book;
 
 /**

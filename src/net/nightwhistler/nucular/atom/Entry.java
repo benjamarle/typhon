@@ -27,6 +27,7 @@ import static jedi.functional.FunctionalPrimitives.firstOption;
 import static jedi.functional.FunctionalPrimitives.isEmpty;
 import static jedi.option.Options.none;
 import static jedi.option.Options.option;
+import static jedi.option.Options.some;
 import static net.nightwhistler.nucular.atom.AtomConstants.*;
 
 public class Entry extends AtomElement {

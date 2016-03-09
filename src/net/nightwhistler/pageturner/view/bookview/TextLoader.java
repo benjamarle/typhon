@@ -42,6 +42,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.ref.SoftReference;
 import java.util.*;
 
 import static jedi.functional.FunctionalPrimitives.isEmpty;

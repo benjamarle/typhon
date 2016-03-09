@@ -20,73 +20,38 @@
 package net.nightwhistler.pageturner.fragment;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.app.*;
+import android.content.*;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.media.AudioManager;
-import android.media.MediaMetadataRetriever;
-import android.media.MediaPlayer;
-import android.media.RemoteControlClient;
+import android.media.*;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.PowerManager;
+import android.os.*;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.telephony.TelephonyManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.Display;
-import android.view.GestureDetector;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.Surface;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.view.*;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ViewSwitcher;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.github.rtyley.android.sherlock.roboguice.fragment.RoboSherlockFragment;
+import android.widget.*;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import jedi.functional.Command;
+import jedi.functional.FunctionalPrimitives;
+import jedi.option.None;
+import jedi.option.Option;
 import net.nightwhistler.htmlspanner.spans.CenterSpan;
 import net.nightwhistler.pageturner.Configuration;
 import net.nightwhistler.pageturner.Configuration.AnimationStyle;
@@ -98,11 +63,8 @@ import net.nightwhistler.pageturner.TextUtil;
 import net.nightwhistler.pageturner.activity.LibraryActivity;
 import net.nightwhistler.pageturner.activity.MediaButtonReceiver;
 import net.nightwhistler.pageturner.activity.ReadingActivity;
-import net.nightwhistler.pageturner.animation.Animations;
-import net.nightwhistler.pageturner.animation.Animator;
-import net.nightwhistler.pageturner.animation.PageCurlAnimator;
-import net.nightwhistler.pageturner.animation.PageTimer;
-import net.nightwhistler.pageturner.animation.RollingBlindAnimator;
+import net.nightwhistler.pageturner.activity.RoboActionBarActivity;
+import net.nightwhistler.pageturner.animation.*;
 import net.nightwhistler.pageturner.bookmark.Bookmark;
 import net.nightwhistler.pageturner.bookmark.BookmarkDatabaseHelper;
 import net.nightwhistler.pageturner.dto.HighLight;
@@ -115,20 +77,13 @@ import net.nightwhistler.pageturner.sync.BookProgress;
 import net.nightwhistler.pageturner.sync.ProgressService;
 import net.nightwhistler.pageturner.tts.TTSPlaybackItem;
 import net.nightwhistler.pageturner.tts.TTSPlaybackQueue;
-import net.nightwhistler.pageturner.view.AnimatedImageView;
-import net.nightwhistler.pageturner.view.HighlightManager;
-import net.nightwhistler.pageturner.view.NavGestureDetector;
-import net.nightwhistler.pageturner.view.NavigationCallback;
-import net.nightwhistler.pageturner.view.ProgressListAdapter;
-import net.nightwhistler.pageturner.view.SearchResultAdapter;
-import net.nightwhistler.pageturner.view.bookview.BookView;
-import net.nightwhistler.pageturner.view.bookview.BookViewListener;
-import net.nightwhistler.pageturner.view.bookview.SelectedWord;
-import net.nightwhistler.pageturner.view.bookview.TextLoader;
-import net.nightwhistler.pageturner.view.bookview.TextSelectionCallback;
+import net.nightwhistler.pageturner.view.*;
+import net.nightwhistler.pageturner.view.bookview.*;
 import net.nightwhistler.ui.ActionModeBuilder;
 import net.nightwhistler.ui.DialogFactory;
 
+import nl.siegmann.epublib.domain.Author;
+import nl.siegmann.epublib.domain.Book;
 import org.rikai.DroidEdictEntry;
 import org.rikai.DroidKanjiDictionary;
 import org.rikai.DroidNamesDictionary;
@@ -143,35 +98,24 @@ import org.rikai.glosslist.ExpandableListView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
-
-import jedi.functional.Command;
-import jedi.option.None;
-import jedi.option.Option;
-import nl.siegmann.epublib.domain.Author;
-import nl.siegmann.epublib.domain.Book;
+import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
-import static jedi.functional.FunctionalPrimitives.firstOption;
-import static jedi.functional.FunctionalPrimitives.forEach;
-import static jedi.functional.FunctionalPrimitives.isEmpty;
-import static jedi.functional.FunctionalPrimitives.map;
+import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.*;
+
+import android.support.v7.widget.SearchView;
+
+import static jedi.functional.FunctionalPrimitives.*;
 import static jedi.option.Options.none;
 import static jedi.option.Options.option;
-import static net.nightwhistler.pageturner.PlatformUtil.executeTask;
-import static net.nightwhistler.pageturner.PlatformUtil.isIntentAvailable;
+import static net.nightwhistler.pageturner.PlatformUtil.*;
 import static net.nightwhistler.ui.UiUtils.onMenuPress;
 
-public class ReadingFragment extends RoboSherlockFragment implements
+public class ReadingFragment extends RoboFragment implements
         BookViewListener, TextSelectionCallback {
 
     private static final String POS_KEY = "offset:";
@@ -544,7 +488,7 @@ public class ReadingFragment extends RoboSherlockFragment implements
         super.onActivityCreated(savedInstanceState);
 
         DisplayMetrics metrics = new DisplayMetrics();
-        SherlockFragmentActivity activity = getSherlockActivity();
+        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
 
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
@@ -560,7 +504,7 @@ public class ReadingFragment extends RoboSherlockFragment implements
         this.bookView.setOnTouchListener(gestureListener);
         this.dummyView.setOnTouchListener(gestureListener);
 
-        //registerForContextMenu(bookView);
+        registerForContextMenu(bookView);
         saveConfigState();
 
         Intent intent = activity.getIntent();
@@ -1217,7 +1161,7 @@ public class ReadingFragment extends RoboSherlockFragment implements
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void updateFromPrefs() {
 
-        SherlockFragmentActivity activity = getSherlockActivity();
+        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
 
         if ( activity == null ) {
             return;
@@ -1264,7 +1208,7 @@ public class ReadingFragment extends RoboSherlockFragment implements
                 bookView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-                bookView.setSystemUiVisibility(View.GONE);
+
             }
             if ( config.isDimSystemUI() ) {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
@@ -1311,10 +1255,10 @@ public class ReadingFragment extends RoboSherlockFragment implements
                 getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 break;
             case REVERSE_LANDSCAPE:
-                getActivity().setRequestedOrientation(8); // Android 2.3+ value
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE); // Android 2.3+ value
                 break;
             case REVERSE_PORTRAIT:
-                getActivity().setRequestedOrientation(9); // Android 2.3+ value
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT); // Android 2.3+ value
                 break;
             default:
                 getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
@@ -1361,7 +1305,7 @@ public class ReadingFragment extends RoboSherlockFragment implements
     @Override
     public void bookOpened(final Book book) {
 
-        SherlockFragmentActivity activity = getSherlockActivity();
+        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
 
         if ( activity == null ) {
             return;
@@ -1543,7 +1487,7 @@ public class ReadingFragment extends RoboSherlockFragment implements
 
                     return result;
                 })
-                .build(getSherlockActivity());
+                .build((RoboActionBarActivity) getActivity());
     }
 
     @Override
@@ -1577,7 +1521,7 @@ public class ReadingFragment extends RoboSherlockFragment implements
                     return false;
 
                 })
-                .build(getSherlockActivity());
+                .build((RoboActionBarActivity)getActivity());
     }
 
     private void deleteHightlight( final HighLight highLight ) {
@@ -1891,8 +1835,8 @@ public class ReadingFragment extends RoboSherlockFragment implements
 
         LOG.debug("Got key event: " + keyCode + " with action " + action);
 
-        if ( searchMenuItem != null && searchMenuItem.isActionViewExpanded() ) {
-            boolean result = searchMenuItem.getActionView().dispatchKeyEvent(event);
+        if ( searchMenuItem != null && MenuItemCompat.isActionViewExpanded(searchMenuItem)) {
+            boolean result = MenuItemCompat.getActionView(searchMenuItem).dispatchKeyEvent(event);
 
             if ( result ) {
                 return true;
@@ -2343,7 +2287,7 @@ public class ReadingFragment extends RoboSherlockFragment implements
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
 
-        SherlockFragmentActivity activity = getSherlockActivity();
+        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
 
         if ( activity == null ) {
             return;
@@ -2477,7 +2421,7 @@ public class ReadingFragment extends RoboSherlockFragment implements
         sendIntent.putExtra(Intent.EXTRA_TEXT, text );
         sendIntent.setType("text/plain");
 
-        startActivity(Intent.createChooser(sendIntent, getString(R.string.abs__shareactionprovider_share_with)));
+        startActivity(Intent.createChooser(sendIntent, getString(R.string.abc_shareactionprovider_share_with)));
     }
 
     @Override
@@ -2487,13 +2431,13 @@ public class ReadingFragment extends RoboSherlockFragment implements
         this.searchMenuItem = menu.findItem(R.id.search_text);
 
         if (this.searchMenuItem != null) {
-            final com.actionbarsherlock.widget.SearchView searchView =
-                    (com.actionbarsherlock.widget.SearchView) searchMenuItem.getActionView();
+            final SearchView searchView =
+                    (SearchView) MenuItemCompat.getActionView(searchMenuItem);
 
             if (searchView != null) {
 
                 searchView.setSubmitButtonEnabled(true);
-                searchView.setOnQueryTextListener(new com.actionbarsherlock.widget.SearchView.OnQueryTextListener() {
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
                     //This is a work-around, since we get the onQuerySubmit() event twice
                     //when the user hits enter
@@ -2633,7 +2577,7 @@ public class ReadingFragment extends RoboSherlockFragment implements
     }
 
     private void toggleTitleBar() {
-        SherlockFragmentActivity activity = getSherlockActivity();
+        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
 
         if ( activity == null ) {
             return;
@@ -2648,7 +2592,7 @@ public class ReadingFragment extends RoboSherlockFragment implements
         } else {
             titleBarLayout.setVisibility(View.VISIBLE);
 
-            getSherlockActivity().getSupportActionBar().show();
+            activity.getSupportActionBar().show();
             activity.getWindow().addFlags(
                     WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -2967,7 +2911,8 @@ public class ReadingFragment extends RoboSherlockFragment implements
     }
 
     private void setSupportProgressBarIndeterminateVisibility(boolean enable) {
-        SherlockFragmentActivity activity = getSherlockActivity();
+        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
+
         if ( activity != null) {
             LOG.debug("Setting progress bar to " + enable );
             activity.setSupportProgressBarIndeterminateVisibility(enable);
@@ -2987,10 +2932,12 @@ public class ReadingFragment extends RoboSherlockFragment implements
     }
 
     public void onSearchRequested() {
-        if ( this.searchMenuItem != null && searchMenuItem.getActionView() != null ) {
-            getSherlockActivity().getSupportActionBar().show();
-            this.searchMenuItem.expandActionView();
-            this.searchMenuItem.getActionView().requestFocus();
+        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
+
+        if ( this.searchMenuItem != null && MenuItemCompat.getActionView(searchMenuItem) != null && activity != null) {
+            activity.getSupportActionBar().show();
+            MenuItemCompat.expandActionView(searchMenuItem);
+            MenuItemCompat.getActionView(searchMenuItem).requestFocus();
         } else {
             dialogFactory.showSearchDialog(R.string.search_text, R.string.enter_query, this::performSearch);
         }

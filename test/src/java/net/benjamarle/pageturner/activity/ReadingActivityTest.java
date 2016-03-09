@@ -5,10 +5,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.util.Modules;
-
+import jedi.option.Option;
 import net.nightwhistler.pageturner.scheduling.TaskQueue;
 import net.nightwhistler.pageturner.testutils.SynchronousTaskQueue;
-
+import net.nightwhistler.ui.UiUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +18,8 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import roboguice.RoboGuice;
 import roboguice.inject.RoboInjector;
+
+import static jedi.option.Options.none;
 
 /**
  * Created by alex on 10/26/14.

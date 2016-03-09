@@ -19,7 +19,7 @@
 package net.nightwhistler.pageturner.catalog;
 
 import android.content.Context;
-
+import android.os.AsyncTask;
 import com.google.inject.Inject;
 import jedi.option.None;
 import jedi.option.Option;

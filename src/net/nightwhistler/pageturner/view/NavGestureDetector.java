@@ -19,6 +19,7 @@
 
 package net.nightwhistler.pageturner.view;
 
+import android.os.Build;
 import android.text.style.ClickableSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -26,7 +27,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 import jedi.option.Option;
-
+import net.nightwhistler.pageturner.Configuration;
 import net.nightwhistler.pageturner.view.bookview.BookView;
 import net.nightwhistler.pageturner.view.bookview.BookViewListener;
 import net.nightwhistler.pageturner.view.bookview.HighlightSpan;
@@ -39,6 +40,7 @@ import java.util.List;
  * navigation events.
  *
  * @author Alex Kuiper
+ *
  */
 public class NavGestureDetector extends GestureDetector.SimpleOnGestureListener {
 

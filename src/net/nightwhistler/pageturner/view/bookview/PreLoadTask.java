@@ -1,7 +1,7 @@
 package net.nightwhistler.pageturner.view.bookview;
 
 import android.text.Spannable;
-
+import jedi.option.None;
 import jedi.option.Option;
 import net.nightwhistler.pageturner.epub.PageTurnerSpine;
 import net.nightwhistler.pageturner.scheduling.QueueableAsyncTask;

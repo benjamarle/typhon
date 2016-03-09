@@ -3,6 +3,7 @@ package net.nightwhistler.pageturner.view.bookview;
 import android.text.TextPaint;
 import android.text.style.BackgroundColorSpan;
 import net.nightwhistler.pageturner.dto.HighLight;
+import net.nightwhistler.pageturner.view.HighlightManager;
 
 /**
  * Created with IntelliJ IDEA.

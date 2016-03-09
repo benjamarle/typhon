@@ -1,5 +1,6 @@
 package net.nightwhistler.pageturner;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import static java.util.Arrays.asList;
@@ -72,20 +73,20 @@ public class TextUtilTest {
 
     @Test
     public void testQuotedUnicode() {
-        String input = "�aabbcc.�";
+        String input = "“aabbcc.”";
 
         assertThat
 
-                (TextUtil.splitOnPunctuation(input), equalTo(asList("�aabbcc.�")));
+                (TextUtil.splitOnPunctuation(input), equalTo(asList("“aabbcc.”")));
     }
 
     @Test
     public void testDotDotDot() {
-        String input = "�aabb. . . CC";
+        String input = "“aabb. . . CC";
 
         assertThat
 
-                (TextUtil.splitOnPunctuation(input), equalTo(asList("�aabb. . .", " CC")));
+                (TextUtil.splitOnPunctuation(input), equalTo(asList("“aabb. . .", " CC")));
     }
 
     @Test
@@ -101,28 +102,28 @@ public class TextUtilTest {
 
     @Test
     public void testExtraQuotes() {
-        String input = "�It�s a start,� Arkady said. �But there are aspects of that treaty you haven�t mentioned.� �";
+        String input = "“It’s a start,” Arkady said. “But there are aspects of that treaty you haven’t mentioned.” ‘";
 
         assertThat
                 (TextUtil.splitOnPunctuation(input), equalTo(
-                        asList("�It�s a start,�", " Arkady said.", " �But there are aspects of that treaty you haven�t mentioned.�",
-                                " �")
+                        asList("“It’s a start,”", " Arkady said.", " “But there are aspects of that treaty you haven’t mentioned.”",
+                                " ‘")
                 ));
 
     }
 
     @Test
     public void testSofie() {
-        String input = "�Tja,� zei ze. �Soms wel.�\n" +
-                "�Soms? Ik bedoel, vind je het eigenlijk niet vreemd dat er een wereld bestaat?�\n" +
-                "�Maar Sofie, zo moet je niet praten.�";
+        String input = "‘Tja,’ zei ze. ‘Soms wel.’\n" +
+                "‘Soms? Ik bedoel, vind je het eigenlijk niet vreemd dat er een wereld bestaat?’\n" +
+                "‘Maar Sofie, zo moet je niet praten.’";
 
         assertThat
                 (TextUtil.splitOnPunctuation(input), equalTo(
                         asList(
-                                "�Tja,�", " zei ze.", " �Soms wel.�",
-                                "�Soms? Ik bedoel, vind je het eigenlijk niet vreemd dat er een wereld bestaat?�",
-                                "�Maar Sofie, zo moet je niet praten.�"
+                                "‘Tja,’", " zei ze.", " ‘Soms wel.’",
+                                "‘Soms? Ik bedoel, vind je het eigenlijk niet vreemd dat er een wereld bestaat?’",
+                                "‘Maar Sofie, zo moet je niet praten.’"
                                 )
                 ));
 

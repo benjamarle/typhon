@@ -2,8 +2,9 @@ package net.nightwhistler.pageturner.scheduling;
 
 import android.annotation.TargetApi;
 import android.os.AsyncTask;
-
+import org.junit.Ignore;
 import org.robolectric.RobolectricTestRunner;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
