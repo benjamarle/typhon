@@ -19,6 +19,7 @@
 
 package net.rikaiwhistler.pageturner.library;
 
+import jedi.option.None;
 import jedi.option.Option;
 import net.rikaiwhistler.pageturner.scheduling.QueueableAsyncTask;
 

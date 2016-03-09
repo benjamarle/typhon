@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import jedi.functional.Command;
+import jedi.functional.Command2;
 import jedi.option.None;
 import jedi.option.Option;
 import net.rikaiwhistler.pageturner.Configuration;

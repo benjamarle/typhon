@@ -23,13 +23,13 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.*;
-import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockPreferenceActivity;
 import net.rikaiwhistler.pageturner.Configuration;
 import net.rikaiwhistler.pageturner.PageTurner;
-
+import net.rikaiwhistler.pageturner.R;
 import roboguice.RoboGuice;
+import roboguice.activity.RoboPreferenceActivity;
 
-public class PageTurnerPrefsActivity extends RoboSherlockPreferenceActivity {
+public class PageTurnerPrefsActivity extends RoboPreferenceActivity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class PageTurnerPrefsActivity extends RoboSherlockPreferenceActivity {
 	 	   editor.commit();			
 		}
 		
-		addPreferencesFromResource(net.rikaiwhistler.pageturner.R.xml.pageturner_prefs);
+		addPreferencesFromResource(R.xml.pageturner_prefs);
 
 		final PreferenceScreen screen = getPreferenceScreen();
 		if(!Configuration.IS_NOOK_TOUCH) {
@@ -63,8 +63,8 @@ public class PageTurnerPrefsActivity extends RoboSherlockPreferenceActivity {
 			final String[] font_prefs = { "font_face", "serif_font", "sans_serif_font" };
 			for(String font_pref : font_prefs) {
 				ListPreference pref = (ListPreference) screen.findPreference(font_pref);
-				pref.setEntries(getResources().getStringArray(net.rikaiwhistler.pageturner.R.array.builtinFontLabels));
-				pref.setEntryValues(getResources().getStringArray(net.rikaiwhistler.pageturner.R.array.builtinFonts));
+				pref.setEntries(getResources().getStringArray(R.array.builtinFontLabels));
+				pref.setEntryValues(getResources().getStringArray(R.array.builtinFonts));
 			}
 		}
 

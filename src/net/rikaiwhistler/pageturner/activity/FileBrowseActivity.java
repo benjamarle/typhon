@@ -19,13 +19,12 @@
 package net.rikaiwhistler.pageturner.activity;
 
 import android.os.Bundle;
-import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 import net.rikaiwhistler.pageturner.Configuration;
 import net.rikaiwhistler.pageturner.PageTurner;
-
+import net.rikaiwhistler.pageturner.R;
 import roboguice.RoboGuice;
 
-public class FileBrowseActivity extends RoboSherlockFragmentActivity {
+public class FileBrowseActivity extends RoboActionBarActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +33,6 @@ public class FileBrowseActivity extends RoboSherlockFragmentActivity {
 		setTheme( config.getTheme() );
 		
 		super.onCreate(savedInstanceState);
-		setContentView(net.rikaiwhistler.pageturner.R.layout.activity_file_browse);
+		setContentView(R.layout.activity_file_browse);
 	}
 }

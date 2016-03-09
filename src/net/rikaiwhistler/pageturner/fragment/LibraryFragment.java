@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with PageTurner.  If not, see <http://www.gnu.org/licenses/>.*
  */
-package net.rikaiwhistler.pageturner.fragment;
+package net.nightwhistler.pageturner.fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -31,46 +31,33 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
+import android.view.*;
 import android.widget.*;
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.SearchView;
-import com.github.rtyley.android.sherlock.roboguice.fragment.RoboSherlockFragment;
 import com.google.inject.Inject;
-
+import jedi.functional.FunctionalPrimitives;
 import jedi.option.Option;
 import net.nightwhistler.htmlspanner.HtmlSpanner;
-import net.rikaiwhistler.pageturner.Configuration;
-import net.rikaiwhistler.pageturner.PlatformUtil;
-import net.rikaiwhistler.pageturner.activity.CatalogActivity;
-import net.rikaiwhistler.pageturner.activity.LibraryActivity;
-import net.rikaiwhistler.pageturner.activity.ReadingActivity;
-import net.rikaiwhistler.pageturner.library.ImportCallback;
-import net.rikaiwhistler.pageturner.library.KeyedQueryResult;
-import net.rikaiwhistler.ui.DialogFactory;
-import net.rikaiwhistler.ui.UiUtils;
-import net.rikaiwhistler.pageturner.scheduling.QueueableAsyncTask;
-import net.rikaiwhistler.pageturner.scheduling.TaskQueue;
-import net.rikaiwhistler.pageturner.view.BookCaseView;
-import net.rikaiwhistler.pageturner.view.FastBitmapDrawable;
-import net.rikaiwhistler.pageturner.activity.FileBrowseActivity;
-import net.rikaiwhistler.pageturner.activity.PageTurnerActivity;
-import net.rikaiwhistler.pageturner.library.CleanFilesTask;
-import net.rikaiwhistler.pageturner.library.ImportTask;
-import net.rikaiwhistler.pageturner.library.KeyedResultAdapter;
-import net.rikaiwhistler.pageturner.library.LibraryBook;
-import net.rikaiwhistler.pageturner.library.LibraryService;
-import net.rikaiwhistler.pageturner.library.QueryResult;
-
+import net.nightwhistler.pageturner.Configuration;
+import net.nightwhistler.pageturner.Configuration.ColourProfile;
+import net.nightwhistler.pageturner.Configuration.LibrarySelection;
+import net.nightwhistler.pageturner.Configuration.LibraryView;
+import net.nightwhistler.pageturner.PlatformUtil;
+import net.nightwhistler.pageturner.R;
+import net.nightwhistler.pageturner.activity.*;
+import net.nightwhistler.ui.DialogFactory;
+import net.nightwhistler.ui.UiUtils;
+import net.nightwhistler.pageturner.library.*;
+import net.nightwhistler.pageturner.scheduling.QueueableAsyncTask;
+import net.nightwhistler.pageturner.scheduling.TaskQueue;
+import net.nightwhistler.pageturner.view.BookCaseView;
+import net.nightwhistler.pageturner.view.FastBitmapDrawable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
+import android.support.v7.widget.SearchView;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -81,9 +68,11 @@ import static jedi.functional.FunctionalPrimitives.isEmpty;
 import static jedi.option.Options.none;
 import static jedi.option.Options.option;
 import static jedi.option.Options.some;
-import static net.rikaiwhistler.ui.UiUtils.onMenuPress;
+import static net.nightwhistler.ui.UiUtils.onCollapse;
+import static net.nightwhistler.ui.UiUtils.onMenuPress;
+import static net.nightwhistler.pageturner.PlatformUtil.isIntentAvailable;
 
-public class LibraryFragment extends RoboSherlockFragment implements ImportCallback {
+public class LibraryFragment extends RoboFragment implements ImportCallback {
 
     protected static final int REQUEST_CODE_GET_CONTENT = 2;
 	
@@ -93,21 +82,21 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
     @Inject
     private DialogFactory dialogFactory;
 	
-	@InjectView(net.rikaiwhistler.pageturner.R.id.libraryList)
+	@InjectView(R.id.libraryList)
 	private ListView listView;
 	
-	@InjectView(net.rikaiwhistler.pageturner.R.id.bookCaseView)
+	@InjectView(R.id.bookCaseView)
 	private BookCaseView bookCaseView;
 		
-	@InjectView(net.rikaiwhistler.pageturner.R.id.alphabetList)
+	@InjectView(R.id.alphabetList)
 	private ListView alphabetBar;
 	
 	private AlphabetAdapter alphabetAdapter;
 	
-	@InjectView(net.rikaiwhistler.pageturner.R.id.alphabetDivider)
+	@InjectView(R.id.alphabetDivider)
 	private ImageView alphabetDivider;
 	
-	@InjectView(net.rikaiwhistler.pageturner.R.id.libHolder)
+	@InjectView(R.id.libHolder)
 	private ViewSwitcher switcher;
 
     @Inject
@@ -153,7 +142,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 
         LOG.debug("onCreate()");
 		
-		Bitmap backupBitmap = BitmapFactory.decodeResource(getResources(), net.rikaiwhistler.pageturner.R.drawable.unknown_cover );
+		Bitmap backupBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.unknown_cover );
 		this.backupCover = new FastBitmapDrawable(backupBitmap);
 		
 		this.handler = new Handler();
@@ -167,7 +156,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(net.rikaiwhistler.pageturner.R.layout.fragment_library, container, false);
+		return inflater.inflate(R.layout.fragment_library, container, false);
 	}
 
 	@Override
@@ -177,7 +166,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 		this.bookCaseView.setOnScrollListener( new CoverScrollListener() );
 		this.listView.setOnScrollListener( new CoverScrollListener() );
 		
-		if ( config.getLibraryView() == Configuration.LibraryView.BOOKCASE ) {
+		if ( config.getLibraryView() == LibraryView.BOOKCASE ) {
 			
 			this.bookAdapter = new BookCaseAdapter();
 			this.bookCaseView.setAdapter(bookAdapter);			
@@ -196,8 +185,8 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 		this.importDialog = new ProgressDialog(context);
 		
 		this.importDialog.setOwnerActivity(getActivity());
-		importDialog.setTitle(net.rikaiwhistler.pageturner.R.string.importing_books);
-		importDialog.setMessage(getString(net.rikaiwhistler.pageturner.R.string.scanning_epub));
+		importDialog.setTitle(R.string.importing_books);
+		importDialog.setMessage(getString(R.string.scanning_epub));
 		registerForContextMenu(this.listView);	
 
         this.listView.setOnItemClickListener( this::onItemClick );
@@ -209,27 +198,27 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		ActionBar actionBar = ((RoboActionBarActivity) getActivity()).getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		ArrayAdapter<String> adapter = new ArrayAdapter<>(actionBar.getThemedContext(),
 				android.R.layout.simple_list_item_1,
-				android.R.id.text1, getResources().getStringArray(net.rikaiwhistler.pageturner.R.array.libraryQueries));
+				android.R.id.text1, getResources().getStringArray(R.array.libraryQueries));
 
-		actionBar.setListNavigationCallbacks(adapter, this::onNavigationItemSelected );
+		actionBar.setListNavigationCallbacks(adapter, this::onNavigationItemSelected);
 
         refreshView();
 
 		Option<File> libraryFolder = config.getLibraryFolder();
-        LOG.debug( "Got libraryFolder: " + libraryFolder );
+        LOG.debug("Got libraryFolder: " + libraryFolder);
 
-		libraryFolder.match( folder -> {
-			executeTask(new CleanFilesTask(libraryService, this::booksDeleted) );
+		libraryFolder.match(folder -> {
+			executeTask(new CleanFilesTask(libraryService, this::booksDeleted));
 			executeTask(new ImportTask(getActivity(), libraryService, this, config, config.getCopyToLibraryOnScan(),
-					true), folder );
+					true), folder);
 		}, () -> {
 			LOG.error("No library folder present!");
-			Toast.makeText( context, net.rikaiwhistler.pageturner.R.string.library_failed, Toast.LENGTH_LONG ).show();
+			Toast.makeText(context, R.string.library_failed, Toast.LENGTH_LONG).show();
 		});
 
 	}
@@ -243,7 +232,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
      * Triggered by the TaskQueue when all tasks are finished.
      */
     private void onTaskQueueEmpty() {
-        LOG.debug( "Got onTaskQueueEmpty()" );
+        LOG.debug("Got onTaskQueueEmpty()");
         setSupportProgressBarIndeterminateVisibility(false);
     }
 
@@ -301,45 +290,45 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
         }
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(net.rikaiwhistler.pageturner.R.string.book_details);
+		builder.setTitle(R.string.book_details);
 		LayoutInflater inflater = PlatformUtil.getLayoutInflater(getActivity());
 		
-		View layout = inflater.inflate(net.rikaiwhistler.pageturner.R.layout.book_details, null);
+		View layout = inflater.inflate(R.layout.book_details, null);
 		builder.setView( layout );
 		
-		ImageView coverView = (ImageView) layout.findViewById(net.rikaiwhistler.pageturner.R.id.coverImage );
+		ImageView coverView = (ImageView) layout.findViewById(R.id.coverImage );
 
 		if ( libraryBook.getCoverImage() != null ) {
             Drawable coverDrawable = getCover(libraryBook).getOrElse(
-                    getResources().getDrawable(net.rikaiwhistler.pageturner.R.drawable.unknown_cover) );
+                    getResources().getDrawable(R.drawable.unknown_cover) );
 
             coverView.setImageDrawable(coverDrawable);
         }
 
-		TextView titleView = (TextView) layout.findViewById(net.rikaiwhistler.pageturner.R.id.titleField);
-		TextView authorView = (TextView) layout.findViewById(net.rikaiwhistler.pageturner.R.id.authorField);
-		TextView lastRead = (TextView) layout.findViewById(net.rikaiwhistler.pageturner.R.id.lastRead);
-		TextView added = (TextView) layout.findViewById(net.rikaiwhistler.pageturner.R.id.addedToLibrary);
-		TextView descriptionView = (TextView) layout.findViewById(net.rikaiwhistler.pageturner.R.id.bookDescription);
-		TextView fileName = (TextView) layout.findViewById(net.rikaiwhistler.pageturner.R.id.fileName);
+		TextView titleView = (TextView) layout.findViewById(R.id.titleField);
+		TextView authorView = (TextView) layout.findViewById(R.id.authorField);
+		TextView lastRead = (TextView) layout.findViewById(R.id.lastRead);
+		TextView added = (TextView) layout.findViewById(R.id.addedToLibrary);
+		TextView descriptionView = (TextView) layout.findViewById(R.id.bookDescription);
+		TextView fileName = (TextView) layout.findViewById(R.id.fileName);
 		
 		titleView.setText(libraryBook.getTitle());
-		String authorText = String.format( getString(net.rikaiwhistler.pageturner.R.string.book_by),
+		String authorText = String.format( getString(R.string.book_by),
 				 libraryBook.getAuthor().getFirstName() + " " 
 				 + libraryBook.getAuthor().getLastName() );
 		authorView.setText( authorText );
 		fileName.setText( libraryBook.getFileName() );
 
 		if (libraryBook.getLastRead() != null && ! libraryBook.getLastRead().equals(new Date(0))) {
-			String lastReadText = String.format(getString(net.rikaiwhistler.pageturner.R.string.last_read),
+			String lastReadText = String.format(getString(R.string.last_read),
 					DATE_FORMAT.format(libraryBook.getLastRead()));
 			lastRead.setText( lastReadText );
 		} else {
-			String lastReadText = String.format(getString(net.rikaiwhistler.pageturner.R.string.last_read), getString(net.rikaiwhistler.pageturner.R.string.never_read));
+			String lastReadText = String.format(getString(R.string.last_read), getString(R.string.never_read));
 			lastRead.setText( lastReadText );
 		}
 
-		String addedText = String.format( getString(net.rikaiwhistler.pageturner.R.string.added_to_lib),
+		String addedText = String.format( getString(R.string.added_to_lib),
 				DATE_FORMAT.format(libraryBook.getAddedToLibrary()));
 		added.setText( addedText );
 
@@ -348,14 +337,14 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 
 		descriptionView.setText(spanner.fromHtml( libraryBook.getDescription()));
 
-        builder.setNeutralButton(net.rikaiwhistler.pageturner.R.string.delete, (dialog, which) -> {
+        builder.setNeutralButton(R.string.delete, (dialog, which) -> {
             libraryService.deleteBook( libraryBook.getFileName() );
             refreshView();
             dialog.dismiss();
         });
 		
 		builder.setNegativeButton(android.R.string.cancel, null);
-		builder.setPositiveButton(net.rikaiwhistler.pageturner.R.string.read, (dialog, which) -> openBook(libraryBook) );
+		builder.setPositiveButton(R.string.read, (dialog, which) -> openBook(libraryBook) );
 
 		builder.show();
 	}
@@ -390,47 +379,47 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 	}
 	
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {		
-        inflater.inflate(net.rikaiwhistler.pageturner.R.menu.library_menu, menu);
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.library_menu, menu);
 
         UiUtils.Action toggleListener = () -> {
 
             if ( switcher.getDisplayedChild() == 0 ) {
                 bookAdapter = new BookCaseAdapter();
                 bookCaseView.setAdapter(bookAdapter);
-                config.setLibraryView(Configuration.LibraryView.BOOKCASE);
+                config.setLibraryView(LibraryView.BOOKCASE);
             } else {
                 bookAdapter = new BookListAdapter(getActivity());
                 listView.setAdapter(bookAdapter);
-                config.setLibraryView(Configuration.LibraryView.LIST);
+                config.setLibraryView(LibraryView.LIST);
             }
 
             switcher.showNext();
             refreshView();
         };
 
-        UiUtils.onMenuPress( menu, net.rikaiwhistler.pageturner.R.id.shelves_view ).thenDo( toggleListener );
-        UiUtils.onMenuPress( menu, net.rikaiwhistler.pageturner.R.id.list_view ).thenDo( toggleListener );
+        onMenuPress( menu, R.id.shelves_view ).thenDo( toggleListener );
+        onMenuPress( menu, R.id.list_view ).thenDo( toggleListener );
 
-        UiUtils.onMenuPress( menu, net.rikaiwhistler.pageturner.R.id.scan_books ).thenDo( this::showImportDialog );
-        UiUtils.onMenuPress( menu, net.rikaiwhistler.pageturner.R.id.about ).thenDo( dialogFactory.buildAboutDialog()::show );
+        onMenuPress( menu, R.id.scan_books ).thenDo( this::showImportDialog );
+        onMenuPress( menu, R.id.about ).thenDo( dialogFactory.buildAboutDialog()::show );
 
-        UiUtils.onMenuPress( menu, net.rikaiwhistler.pageturner.R.id.profile_day ).thenDo(() -> switchToColourProfile(Configuration.ColourProfile.DAY) );
-        UiUtils.onMenuPress( menu, net.rikaiwhistler.pageturner.R.id.profile_night ).thenDo(() -> switchToColourProfile(Configuration.ColourProfile.NIGHT) );
+        onMenuPress( menu, R.id.profile_day ).thenDo(() -> switchToColourProfile(ColourProfile.DAY) );
+        onMenuPress( menu, R.id.profile_night ).thenDo(() -> switchToColourProfile(ColourProfile.NIGHT) );
 
-        this.searchMenuItem = menu.findItem(net.rikaiwhistler.pageturner.R.id.menu_search);
+        this.searchMenuItem = menu.findItem(R.id.menu_search);
 
         if (searchMenuItem != null) {
-            final SearchView searchView = (SearchView) searchMenuItem.getActionView();
+			final SearchView searchView = (SearchView)MenuItemCompat.getActionView(searchMenuItem);
 
             if (searchView != null) {
 
-                searchView.setOnQueryTextListener( UiUtils.onQuery( this::performSearch ));
-                searchMenuItem.setOnActionExpandListener( UiUtils.onCollapse(() -> performSearch("")));
+                searchView.setOnQueryTextListener(UiUtils.onQuery(this::performSearch));
+				MenuItemCompat.setOnActionExpandListener(searchMenuItem, onCollapse((() -> performSearch(""))));
 
             } else {
                 searchMenuItem.setOnMenuItemClickListener( item -> {
-                    dialogFactory.showSearchDialog(net.rikaiwhistler.pageturner.R.string.search_library, net.rikaiwhistler.pageturner.R.string.enter_query, this::performSearch);
+                    dialogFactory.showSearchDialog(R.string.search_library, R.string.enter_query, this::performSearch);
                     return false;
                 });
             }
@@ -441,10 +430,10 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
         intent.setType("file/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-        if (PlatformUtil.isIntentAvailable(getActivity(), intent)) {
-            UiUtils.onMenuPress( menu, net.rikaiwhistler.pageturner.R.id.open_file ).thenDo( this::launchFileManager );
+        if (isIntentAvailable(getActivity(), intent)) {
+            onMenuPress( menu, R.id.open_file ).thenDo( this::launchFileManager );
         } else {
-            menu.findItem(net.rikaiwhistler.pageturner.R.id.open_file).setVisible(false);
+            menu.findItem(R.id.open_file).setVisible(false);
         }
 
 	}
@@ -469,7 +458,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
             startActivityForResult(intent, REQUEST_CODE_GET_CONTENT);
         } catch (ActivityNotFoundException e) {
             // No compatible file manager was found.
-            Toast.makeText(getActivity(), getString(net.rikaiwhistler.pageturner.R.string.install_oi),
+            Toast.makeText(getActivity(), getString(R.string.install_oi),
                     Toast.LENGTH_SHORT).show();
         }
     }
@@ -479,7 +468,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
             this.searchMenuItem.expandActionView();
             this.searchMenuItem.getActionView().requestFocus();
         } else {
-            dialogFactory.showSearchDialog(net.rikaiwhistler.pageturner.R.string.search_library, net.rikaiwhistler.pageturner.R.string.enter_query, this::performSearch);
+            dialogFactory.showSearchDialog(R.string.search_library, R.string.enter_query, this::performSearch);
         }
     }
 
@@ -490,7 +479,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
         }
     }
 	
-	private void switchToColourProfile( Configuration.ColourProfile profile ) {
+	private void switchToColourProfile( ColourProfile profile ) {
 		config.setColourProfile(profile);
 		Intent intent = new Intent(getActivity(), LibraryActivity.class);
 		startActivity(intent);
@@ -500,23 +489,23 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 	
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		boolean bookCaseActive = config.getLibraryView() == Configuration.LibraryView.BOOKCASE;
+		boolean bookCaseActive = config.getLibraryView() == LibraryView.BOOKCASE;
 		
-		menu.findItem(net.rikaiwhistler.pageturner.R.id.shelves_view).setVisible(! bookCaseActive);
-		menu.findItem(net.rikaiwhistler.pageturner.R.id.list_view).setVisible(bookCaseActive);
-		menu.findItem(net.rikaiwhistler.pageturner.R.id.profile_day).setVisible(config.getColourProfile() == Configuration.ColourProfile.NIGHT);
-		menu.findItem(net.rikaiwhistler.pageturner.R.id.profile_night).setVisible(config.getColourProfile() == Configuration.ColourProfile.DAY);
+		menu.findItem(R.id.shelves_view).setVisible(! bookCaseActive);
+		menu.findItem(R.id.list_view).setVisible(bookCaseActive);
+		menu.findItem(R.id.profile_day).setVisible(config.getColourProfile() == ColourProfile.NIGHT);
+		menu.findItem(R.id.profile_night).setVisible(config.getColourProfile() == ColourProfile.DAY);
 	}
 	
 	private void showImportDialog() {
 		AlertDialog.Builder builder;		
 		
 		LayoutInflater inflater = PlatformUtil.getLayoutInflater(getActivity());
-		final View layout = inflater.inflate(net.rikaiwhistler.pageturner.R.layout.import_dialog, null);
-		final RadioButton scanSpecific = (RadioButton) layout.findViewById(net.rikaiwhistler.pageturner.R.id.radioScanFolder);
-		final TextView folder = (TextView) layout.findViewById(net.rikaiwhistler.pageturner.R.id.folderToScan);
-		final CheckBox copyToLibrary = (CheckBox) layout.findViewById(net.rikaiwhistler.pageturner.R.id.copyToLib);
-		final Button browseButton = (Button) layout.findViewById(net.rikaiwhistler.pageturner.R.id.browseButton);
+		final View layout = inflater.inflate(R.layout.import_dialog, null);
+		final RadioButton scanSpecific = (RadioButton) layout.findViewById(R.id.radioScanFolder);
+		final TextView folder = (TextView) layout.findViewById(R.id.folderToScan);
+		final CheckBox copyToLibrary = (CheckBox) layout.findViewById(R.id.copyToLib);		
+		final Button browseButton = (Button) layout.findViewById(R.id.browseButton);
 
 		Option<File> storageBase = config.getStorageBase();
 		if ( isEmpty(storageBase) ) {
@@ -546,7 +535,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
             startActivityForResult(intent, 0);
         });
 		
-		builder.setTitle(net.rikaiwhistler.pageturner.R.string.import_books);
+		builder.setTitle(R.string.import_books);
 
         builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
             dialog.dismiss();
@@ -607,9 +596,9 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 	public void onResume() {
 		super.onResume();				
 		
-		Configuration.LibrarySelection lastSelection = config.getLastLibraryQuery();
+		LibrarySelection lastSelection = config.getLastLibraryQuery();
 		
-		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		ActionBar actionBar = ( (RoboActionBarActivity) getActivity()).getSupportActionBar();
 		
 		if (actionBar.getSelectedNavigationIndex() != lastSelection.ordinal() ) {
 			actionBar.setSelectedNavigationItem(lastSelection.ordinal());
@@ -628,6 +617,10 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 	public void importComplete(int booksImported, List<String> errors, boolean emptyLibrary, boolean silent) {
         LOG.debug("Got importComplete() ");
         afterImport(booksImported, errors, emptyLibrary, silent, false);
+	}
+
+	private ActionBar getActionBar() {
+		return ((RoboActionBarActivity) getActivity()).getSupportActionBar();
 	}
 
     private void afterImport(int booksImported, List<String> errors, boolean emptyLibrary, boolean silent,
@@ -650,7 +643,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
         //If the user cancelled the import, don't bug him/her with alerts.
         if ( (! errors.isEmpty()) ) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle(net.rikaiwhistler.pageturner.R.string.import_errors);
+            builder.setTitle(R.string.import_errors);
 
             builder.setItems( errors.toArray(new String[errors.size()]), null );
 
@@ -664,27 +657,27 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
         if ( booksImported > 0 ) {
 
             //Switch to the "recently added" view.
-            if (getSherlockActivity().getSupportActionBar().getSelectedNavigationIndex() == Configuration.LibrarySelection.LAST_ADDED.ordinal() ) {
-                loadView(Configuration.LibrarySelection.LAST_ADDED, "importComplete()");
+            if ( getActionBar().getSelectedNavigationIndex() == LibrarySelection.LAST_ADDED.ordinal() ) {
+                loadView(LibrarySelection.LAST_ADDED, "importComplete()");
             } else {
-                getSherlockActivity().getSupportActionBar().setSelectedNavigationItem(Configuration.LibrarySelection.LAST_ADDED.ordinal());
+                getActionBar().setSelectedNavigationItem(LibrarySelection.LAST_ADDED.ordinal());
             }
         } else if ( ! cancelledByUser ) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle(net.rikaiwhistler.pageturner.R.string.no_books_found);
+            builder.setTitle(R.string.no_books_found);
 
             if ( emptyLibrary ) {
 
-                builder.setMessage( getString(net.rikaiwhistler.pageturner.R.string.no_bks_fnd_text2) );
+                builder.setMessage( getString(R.string.no_bks_fnd_text2) );
 
                 builder.setPositiveButton( android.R.string.yes, (dialogInterface, i) ->
-                    ( (PageTurnerActivity) getSherlockActivity() ).launchActivity( CatalogActivity.class ));
+                    ( (PageTurnerActivity) getActivity() ).launchActivity( CatalogActivity.class ));
 
                 builder.setNegativeButton( android.R.string.no, null );
 
             } else {
-                builder.setMessage( getString(net.rikaiwhistler.pageturner.R.string.no_new_books_found));
+                builder.setMessage( getString(R.string.no_new_books_found));
                 builder.setNeutralButton(android.R.string.ok, ( dialog, which) -> dialog.dismiss() );
             }
 
@@ -706,7 +699,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 		
 		importDialog.hide();
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(net.rikaiwhistler.pageturner.R.string.import_failed);
+		builder.setTitle(R.string.import_failed);
 		builder.setMessage(reason);
 		builder.setNeutralButton(android.R.string.ok, null);
 		builder.show();
@@ -722,14 +715,14 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 		importDialog.setMessage(update);
 	}	
 	
-	public void onAlphabetBarClick(KeyedQueryResult<LibraryBook> result, Character c ) {
+	public void onAlphabetBarClick( KeyedQueryResult<LibraryBook> result, Character c ) {
 
 		result.getOffsetFor(toUpperCase(c)).forEach( index -> {
 			if ( alphabetAdapter != null ) {
 				alphabetAdapter.setHighlightChar(c);
 			}
 
-			if ( config.getLibraryView() == Configuration.LibraryView.BOOKCASE ) {
+			if ( config.getLibraryView() == LibraryView.BOOKCASE ) {
 				this.bookCaseView.setSelection(index);
 			} else {
 				this.listView.setSelection(index);
@@ -761,19 +754,19 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 			
 			if ( convertView == null ) {			
 				LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				rowView = inflater.inflate(net.rikaiwhistler.pageturner.R.layout.book_row, parent, false);
+				rowView = inflater.inflate(R.layout.book_row, parent, false);
 			} else {
 				rowView = convertView;
 			}			
 			
-			TextView titleView = (TextView) rowView.findViewById(net.rikaiwhistler.pageturner.R.id.bookTitle);
-			TextView authorView = (TextView) rowView.findViewById(net.rikaiwhistler.pageturner.R.id.bookAuthor);
-			TextView dateView = (TextView) rowView.findViewById(net.rikaiwhistler.pageturner.R.id.addedToLibrary);
-			TextView progressView = (TextView) rowView.findViewById(net.rikaiwhistler.pageturner.R.id.readingProgress);
+			TextView titleView = (TextView) rowView.findViewById(R.id.bookTitle);
+			TextView authorView = (TextView) rowView.findViewById(R.id.bookAuthor);
+			TextView dateView = (TextView) rowView.findViewById(R.id.addedToLibrary);
+			TextView progressView = (TextView) rowView.findViewById(R.id.readingProgress);
 			
-			final ImageView imageView = (ImageView) rowView.findViewById(net.rikaiwhistler.pageturner.R.id.bookCover);
+			final ImageView imageView = (ImageView) rowView.findViewById(R.id.bookCover);
 						
-			String authorText = String.format(getString(net.rikaiwhistler.pageturner.R.string.book_by),
+			String authorText = String.format(getString(R.string.book_by),
 					book.getAuthor().getFirstName() + " " + book.getAuthor().getLastName() );
 			
 			authorView.setText(authorText);
@@ -785,7 +778,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 				progressView.setText("");
 			}			
 			
-			String dateText = String.format(getString(net.rikaiwhistler.pageturner.R.string.added_to_lib),
+			String dateText = String.format(getString(R.string.added_to_lib),
 					DATE_FORMAT.format(book.getAddedToLibrary()));
 			dateView.setText( dateText );
 			
@@ -796,7 +789,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 	
 	}
 
-    private void loadView(Configuration.LibrarySelection selection, String from ) {
+    private void loadView( LibrarySelection selection, String from ) {
         LOG.debug("Loading view: " + selection + " from " + from);
         this.taskQueue.clear();
         executeTask(new LoadBooksTask(selection));
@@ -846,7 +839,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 
         public  CoverScrollListener() {
             try {
-                this.holoDrawable = getResources().getDrawable(net.rikaiwhistler.pageturner.R.drawable.list_activated_holo);
+                this.holoDrawable = getResources().getDrawable(R.drawable.list_activated_holo);
             } catch (IllegalStateException i) {
                 //leave it null
             }
@@ -953,7 +946,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 		
 			if ( convertView == null ) {				
 				LayoutInflater inflater = PlatformUtil.getLayoutInflater(getActivity());
-				result = inflater.inflate(net.rikaiwhistler.pageturner.R.layout.bookcase_row, parent, false);
+				result = inflater.inflate(R.layout.bookcase_row, parent, false);
 				
 			} else {
 				result = convertView;
@@ -964,11 +957,11 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 			result.setOnClickListener( v -> LibraryFragment.this.onItemClick(null, null, index, 0) );
 			result.setOnLongClickListener( v -> LibraryFragment.this.onItemLongClick(null, null, index, 0));
 			
-			final ImageView image = (ImageView) result.findViewById(net.rikaiwhistler.pageturner.R.id.bookCover);
+			final ImageView image = (ImageView) result.findViewById(R.id.bookCover);
 			image.setImageDrawable(backupCover);
-			TextView text = (TextView) result.findViewById(net.rikaiwhistler.pageturner.R.id.bookLabel);
+			TextView text = (TextView) result.findViewById(R.id.bookLabel);
 			text.setText( object.getTitle() );
-			text.setBackgroundResource(net.rikaiwhistler.pageturner.R.drawable.alphabet_bar_bg_dark);
+			text.setBackgroundResource(R.drawable.alphabet_bar_bg_dark);			
 			
 			loadCover(image, object, index);		
 			
@@ -984,8 +977,8 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 		}
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(net.rikaiwhistler.pageturner.R.string.no_books_found);
-		builder.setMessage( getString(net.rikaiwhistler.pageturner.R.string.scan_bks_question) );
+		builder.setTitle(R.string.no_books_found);
+		builder.setMessage( getString(R.string.scan_bks_question) );
 
         builder.setPositiveButton(android.R.string.yes, (dialog, which) -> {
             dialog.dismiss();
@@ -1010,7 +1003,8 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 	}
 
     private void setSupportProgressBarIndeterminateVisibility(boolean enable) {
-        SherlockFragmentActivity activity = getSherlockActivity();
+        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
+
         if ( activity != null) {
             LOG.debug("Setting progress bar to " + enable );
             activity.setSupportProgressBarIndeterminateVisibility(enable);
@@ -1021,7 +1015,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 
     private boolean onNavigationItemSelected(int pos, long arg1) {
 
-        Configuration.LibrarySelection newSelections = Configuration.LibrarySelection.values()[pos];
+        LibrarySelection newSelections = LibrarySelection.values()[pos];
 
         if ( newSelections != config.getLastLibraryQuery() ) {
             config.setLastLibraryQuery(newSelections);
@@ -1052,7 +1046,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 			view.setTag( tag );
 			
 			if ( tag.equals(highlightChar) ) {
-				view.setBackgroundDrawable( getResources().getDrawable(net.rikaiwhistler.pageturner.R.drawable.list_activated_holo));
+				view.setBackgroundDrawable( getResources().getDrawable(R.drawable.list_activated_holo));
 			} else {
 				view.setBackgroundDrawable(null);
 			}
@@ -1081,7 +1075,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
             final KeyedQueryResult<LibraryBook> keyedResult = (KeyedQueryResult<LibraryBook>) result;
 
             alphabetAdapter = new AlphabetAdapter(getActivity(),
-                    net.rikaiwhistler.pageturner.R.layout.alphabet_line, net.rikaiwhistler.pageturner.R.id.alphabetLabel,	keyedResult.getAlphabet() );
+                    R.layout.alphabet_line, R.id.alphabetLabel,	keyedResult.getAlphabet() );
 
             alphabetBar.setAdapter(alphabetAdapter);
 
@@ -1100,11 +1094,11 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
 		private Configuration.LibrarySelection sel;
         private String filter;
 
-        public LoadBooksTask(Configuration.LibrarySelection selection) {
+        public LoadBooksTask(LibrarySelection selection) {
             this.sel = selection;
         }
 
-        public LoadBooksTask(Configuration.LibrarySelection selection, String filter ) {
+        public LoadBooksTask(LibrarySelection selection, String filter ) {
             this(selection);
             this.filter = filter;
         }
@@ -1164,7 +1158,7 @@ public class LibraryFragment extends RoboSherlockFragment implements ImportCallb
                     buildImportQuestionDialog();
                     importQuestion.show();
                 }
-            }, () -> Toast.makeText(context, net.rikaiwhistler.pageturner.R.string.library_failed, Toast.LENGTH_SHORT).show());
+            }, () -> Toast.makeText(context, R.string.library_failed, Toast.LENGTH_SHORT).show());
 
 		}
 		

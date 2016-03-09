@@ -9,8 +9,9 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.google.inject.Provider;
 import jedi.functional.FunctionalPrimitives;
+import jedi.functional.Functor;
 import jedi.functional.Functor2;
 import jedi.option.Option;
 import net.rikaiwhistler.pageturner.PlatformUtil;
@@ -20,6 +21,7 @@ import net.rikaiwhistler.pageturner.view.NavigationCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 

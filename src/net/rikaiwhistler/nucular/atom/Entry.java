@@ -27,6 +27,8 @@ import static jedi.functional.FunctionalPrimitives.firstOption;
 import static jedi.functional.FunctionalPrimitives.isEmpty;
 import static jedi.option.Options.none;
 import static jedi.option.Options.option;
+import static jedi.option.Options.some;
+import static net.nightwhistler.nucular.atom.AtomConstants.*;
 
 public class Entry extends AtomElement {
 
@@ -68,13 +70,13 @@ public class Entry extends AtomElement {
 	public Option<Link> getAlternateLink() {
 		Option<Link> atomLink = getAtomLink();
 
-        return atomLink.filter(l -> l.getRel() != null && l.getRel().equalsIgnoreCase(AtomConstants.REL_ALTERNATE));
+        return atomLink.filter(l -> l.getRel() != null && l.getRel().equalsIgnoreCase(REL_ALTERNATE));
 	}
 	
 	public Option<Link> getAtomLink() {
 		List<Link> links = getLinks();
 
-        return firstOption( links, l -> l.getType().startsWith(AtomConstants.TYPE_ATOM));
+        return firstOption( links, l -> l.getType().startsWith(TYPE_ATOM));
 	}
 	
 	public String getSummary() {
@@ -104,7 +106,7 @@ public class Entry extends AtomElement {
             String rel = link.getRel() != null ? link.getRel() : "";
             String type = link.getType() != null ? link.getType() : "";
 
-            if ( rel.equals(AtomConstants.REL_RELATED) && type.startsWith(AtomConstants.TYPE_ATOM ) ) {
+            if ( rel.equals(REL_RELATED) && type.startsWith(TYPE_ATOM ) ) {
                 result.add(link);
             }
         }
@@ -114,18 +116,18 @@ public class Entry extends AtomElement {
     }
 
 	public Option<Link> getThumbnailLink() {
-		return findByRel(AtomConstants.REL_THUMBNAIL, AtomConstants.REL_THUMBNAIL_ALT, AtomConstants.REL_STANZA_THUMBNAIL_IMAGE);
+		return findByRel(REL_THUMBNAIL, REL_THUMBNAIL_ALT, REL_STANZA_THUMBNAIL_IMAGE);
 	}
 	
 	public Option<Link> getImageLink() {
-		return findByRel(AtomConstants.REL_IMAGE, AtomConstants.REL_COVER, AtomConstants.REL_STANZA_COVER_IMAGE );
+		return findByRel(REL_IMAGE, REL_COVER, REL_STANZA_COVER_IMAGE );		
 	}
 	
 	public Option<Link> getBuyLink() {
-		return findByRel(AtomConstants.REL_BUY, AtomConstants.REL_STANZA_BUY);
+		return findByRel(REL_BUY, REL_STANZA_BUY);
 	}
 	
 	public Option<Link> getEpubLink() {
-        return firstOption( getLinks(), link -> link.getType() != null && link.getType().equals(AtomConstants.TYPE_EPUB));
+        return firstOption( getLinks(), link -> link.getType() != null && link.getType().equals(TYPE_EPUB));
 	}
 }

@@ -33,6 +33,7 @@ import java.util.List;
 import static jedi.functional.FunctionalPrimitives.isEmpty;
 import static jedi.option.Options.none;
 import static jedi.option.Options.option;
+import static jedi.option.Options.some;
 
 /**
  * Special spine class which handles navigation

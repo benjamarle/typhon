@@ -19,6 +19,7 @@
 
 package net.rikaiwhistler.pageturner.view;
 
+import android.os.Build;
 import android.text.style.ClickableSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -26,7 +27,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 import jedi.option.Option;
-
+import net.rikaiwhistler.pageturner.Configuration;
 import net.rikaiwhistler.pageturner.view.bookview.BookView;
 import net.rikaiwhistler.pageturner.view.bookview.BookViewListener;
 import net.rikaiwhistler.pageturner.view.bookview.HighlightSpan;

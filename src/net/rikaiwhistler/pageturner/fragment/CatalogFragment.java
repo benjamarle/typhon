@@ -25,6 +25,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,12 +34,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.SearchView;
-import com.github.rtyley.android.sherlock.roboguice.fragment.RoboSherlockFragment;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import jedi.option.Option;
@@ -45,6 +41,8 @@ import net.rikaiwhistler.nucular.atom.AtomConstants;
 import net.rikaiwhistler.nucular.atom.Entry;
 import net.rikaiwhistler.nucular.atom.Feed;
 import net.rikaiwhistler.nucular.atom.Link;
+import net.rikaiwhistler.pageturner.R;
+import net.rikaiwhistler.pageturner.activity.RoboActionBarActivity;
 import net.rikaiwhistler.pageturner.catalog.LoadFeedCallback;
 import net.rikaiwhistler.ui.UiUtils;
 import net.rikaiwhistler.ui.DialogFactory;
@@ -59,6 +57,7 @@ import net.rikaiwhistler.pageturner.catalog.ParseBinDataTask;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
 
 import javax.annotation.Nullable;
@@ -71,12 +70,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import static jedi.functional.FunctionalPrimitives.isEmpty;
 import static jedi.option.Options.option;
 
-public class CatalogFragment extends RoboSherlockFragment implements LoadFeedCallback {
+public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
 	
 	private static final Logger LOG = LoggerFactory
 			.getLogger("CatalogFragment");
 
-	@InjectView(net.rikaiwhistler.pageturner.R.id.catalogList)
+	@InjectView(R.id.catalogList)
 	@Nullable
 	private ListView catalogList;
 
@@ -125,7 +124,7 @@ public class CatalogFragment extends RoboSherlockFragment implements LoadFeedCal
 
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(net.rikaiwhistler.pageturner.R.layout.fragment_catalog, container, false);
+		return inflater.inflate(R.layout.fragment_catalog, container, false);
 	}
 
     @Override
@@ -211,13 +210,13 @@ public class CatalogFragment extends RoboSherlockFragment implements LoadFeedCal
             this.searchMenuItem.expandActionView();
             this.searchMenuItem.getActionView().requestFocus();
         } else {
-            dialogFactory.showSearchDialog(net.rikaiwhistler.pageturner.R.string.search_books, net.rikaiwhistler.pageturner.R.string.enter_query, this::performSearch );
+            dialogFactory.showSearchDialog(R.string.search_books, R.string.enter_query, this::performSearch );
         }
 	}
 
 	public void onEntryClicked( Entry entry, int position ) {		
 			
-		if ( entry.getId() != null && entry.getId().equals(Catalog.CUSTOM_SITES_ID) ) {
+		if ( entry.getId() != null && entry.getId().equals(Catalog.CUSTOM_SITES_ID) ) {			
             ((CatalogParent) getActivity()).loadCustomSitesFeed();
 		} else if ( ! isEmpty( entry.getAlternateLink() ) ) {
 			String href = entry.getAlternateLink().unsafeGet().getHref();
@@ -291,26 +290,26 @@ public class CatalogFragment extends RoboSherlockFragment implements LoadFeedCal
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        SherlockFragmentActivity activity = getSherlockActivity();
+        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
 
         if ( activity == null ) {
             return;
         }
 
 		activity.getSupportActionBar().setHomeButtonEnabled(true);
-		inflater.inflate(net.rikaiwhistler.pageturner.R.menu.catalog_menu, menu);
+		inflater.inflate(R.menu.catalog_menu, menu);
 
-        this.searchMenuItem = menu.findItem(net.rikaiwhistler.pageturner.R.id.search);
+        this.searchMenuItem = menu.findItem(R.id.search);
         if (searchMenuItem != null) {
-            final SearchView searchView = (SearchView) searchMenuItem.getActionView();
+            final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
 
             if (searchView != null) {
                 searchView.setSubmitButtonEnabled(true);
                 searchView.setOnQueryTextListener(UiUtils.onQuery( this::performSearch ) );
             } else {
                 searchMenuItem.setOnMenuItemClickListener( item -> {
-                        dialogFactory.showSearchDialog(net.rikaiwhistler.pageturner.R.string.search_books,
-                                net.rikaiwhistler.pageturner.R.string.enter_query, this::performSearch );
+                        dialogFactory.showSearchDialog(R.string.search_books,
+                                R.string.enter_query, this::performSearch );
                         return false;
                 });
             }
@@ -331,7 +330,7 @@ public class CatalogFragment extends RoboSherlockFragment implements LoadFeedCal
 			
 			switch (item.getItemId()) {
 
-			case net.rikaiwhistler.pageturner.R.id.search:
+			case R.id.search:
 				enabled = searchEnabled;
 				break;			
 			default:
@@ -357,7 +356,7 @@ public class CatalogFragment extends RoboSherlockFragment implements LoadFeedCal
     @Override
 	public void errorLoadingFeed(String error) {
 		if ( isAdded() ) {
-            Toast.makeText(getActivity(), getString(net.rikaiwhistler.pageturner.R.string.feed_failed) + ": " + error,
+            Toast.makeText(getActivity(), getString(R.string.feed_failed) + ": " + error,
 				Toast.LENGTH_LONG).show();
         }
 	}
@@ -365,9 +364,9 @@ public class CatalogFragment extends RoboSherlockFragment implements LoadFeedCal
     @Override
     public void emptyFeedLoaded(Feed feed) {
         if ( feed.isSearchFeed() ) {
-            Toast.makeText(getActivity(), net.rikaiwhistler.pageturner.R.string.no_search_results, Toast.LENGTH_LONG ).show();
+            Toast.makeText(getActivity(), R.string.no_search_results, Toast.LENGTH_LONG ).show();
         } else {
-            errorLoadingFeed(getActivity().getString(net.rikaiwhistler.pageturner.R.string.empty_opds_feed));
+            errorLoadingFeed(getActivity().getString(R.string.empty_opds_feed));
         }
     }
 
@@ -404,7 +403,7 @@ public class CatalogFragment extends RoboSherlockFragment implements LoadFeedCal
         for ( Map.Entry<String, Drawable> entry: thumbnailCache.entrySet() ) {
             Drawable value = entry.getValue();
 
-            if ( value instanceof FastBitmapDrawable) {
+            if ( value instanceof FastBitmapDrawable ) {
                 ((FastBitmapDrawable) value).destroy();
             }
         }
@@ -422,7 +421,7 @@ public class CatalogFragment extends RoboSherlockFragment implements LoadFeedCal
         if ( this.thumbnailCache.containsKey(imageLink.getHref() ) ) {
             return;
         } else {
-            this.thumbnailCache.put( imageLink.getHref(), context.getResources().getDrawable(net.rikaiwhistler.pageturner.R.drawable.unknown_cover));
+            this.thumbnailCache.put( imageLink.getHref(), context.getResources().getDrawable(R.drawable.unknown_cover));
         }
 
         String href = imageLink.getHref();
@@ -448,7 +447,9 @@ public class CatalogFragment extends RoboSherlockFragment implements LoadFeedCal
     }
 
     private void setSupportProgressBarIndeterminateVisibility(boolean enable) {
-        SherlockFragmentActivity activity = getSherlockActivity();
+
+        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
+
         if ( activity != null) {
             LOG.debug("Setting progress bar to " + enable );
             activity.setSupportProgressBarIndeterminateVisibility(enable);

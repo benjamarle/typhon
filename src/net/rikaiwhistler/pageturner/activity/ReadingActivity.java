@@ -69,16 +69,16 @@ public class ReadingActivity extends PageTurnerActivity {
 
 
     @Override
-    protected void initDrawerItems(ExpandableListView expandableListView) {
-        super.initDrawerItems(expandableListView);
+    protected void initDrawerItems( ExpandableListView expandableListView ) {
+        super.initDrawerItems( expandableListView );
 
-        if (expandableListView == null) {
+        if ( expandableListView == null ) {
             return;
         }
 
-        if (this.readingFragment != null) {
+        if ( this.readingFragment != null ) {
 
-            if (readingFragment.hasSearchResults()) {
+            if ( readingFragment.hasSearchResults() ) {
                 List<NavigationCallback> searchCallbacks =
                         this.readingFragment.getSearchResults();
 
@@ -90,14 +90,14 @@ public class ReadingActivity extends PageTurnerActivity {
         }
     }
 
-    protected List<NavigationCallback> getMenuItems(Configuration config) {
+    protected List<NavigationCallback> getMenuItems( Configuration config ) {
 
         List<NavigationCallback> menuItems = new ArrayList<>();
 
         //Add in a blank item to get the spacing right
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && config.isFullScreenEnabled()) {
-            menuItems.add(new NavigationCallback(""));
-            menuItems.add(new NavigationCallback(""));
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && config.isFullScreenEnabled() ) {
+            menuItems.add( new NavigationCallback("") );
+            menuItems.add( new NavigationCallback("") );
         }
 
         String nowReading = getString(net.rikaiwhistler.pageturner.R.string.now_reading, config.getLastReadTitle());

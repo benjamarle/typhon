@@ -17,7 +17,7 @@
  * along with PageTurner.  If not, see <http://www.gnu.org/licenses/>.*
  */
 package net.rikaiwhistler.pageturner.dto;
-
+import jedi.option.Option;
 import net.rikaiwhistler.pageturner.Configuration;
 
 import org.json.JSONArray;
@@ -26,6 +26,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static jedi.option.Options.none;
+import static jedi.option.Options.option;
 
 /**
  * This class allows page-offsets to be read from and stored as JSON.

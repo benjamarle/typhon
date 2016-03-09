@@ -19,22 +19,33 @@
 
 package net.rikaiwhistler.pageturner.catalog;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
-
+import jedi.functional.Filter;
 import jedi.option.Option;
 import net.nightwhistler.htmlspanner.HtmlSpanner;
 import net.rikaiwhistler.nucular.atom.Entry;
 import net.rikaiwhistler.nucular.atom.Feed;
 import net.rikaiwhistler.nucular.atom.Link;
+import net.rikaiwhistler.pageturner.R;
+import net.rikaiwhistler.pageturner.view.FastBitmapDrawable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 import static jedi.functional.FunctionalPrimitives.firstOption;
+import static jedi.functional.FunctionalPrimitives.isEmpty;
 
 public class Catalog {
 	
@@ -83,9 +94,9 @@ public class Catalog {
         //We don't want to load images here
         spanner.unregisterHandler( "img" );
 		
-		TextView title = (TextView) layout.findViewById(net.rikaiwhistler.pageturner.R.id.itemTitle);
+		TextView title = (TextView) layout.findViewById(R.id.itemTitle);
 		TextView desc = (TextView) layout
-				.findViewById(net.rikaiwhistler.pageturner.R.id.itemDescription);
+				.findViewById(R.id.itemDescription);
 
 		title.setText( entry.getTitle());
 

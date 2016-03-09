@@ -142,7 +142,6 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 	public BookView(Context context, AttributeSet attributes) {
 		super(context, attributes);
 		this.scrollHandler = new Handler();
-		if(!this.isInEditMode())
         RoboGuice.injectMembers(context, this);
 	}
 
@@ -328,9 +327,9 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void setTextSelectionCallback(TextSelectionCallback callback) {
 		if (Build.VERSION.SDK_INT >= Configuration.TEXT_SELECTION_PLATFORM_VERSION) {
-//			this.childView
-//					.setCustomSelectionActionModeCallback(new TextSelectionActions(
-//                            getContext(), callback, this));
+			this.childView
+					.setCustomSelectionActionModeCallback(new TextSelectionActions(
+                            getContext(), callback, this));
 		}
 	}	
 

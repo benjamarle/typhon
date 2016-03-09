@@ -20,6 +20,7 @@ package net.rikaiwhistler.pageturner.activity;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -28,9 +29,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockListActivity;
 import com.google.inject.Inject;
 
 import net.rikaiwhistler.pageturner.Configuration;
@@ -39,11 +37,12 @@ import net.rikaiwhistler.pageturner.PageTurner;
 import net.rikaiwhistler.pageturner.PlatformUtil;
 
 import roboguice.RoboGuice;
+import roboguice.activity.RoboListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ManageSitesActivity extends RoboSherlockListActivity {
+public class ManageSitesActivity extends RoboListActivity {
 
 	@Inject
 	Configuration config;
@@ -69,15 +68,14 @@ public class ManageSitesActivity extends RoboSherlockListActivity {
 	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(net.rikaiwhistler.pageturner.R.menu.edit_sites_menu, menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.edit_sites_menu, menu);
 
 		return true;
 	}
 	
 	@Override
-	public boolean onOptionsItemSelected(
-			com.actionbarsherlock.view.MenuItem item) {
+	public boolean onOptionsItemSelected( MenuItem item) {
 		showAddSiteDialog();
 		return true;
 	}
@@ -86,8 +84,8 @@ public class ManageSitesActivity extends RoboSherlockListActivity {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		
-		menu.add(Menu.NONE, ContextAction.EDIT.ordinal(), Menu.NONE, net.rikaiwhistler.pageturner.R.string.edit );
-		menu.add(Menu.NONE, ContextAction.DELETE.ordinal(), Menu.NONE, net.rikaiwhistler.pageturner.R.string.delete );
+		menu.add(Menu.NONE, ContextAction.EDIT.ordinal(), Menu.NONE, R.string.edit );
+		menu.add(Menu.NONE, ContextAction.DELETE.ordinal(), Menu.NONE, R.string.delete ); 
 		
 	}
 	
@@ -126,11 +124,11 @@ public class ManageSitesActivity extends RoboSherlockListActivity {
 	}
 	
 	private void showEditDialog(final CustomOPDSSite site) {
-		showSiteDialog(net.rikaiwhistler.pageturner.R.string.edit_site, site);
+		showSiteDialog(R.string.edit_site, site);		
 	}
 	
 	private void showAddSiteDialog() {		
-		showSiteDialog(net.rikaiwhistler.pageturner.R.string.add_site, null);
+		showSiteDialog(R.string.add_site, null);
 	}
 	
 	private void showSiteDialog(int titleResource, final CustomOPDSSite siteParam ) {
@@ -148,14 +146,14 @@ public class ManageSitesActivity extends RoboSherlockListActivity {
 		builder.setTitle(titleResource);
 		LayoutInflater inflater = PlatformUtil.getLayoutInflater(this);
 		
-		View layout = inflater.inflate(net.rikaiwhistler.pageturner.R.layout.edit_site, null);
+		View layout = inflater.inflate(R.layout.edit_site, null);
 		builder.setView(layout);
 		
-		final TextView siteName = (TextView) layout.findViewById(net.rikaiwhistler.pageturner.R.id.siteName);
-		final TextView siteURL = (TextView) layout.findViewById(net.rikaiwhistler.pageturner.R.id.siteUrl);
-		final TextView siteDesc = (TextView) layout.findViewById(net.rikaiwhistler.pageturner.R.id.siteDescription);
-		final TextView userName = (TextView) layout.findViewById(net.rikaiwhistler.pageturner.R.id.username);
-		final TextView password = (TextView) layout.findViewById(net.rikaiwhistler.pageturner.R.id.password);
+		final TextView siteName = (TextView) layout.findViewById(R.id.siteName);
+		final TextView siteURL = (TextView) layout.findViewById(R.id.siteUrl);
+		final TextView siteDesc = (TextView) layout.findViewById(R.id.siteDescription);
+		final TextView userName = (TextView) layout.findViewById(R.id.username);
+		final TextView password = (TextView) layout.findViewById(R.id.password);
 		
 		siteName.setText(site.getName());
 		siteURL.setText(site.getUrl());
@@ -163,14 +161,14 @@ public class ManageSitesActivity extends RoboSherlockListActivity {
 		userName.setText(site.getUserName());
 		password.setText(site.getPassword());
 
-        builder.setPositiveButton(net.rikaiwhistler.pageturner.R.string.save, (dialog, which) -> {
+        builder.setPositiveButton(R.string.save, (dialog, which) -> {
             if ( siteName.getText().toString().trim().length() == 0 ) {
-                Toast.makeText(ManageSitesActivity.this, net.rikaiwhistler.pageturner.R.string.msg_name_blank, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ManageSitesActivity.this, R.string.msg_name_blank, Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if ( siteURL.getText().toString().trim().length() == 0 ) {
-                Toast.makeText(ManageSitesActivity.this, net.rikaiwhistler.pageturner.R.string.msg_url_blank, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ManageSitesActivity.this, R.string.msg_url_blank, Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -207,11 +205,11 @@ public class ManageSitesActivity extends RoboSherlockListActivity {
 			if ( convertView != null ) {
 				view = convertView;
 			} else {
-				view = ( (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE) ).inflate(net.rikaiwhistler.pageturner.R.layout.manage_sites, null);
+				view = ( (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE) ).inflate(R.layout.manage_sites, null);
 			}
 			
-			TextView siteName = (TextView) view.findViewById( net.rikaiwhistler.pageturner.R.id.siteName );
-			TextView description = (TextView) view.findViewById( net.rikaiwhistler.pageturner.R.id.siteDescription );
+			TextView siteName = (TextView) view.findViewById( R.id.siteName );
+			TextView description = (TextView) view.findViewById( R.id.siteDescription );
 			
 			CustomOPDSSite site = this.getItem(position);
 			siteName.setText( site.getName() );

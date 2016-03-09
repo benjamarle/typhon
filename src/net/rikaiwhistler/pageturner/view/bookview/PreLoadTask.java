@@ -1,7 +1,7 @@
 package net.rikaiwhistler.pageturner.view.bookview;
 
 import android.text.Spannable;
-
+import jedi.option.None;
 import jedi.option.Option;
 import net.rikaiwhistler.pageturner.epub.PageTurnerSpine;
 import net.rikaiwhistler.pageturner.scheduling.QueueableAsyncTask;

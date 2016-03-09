@@ -23,16 +23,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
-import com.github.rtyley.android.sherlock.roboguice.fragment.RoboSherlockListFragment;
+import android.widget.ListView;
 import com.google.inject.Inject;
 import net.rikaiwhistler.pageturner.Configuration;
+import net.rikaiwhistler.pageturner.R;
 import net.rikaiwhistler.pageturner.activity.FileAdapter;
 import net.rikaiwhistler.pageturner.activity.FileItem;
+import roboguice.fragment.RoboListFragment;
 
 import java.io.File;
 
-public class FileBrowseFragment extends RoboSherlockListFragment {
+public class FileBrowseFragment extends RoboListFragment {
 
 	private FileAdapter adapter;
 	
