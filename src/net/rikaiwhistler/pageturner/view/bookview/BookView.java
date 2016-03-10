@@ -1628,7 +1628,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 			 * on Android 4+
 			 */
 			if ( strategy.isScrolling() ) {
-				scrollHandler.postDelayed( BookView.this::restorePosition, 100 );
+				scrollHandler.postDelayed( BookView.this::restorePosition, 500 );
 			}
         }
 	}
