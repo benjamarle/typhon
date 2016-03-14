@@ -31,6 +31,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.text.*;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
@@ -89,7 +90,8 @@ import static jedi.option.Options.*;
 
 public class BookView extends ScrollView implements TextSelectionActions.SelectedTextProvider {
 
-    private static final Logger LOG = LoggerFactory.getLogger("BookView");
+	public static final int MAX_CONTEXT_SENTENCE_LENGTH = 256;
+	private static final Logger LOG = LoggerFactory.getLogger("BookView");
 
 	private int storedIndex;
 	private String storedAnchor;
@@ -644,7 +646,8 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 		if (start > 0 && start < word.length() && end < word.length()) {
             word = word.subSequence(start, end);
 
-            return some(new SelectedWord( left, right, word ));
+			SelectedWord value = computeContextSentence(text, start, end, word);
+            return some(value);
 		}
 
 		return none();
@@ -685,6 +688,8 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 		int right = Math.min(text.length(), offset+1);
 
 		CharSequence word = text.subSequence(left, right);
+		int startOffset = left;
+		int endOffset = right;
 
 		while (word.length() < maxLength && right < text.length()
 				&& !isBoundaryCharacter(word.charAt(word.length() - 1))) {
@@ -692,7 +697,51 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 			word = text.subSequence(left, right);
 		}
 
-		return some(new SelectedWord( left, right, word ));
+		SelectedWord value = computeContextSentence(text, startOffset, endOffset, word);
+		return some(value);
+	}
+
+	@NonNull
+	private SelectedWord computeContextSentence(CharSequence text, int startOffset, int endOffset, CharSequence word) {
+		String contextSentence = "";
+		int left = startOffset;
+		int right = left + 1;
+		int sentenceLength = right - left;
+		while(left > 0 && sentenceLength <  MAX_CONTEXT_SENTENCE_LENGTH){
+			left--;
+			sentenceLength++;
+			if(isSentenceBoundaryCharacter(text.charAt(left))){
+				// Left is inclusive, we need to exclude the separator at the start
+				left++;
+				break;
+			}
+		}
+
+
+		if(sentenceLength >= MAX_CONTEXT_SENTENCE_LENGTH){
+			contextSentence = "[…]";
+		}
+
+		while (right < text.length() && sentenceLength <  MAX_CONTEXT_SENTENCE_LENGTH) {
+			right++;
+			sentenceLength++;
+			if(isSentenceBoundaryCharacter(text.charAt(right))){
+				// Right is exclusive and we want to exclude the separator
+				// If it is a whitespace it is going to be filtered by String.trim()
+				// right = length is possible and valid
+				right++;
+				break;
+			}
+		}
+
+		contextSentence += text.subSequence(left, right).toString().trim();
+
+		if(sentenceLength >= MAX_CONTEXT_SENTENCE_LENGTH){
+			contextSentence += "[…]";
+		}
+
+
+		return new SelectedWord(startOffset, endOffset, word, contextSentence);
 	}
 
 	public CharSequence getText(){
@@ -700,9 +749,21 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 	}
 
 
+	private static boolean isSentenceBoundaryCharacter(char c) {
+		char[] boundaryChars = {'…', '.', '!', '?', '．','！','｡','？','。', '\n', '\r'};
+
+		for (int i = 0; i < boundaryChars.length; i++) {
+			if (boundaryChars[i] == c) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	private static boolean isBoundaryCharacter(char c) {
-		char[] boundaryChars = { ' ', '.', ',', '\"', '\'', '\n', '\t', ':',
-				'!', '\'' };
+		char[] boundaryChars = {'「', '」', '(', ')', '[', ']', ' ', '.', ',', '\"', '\'', '\n', '\t', ':',
+				'!', '\'', '!', '?', '．','！','｡','？','。', };
 
 		for (int i = 0; i < boundaryChars.length; i++) {
 			if (boundaryChars[i] == c) {

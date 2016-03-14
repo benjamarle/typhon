@@ -32,7 +32,8 @@ import android.widget.TextView;
 import org.rikai.DroidEntity;
 import org.rikai.dictionary.AbstractEntry;
 
-import java.lang.Override;import java.util.List;
+import java.lang.Override;
+import java.util.List;
 
 
 public class AdvancedArrayAdapter<T extends AbstractEntry> extends ArrayAdapter<T>

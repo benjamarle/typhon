@@ -80,9 +80,9 @@ public interface BookViewListener {
 	 * 
 	 * @param word the selected word.
 	 */
-	void onWordLongPressed( int startOffset, int endOffset, CharSequence word );
+	void onWordLongPressed( SelectedWord word );
 
-	void onWordPressed(int startOffset, int endOffset, CharSequence word);
+	void onWordPressed(SelectedWord word);
 
     /**
      * Called when the user clicks a highlight

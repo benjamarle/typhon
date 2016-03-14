@@ -36,7 +36,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.media.AudioManager;
@@ -77,6 +76,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -88,10 +88,12 @@ import android.widget.ViewSwitcher;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.ichi2.anki.api.AddContentApi;
+
 import jedi.functional.Command;
-import jedi.functional.FunctionalPrimitives;
 import jedi.option.None;
 import jedi.option.Option;
+
 import net.nightwhistler.htmlspanner.spans.CenterSpan;
 import net.rikaiwhistler.pageturner.Configuration;
 import net.rikaiwhistler.pageturner.Configuration.AnimationStyle;
@@ -129,6 +131,7 @@ import net.rikaiwhistler.pageturner.view.ProgressListAdapter;
 import net.rikaiwhistler.pageturner.view.SearchResultAdapter;
 import net.rikaiwhistler.pageturner.view.bookview.BookView;
 import net.rikaiwhistler.pageturner.view.bookview.BookViewListener;
+import net.rikaiwhistler.pageturner.view.bookview.HighlightSpan;
 import net.rikaiwhistler.pageturner.view.bookview.SelectedWord;
 import net.rikaiwhistler.pageturner.view.bookview.TextLoader;
 import net.rikaiwhistler.pageturner.view.bookview.TextSelectionCallback;
@@ -138,6 +141,8 @@ import net.rikaiwhistler.pageturner.PlatformUtil;
 
 import nl.siegmann.epublib.domain.Author;
 import nl.siegmann.epublib.domain.Book;
+
+import org.anki.AnkiDroidConfig;
 import org.rikai.DroidEdictEntry;
 import org.rikai.DroidKanjiDictionary;
 import org.rikai.DroidNamesDictionary;
@@ -148,6 +153,9 @@ import org.rikai.dictionary.AbstractEntry;
 import org.rikai.dictionary.Dictionary;
 import org.rikai.dictionary.Entries;
 import org.rikai.dictionary.db.DatabaseException;
+import org.rikai.dictionary.edict.EdictEntry;
+import org.rikai.dictionary.kanji.KanjiDictionary;
+import org.rikai.dictionary.kanji.KanjiEntry;
 import org.rikai.download.DictionaryInfo;
 import org.rikai.download.SimpleDownloader;
 import org.rikai.download.SimpleExtractor;
@@ -176,6 +184,7 @@ import static jedi.functional.FunctionalPrimitives.firstOption;
 import static jedi.functional.FunctionalPrimitives.forEach;
 import static jedi.functional.FunctionalPrimitives.isEmpty;
 import static jedi.functional.FunctionalPrimitives.map;
+import static jedi.functional.FunctionalPrimitives.select;
 import static jedi.option.Options.none;
 import static jedi.option.Options.option;
 
@@ -183,7 +192,7 @@ import static net.rikaiwhistler.pageturner.PlatformUtil.executeTask;
 import static net.rikaiwhistler.ui.UiUtils.onMenuPress;
 
 public class ReadingFragment extends RoboFragment implements
-        BookViewListener, TextSelectionCallback {
+        BookViewListener, TextSelectionCallback, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private static final String POS_KEY = "offset:";
     private static final String IDX_KEY = "index:";
@@ -272,6 +281,8 @@ public class ReadingFragment extends RoboFragment implements
     @InjectView(R.id.definition_view)
     private ExpandableListView ssView;
 
+    private KanjiDictionary kanjiDictionary;
+
     @Inject
     private TelephonyManager telephonyManager;
 
@@ -341,6 +352,8 @@ public class ReadingFragment extends RoboFragment implements
         private boolean scrolling;
         private boolean allowStyling;
         private boolean allowColoursFromCSS;
+        private boolean rikaiEnabled;
+        private int rikaiSize;
     }
 
     private SavedConfigState savedConfigState = new SavedConfigState();
@@ -366,8 +379,9 @@ public class ReadingFragment extends RoboFragment implements
         bgThread.start();
         this.backgroundHandler = new Handler(bgThread.getLooper());
 
-        if(config.isRikaiEnabled())
+        if (config.isRikaiEnabled()) {
             loadDictionaries();
+        }
     }
 
     private void loadDictionaries() {
@@ -384,7 +398,8 @@ public class ReadingFragment extends RoboFragment implements
     private void initDictionaries(DictionaryInfo dictionaryInfo) {
         try {
             dictionaries.add(new DroidWordEdictDictionary(dictionaryInfo.getEdictPath().getAbsolutePath(), new Deinflector(dictionaryInfo.getDeinflectPath().getAbsolutePath()), new DroidSqliteDatabase(), getResources()));
-            dictionaries.add(new DroidKanjiDictionary(dictionaryInfo.getKanjiPath().getAbsolutePath(), getResources()));
+            kanjiDictionary = new DroidKanjiDictionary(dictionaryInfo.getKanjiPath().getAbsolutePath(), Integer.MAX_VALUE, getResources());
+            dictionaries.add(kanjiDictionary);
             dictionaries.add(new DroidNamesDictionary(dictionaryInfo.getNamesPath().getAbsolutePath(), new DroidSqliteDatabase(), getResources()));
         } catch (IOException e) {
             LOG.error("Could not load deinflector data", e);
@@ -397,6 +412,100 @@ public class ReadingFragment extends RoboFragment implements
         };
         Thread thread = new Thread(task);
         thread.run();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Object item = parent.getAdapter().getItem(position);
+
+        Entries<AbstractEntry> entries = (Entries) ssView.getTag(R.string.tag_word_list);
+        AbstractEntry entry = entries.get(position);
+
+        if (!(entry instanceof EdictEntry)) return;
+
+        EdictEntry edictEntry = (EdictEntry) entry;
+        String word = edictEntry.getWord();
+        Entries<KanjiEntry> query = kanjiDictionary.query(word, false);
+        if (query.isEmpty()) {
+            Toast.makeText(context, R.string.no_kanji_found, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        showDefinition(query);
+
+
+    }
+
+
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+        AbstractEntry item = (AbstractEntry) parent.getAdapter().getItem(position);
+        if(!(item instanceof EdictEntry))
+            return false;
+
+        if(AddContentApi.getAnkiDroidPackageName(context) == null){
+            // AnkiDroid not installed
+            Toast.makeText(context, R.string.anki_not_installed, Toast.LENGTH_LONG).show();
+        }
+
+        EdictEntry entry = (EdictEntry) item;
+
+        FragmentActivity context = this.getActivity();
+
+        String reqPerm = AddContentApi.checkRequiredPermission(context);
+        if(reqPerm != null){
+            // Request permission for Android 6+
+            Toast.makeText(context, R.string.anki_permission_denied, Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+
+        // Get api instance
+        final AddContentApi api = new AddContentApi(context);
+        // Look for our deck, add a new one if it doesn't exist
+        Long did = api.findDeckIdByName(AnkiDroidConfig.DECK_NAME);
+        if (did == null) {
+            did = api.addNewDeck(AnkiDroidConfig.DECK_NAME);
+        }
+        // Look for our model, add a new one if it doesn't exist
+        Long mid = api.findModelIdByName(AnkiDroidConfig.MODEL_NAME, AnkiDroidConfig.FIELDS.length);
+        if (mid == null) {
+            mid = api.addNewCustomModel(AnkiDroidConfig.MODEL_NAME, AnkiDroidConfig.FIELDS,
+                    AnkiDroidConfig.CARD_NAMES, AnkiDroidConfig.QFMT, AnkiDroidConfig.AFMT,
+                    AnkiDroidConfig.CSS, did);
+        }
+
+        // Double-check that everything was added correctly
+        String[] fieldNames = api.getFieldList(mid);
+        if (mid == null || did == null || fieldNames == null) {
+            Toast.makeText(context, R.string.anki_card_add_fail, Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+
+        String flds[] = {entry.getOriginalWord(), entry.getReading(), entry.getGloss(), this.selectedWord.getContextSentence().toString(), entry.getReason(), entry.getWord()};
+
+
+
+        // Add a new note using the current field map
+        try {
+            // Only add item if there aren't any duplicates
+            if (!api.checkForDuplicates(mid, did, flds)) {
+                Uri noteUri = api.addNewNote(mid, did, flds, AnkiDroidConfig.TAGS);
+                if (noteUri != null) {
+                    Toast.makeText(context, getResources().getString(R.string.anki_card_added, flds[0]), Toast.LENGTH_LONG).show();
+                }
+            }else{
+                Toast.makeText(context, getResources().getString(R.string.anki_card_already_added), Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Log.e("AnkiCardAdd", "Exception adding cards to AnkiDroid", e);
+            Toast.makeText(context, R.string.anki_card_add_fail, Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
     }
 
     private void downloadAndExtract(DictionaryInfo dictInfo) {
@@ -462,6 +571,7 @@ public class ReadingFragment extends RoboFragment implements
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
+
         this.bookView.init();
 
         this.progressBar.setFocusable(true);
@@ -512,6 +622,9 @@ public class ReadingFragment extends RoboFragment implements
 
         this.bookView.addListener(this);
         this.bookView.setTextSelectionCallback(this);
+
+        ssView.setOnItemClickListener(this);
+        ssView.setOnItemLongClickListener(this);
     }
 
     /**
@@ -711,6 +824,9 @@ public class ReadingFragment extends RoboFragment implements
         savedConfigState.scrolling = config.isScrollingEnabled();
         savedConfigState.allowStyling = config.isAllowStyling();
         savedConfigState.allowColoursFromCSS = config.isUseColoursFromCSS();
+
+        savedConfigState.rikaiEnabled = config.isRikaiEnabled();
+        savedConfigState.rikaiSize = config.getRikaiSize();
 
     }
 
@@ -1377,7 +1493,9 @@ public class ReadingFragment extends RoboFragment implements
                 || config.getTextSize() != savedConfigState.textSize
                 || config.isScrollingEnabled() != savedConfigState.scrolling
                 || config.isAllowStyling() != savedConfigState.allowStyling
-                || config.isUseColoursFromCSS() != savedConfigState.allowColoursFromCSS) {
+                || config.isUseColoursFromCSS() != savedConfigState.allowColoursFromCSS
+                || config.isRikaiEnabled() != savedConfigState.rikaiEnabled
+                || config.getRikaiSize() != savedConfigState.rikaiSize) {
 
             textLoader.invalidateCachedText();
             restartActivity();
@@ -1661,7 +1779,7 @@ public class ReadingFragment extends RoboFragment implements
                     return false;
 
                 })
-                .build((RoboActionBarActivity)getActivity());
+                .build((RoboActionBarActivity) getActivity());
     }
 
     private void deleteHightlight(final HighLight highLight) {
@@ -1975,7 +2093,7 @@ public class ReadingFragment extends RoboFragment implements
 
         LOG.debug("Got key event: " + keyCode + " with action " + action);
 
-        if ( searchMenuItem != null && MenuItemCompat.isActionViewExpanded(searchMenuItem)) {
+        if (searchMenuItem != null && MenuItemCompat.isActionViewExpanded(searchMenuItem)) {
             boolean result = MenuItemCompat.getActionView(searchMenuItem).dispatchKeyEvent(event);
 
             if (result) {
@@ -2303,7 +2421,7 @@ public class ReadingFragment extends RoboFragment implements
     private void prepareSlide(Animation inAnim, Animation outAnim) {
 
         Option<Bitmap> bitmap = getBookViewSnapshot();
-		/*
+        /*
 		TODO: is this OK?
         We don't set anything when we get None instead of Some.
         */
@@ -2861,9 +2979,12 @@ public class ReadingFragment extends RoboFragment implements
     }
 
     @Override
-    public void onWordPressed(int startOffset, int endOffset, CharSequence word) {
+    public void onWordPressed(SelectedWord selectedWord) {
         if (config.isRikaiEnabled()) {
-            this.selectedWord = new SelectedWord(startOffset, endOffset, word);
+            this.selectedWord = selectedWord;
+
+            CharSequence word = this.selectedWord.getText();
+
 
             Entries query = new Entries();
 
@@ -2874,6 +2995,7 @@ public class ReadingFragment extends RoboFragment implements
             });
             showDefinition(query);
 
+            int startOffset = this.selectedWord.getStartOffset();
             bookView.setDefinitionHighlight(startOffset, startOffset + query.getMaxLen());
 
             Log.d("NavGestureDetector", "Kanji query result :" + query.toString());
@@ -2881,7 +3003,7 @@ public class ReadingFragment extends RoboFragment implements
     }
 
     @Override
-    public void onWordLongPressed(int startOffset, int endOffset, CharSequence word) {
+    public void onWordLongPressed(SelectedWord word) {
         if (!config.isRikaiEnabled()) {
             Activity activity = getActivity();
 
@@ -3053,8 +3175,8 @@ public class ReadingFragment extends RoboFragment implements
     private void setSupportProgressBarIndeterminateVisibility(boolean enable) {
         RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
 
-        if ( activity != null) {
-            LOG.debug("Setting progress bar to " + enable );
+        if (activity != null) {
+            LOG.debug("Setting progress bar to " + enable);
             activity.setSupportProgressBarIndeterminateVisibility(enable);
         } else {
             LOG.debug("Got null activity.");
@@ -3074,7 +3196,7 @@ public class ReadingFragment extends RoboFragment implements
     public void onSearchRequested() {
         RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
 
-        if ( this.searchMenuItem != null && MenuItemCompat.getActionView(searchMenuItem) != null && activity != null) {
+        if (this.searchMenuItem != null && MenuItemCompat.getActionView(searchMenuItem) != null && activity != null) {
             activity.getSupportActionBar().show();
             MenuItemCompat.expandActionView(searchMenuItem);
             MenuItemCompat.getActionView(searchMenuItem).requestFocus();

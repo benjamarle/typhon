@@ -414,7 +414,7 @@
 
     <!-- download message box -->
     <string name="dm_dict_message">You need to download the Japanese dictionary for this
-        reader to show definitions of words
+        reader to show definitions of words (~35 mb download, ~110 mb extracted)
     </string>
     <string name="dm_dict_title">Download Dictionary</string>
     <string name="dm_dict_yes">Download</string>
@@ -609,5 +609,11 @@
     <string name="tag_word_pos">tag_word_pos</string>
     <string name="tag_word_list">tag_entries</string>
     <string name="tag_word_view">tag_word_view</string>
+    <string name="no_kanji_found">No kanji found in this item</string>
 
+    <string name="anki_not_installed">AnkiDroid is not installed</string>
+    <string name="anki_permission_denied">Permission denied to add new notes in AnkiDroid</string>
+    <string name="anki_card_add_fail">Failed to add new note in AnkiDroid</string>
+    <string name="anki_card_added">Successfully added note to AnkiDroid:  %s !</string>
+    <string name="anki_card_already_added">Card already present in AnkiDroid</string>
 </resources>

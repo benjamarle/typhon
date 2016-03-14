@@ -38,6 +38,7 @@ repositories {
 
     maven { url 'http://repo.pageturner-reader.org' }
     maven { url 'http://acra.googlecode.com/svn/repository/releases' }
+    maven { url 'http://repo.springsource.org/libs-release' }
 
     mavenCentral()
     
@@ -48,6 +49,7 @@ repositories {
 }
 
 dependencies {
+    compile 'com.ichi2.anki:api:1.0.0alpha2'
     compile(
             [group: 'com.android.support', name: 'support-v4', version: '19.0+'],
             [group: 'com.android.support', name: 'appcompat-v7', version: '19.+'],

@@ -8,11 +8,13 @@ public class SelectedWord {
     private int startOffset;
     private int endOffset;
     private CharSequence text;
+    private CharSequence contextSentence;
 
-    public SelectedWord( int startOffset, int endOffset, CharSequence text ) {
+    public SelectedWord( int startOffset, int endOffset, CharSequence text, CharSequence contextSentence) {
         this.startOffset = startOffset;
         this.endOffset = endOffset;
         this.text = text;
+        this.contextSentence = contextSentence;
     }
 
     public int getStartOffset() {
@@ -30,5 +32,9 @@ public class SelectedWord {
         }
 
         return text;
+    }
+
+    public CharSequence getContextSentence() {
+        return contextSentence;
     }
 }

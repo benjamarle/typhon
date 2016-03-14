@@ -68,7 +68,7 @@ public class NavGestureDetector extends GestureDetector.SimpleOnGestureListener 
         Option<SelectedWord> wordOption = bookView.getWordStartingAt(e.getX(), e.getY(), 15);
 
         wordOption.match(word ->
-                bookViewListener.onWordPressed(word.getStartOffset(), word.getEndOffset(), word.getText())
+                bookViewListener.onWordPressed(word)
                 , () -> {
         });
 
@@ -179,7 +179,7 @@ public class NavGestureDetector extends GestureDetector.SimpleOnGestureListener 
         Option<SelectedWord> wordOption = bookView.getWordAt(e.getX(), e.getY());
 
         wordOption.match(word ->
-                bookViewListener.onWordLongPressed(word.getStartOffset(), word.getEndOffset(), word.getText())
+                bookViewListener.onWordLongPressed(word)
                 , () -> {
         });
 

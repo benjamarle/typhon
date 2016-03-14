@@ -22,8 +22,8 @@ public class DroidKanjiDictionary extends KanjiDictionary {
 
     private int indexColor;
 
-    public DroidKanjiDictionary(String path, Resources resources) {
-        super(path);
+    public DroidKanjiDictionary(String path, int maxNbQueries, Resources resources) {
+        super(path, maxNbQueries);
         this.resources = resources;
         kanjiColor = this.resources.getColor(R.color.kanji);
         kanaColor = this.resources.getColor(R.color.kana);
