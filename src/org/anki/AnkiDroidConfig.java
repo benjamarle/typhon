@@ -26,13 +26,18 @@ public final class AnkiDroidConfig {
             "@font-face { font-family: \"NotoSansJP\"; src: url('_NotoSansJP-Regular.otf'); }\n" +
             "@font-face { font-family: \"NotoSansJP\"; src: url('_NotoSansJP-Bold.otf'); font-weight: bold; }\n" +
             "\n" +
-            ".big { font-size: 48px; }\n" +
+            ".big { font-size: 64px; }\n" +
+            ".emph { font-weight: \"bold\"; }\n" +
             ".small { font-size: 18px;}\n";
     // Template for the question of each card
     static final String QFMT1 = "<div class=big>{{Expression}}</div><br>{{Sentence}}";
     public static final String[] QFMT = {QFMT1};
     // Template for the answer (use identical for both sides)
-    static final String AFMT1 = "<div class=big>{{Meaning}}</div><br><br><div class=small>{{Expression}}<br>({{Reading}})<br><br>{{Deinflected}}{{Reason}}</div>";
+    static final String AFMT1 = "{{Meaning}}<br><br>\n" +
+            "<div class=small>\n" +
+            "{{Expression}} ({{Reading}})<br><br>\n" +
+            "{{#Reason}}Deinflection: {{Deinflected}}{{Reason}}{{/Reason}}\n" +
+            "</div>";
     public static final String[] AFMT = {AFMT1};
     // Define two keys which will be used when using legacy ACTION_SEND intent
     public static final String FRONT_SIDE_KEY = FIELDS[0];

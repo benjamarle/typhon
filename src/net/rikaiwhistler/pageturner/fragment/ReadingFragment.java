@@ -484,7 +484,12 @@ public class ReadingFragment extends RoboFragment implements
         }
 
 
-        String flds[] = {entry.getOriginalWord(), entry.getReading(), entry.getGloss(), this.selectedWord.getContextSentence().toString(), entry.getReason(), entry.getWord()};
+        String sentence = this.selectedWord.getContextSentence().toString();
+        String originalWord = entry.getOriginalWord();
+
+        sentence = sentence.replace(originalWord, "<span class=\"emph\">"+originalWord+"</span>");
+
+        String flds[] = {originalWord, entry.getReading(), entry.getGloss(), sentence, entry.getReason(), entry.getWord()};
 
 
 
