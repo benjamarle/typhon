@@ -89,7 +89,8 @@
             android:finishOnTaskLaunch="true"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Dialog" />
-       
+
+        <meta-data android:name="roboguice.modules" android:value="net.rikaiwhistler.pageturner.PageTurnerModule"/>
     </application>
 
 </manifest>

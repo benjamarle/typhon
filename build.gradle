@@ -1,4 +1,6 @@
 buildscript {
+    System.properties['com.android.build.gradle.overrideVersionCheck'] = 'true'
+
     repositories {
 
         mavenLocal()
@@ -15,15 +17,15 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
-        classpath 'org.robolectric:robolectric-gradle-plugin:0.13.+'
+        classpath 'com.android.tools.build:gradle:2.1.0-alpha1'
         classpath 'me.tatarka:gradle-retrolambda:2.4.0'
     }
+
+
 }
 
 apply plugin: 'com.android.application' //or apply plugin: 'java'
 apply plugin: 'retrolambda'
-apply plugin: 'robolectric'
 apply plugin: 'idea'
 
 
@@ -72,11 +74,7 @@ dependencies {
         exclude group: 'net.sf.kxml'
     }
 
-    compile ('org.roboguice:roboguice:2.0') {
-        exclude module: 'asm'
-    }
-
-    compile 'com.google.android.gms:play-services-drive:8.1.0'
+    compile 'org.roboguice:roboguice:3.0.1'
 
     compile files('libs/JRikai.jar')
 
@@ -84,39 +82,6 @@ dependencies {
         [group: 'com.google.android', name: 'annotations', version: '4.1.1.4'],
         [group: 'org.slf4j', name: 'slf4j-api', version: '1.6.1']
     )
-
-
-    androidTestCompile 'com.android.support:appcompat-v7:19.+'
-    androidTestCompile 'com.squareup.dagger:dagger:1.1.0'
-    androidTestCompile 'org.hamcrest:hamcrest-integration:1.1'
-    androidTestCompile 'org.hamcrest:hamcrest-core:1.1'
-    androidTestCompile 'org.hamcrest:hamcrest-library:1.1'
-
-    androidTestCompile('org.mockito:mockito-core:1.8.4') {
-        exclude module: 'hamcrest-core'
-    }
-
-    androidTestCompile('junit:junit:4.11') {
-        exclude module: 'hamcrest-core'
-    }
-    androidTestCompile('org.robolectric:robolectric:2.3') {
-        exclude module: 'classworlds'
-        exclude module: 'commons-logging'
-        exclude module: 'httpclient'
-        exclude module: 'maven-artifact'
-        exclude module: 'maven-artifact-manager'
-        exclude module: 'maven-error-diagnostics'
-        exclude module: 'maven-model'
-        exclude module: 'maven-project'
-        exclude module: 'maven-settings'
-        exclude module: 'plexus-container-default'
-        exclude module: 'plexus-interpolation'
-        exclude module: 'plexus-utils'
-        exclude module: 'wagon-file'
-        exclude module: 'wagon-http-lightweight'
-        exclude module: 'wagon-provider-api'
-    }
-    androidTestCompile 'com.squareup:fest-android:1.0.+'
 }
 
 idea {
@@ -157,18 +122,6 @@ android {
             assets.srcDirs = ['assets']
         }
 
-        testLocal {
-            java.srcDir file('test/src/java')
-            res.srcDirs = ['res']
-        }
-
-       androidTest {
-            setRoot('test/src')
-            manifest.srcFile 'AndroidManifest.xml'
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
-        } 
-
     }
 
     packagingOptions {
@@ -204,20 +157,6 @@ retrolambda {
     javaVersion JavaVersion.VERSION_1_6
 }
 
-robolectric {
-    include '**/*Test.class'
-    exclude '**/espresso/**/*.class'
+project.dependencies {
+    provided 'org.roboguice:roboblender:3.0.1'
 }
-
-apply plugin: 'sonar-runner'
-
-sonarRunner {
-    sonarProperties {
-        property "sonar.sourceEncoding", "UTF-8"
-//        property "sonar.profile", "Android Lint"
-        property "sonar.sources", "src"
-        property "sonar.binaries", file("${project.buildDir}/intermediates/classes/debug") 
-       // property "sonar.libraries", "android.sourceSets.main.runtimeClasspath"
-    }
-}
-

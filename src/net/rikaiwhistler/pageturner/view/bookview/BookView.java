@@ -31,7 +31,6 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.text.*;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
@@ -83,6 +82,8 @@ import java.nio.charset.Charset;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.annotation.Nonnull;
 
 import static java.util.Arrays.asList;
 import static jedi.functional.FunctionalPrimitives.*;
@@ -701,7 +702,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 		return some(value);
 	}
 
-	@NonNull
+	@Nonnull
 	private SelectedWord computeContextSentence(CharSequence text, int startOffset, int endOffset, CharSequence word) {
 		String contextSentence = "";
 		int left = startOffset;

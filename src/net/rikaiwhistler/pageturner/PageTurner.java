@@ -24,6 +24,8 @@ import android.content.Context;
 import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
 
+import roboguice.RoboGuice;
+
 import static org.acra.ReportField.*;
 
 //@ReportsCrashes(formKey = "", // will not be used
@@ -48,6 +50,7 @@ public class PageTurner extends Application {
 		if(Configuration.IS_EINK_DEVICE) { // e-ink looks better with dark-on-light (esp. Nook Touch where theming breaks light-on-dark
 			setTheme(R.style.Theme_AppCompat_Light);
 		}
+
 		super.onCreate();
 	}
 	

@@ -81,6 +81,10 @@ public class TextLoader implements LinkTagHandler.LinkCallBack {
     private LinkTagHandler.LinkCallBack linkCallBack;
 
     @Inject
+    public TextLoader(HtmlSpanner spanner){
+        setHtmlSpanner(spanner);
+    }
+
     public void setHtmlSpanner(HtmlSpanner spanner) {
         this.htmlSpanner = spanner;
         this.htmlSpanner.setFontResolver(fontResolver);

@@ -57,7 +57,7 @@ public class SqlLiteLibraryService implements LibraryService {
 		
 	@Override
 	public void updateReadingProgress(String fileName, int progress) {
-		helper.updateLastRead(new File(fileName).getName(), progress);		
+		helper.updateLastRead(new File(fileName).getName(), progress);
 	}
 	
 	@Override

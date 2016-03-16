@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-  <resources> 
-    <string-array name="roboguice_modules">
-    <item>net.rikaiwhistler.pageturner.PageTurnerModule</item>
-  </string-array>
-</resources>
