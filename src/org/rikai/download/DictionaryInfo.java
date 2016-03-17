@@ -34,7 +34,8 @@ import java.io.File;
  * by this app. The path is depended on a context, hence the methods are not static.
  */
 final public class DictionaryInfo {
-    private static final String DICTIONARY_ZIP_FILE = "DictFiles-1.0.1.zip";
+    private static final String DICTIONARY_VERSION = "1.0.1";
+    private static final String DICTIONARY_ZIP_FILE = "DictFiles-" + DICTIONARY_VERSION + ".zip";
     private static final String DICTIONARY_EDICT_FILE = "polaredict.sqlite";
     private static final String DICTIONARY_NAMES_FILE = "polarnames.sqlite";
     private static final String DICTIONARY_DEINFECT_FILE = "deinflect.dat";
@@ -72,6 +73,10 @@ final public class DictionaryInfo {
 
     public File getKanjiPath() {
         return makePath(DICTIONARY_KANJI_FILE);
+    }
+
+    public String getDictionaryVersion(){
+        return DICTIONARY_VERSION;
     }
 
     public File[] getExtractedFiles(){

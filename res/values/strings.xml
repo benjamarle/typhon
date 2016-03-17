@@ -416,7 +416,10 @@
     <string name="dm_dict_message">You need to download the Japanese dictionary for this
         reader to show definitions of words (~35 mb download, ~110 mb extracted)
     </string>
+    <string name="dm_dict_update_message">A new version of the Japanese dictionary is available.
+    </string>
     <string name="dm_dict_title">Download Dictionary</string>
+    <string name="dm_dict_update_title">Update Dictionary</string>
     <string name="dm_dict_yes">Download</string>
     <string name="dm_dict_no">Cancel</string>
     <string name="dm_dict_success">Download successful</string>
