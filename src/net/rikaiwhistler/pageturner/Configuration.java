@@ -126,9 +126,13 @@ public class Configuration {
     public static final String KEY_FULL_SCREEN = "full_screen";
     public static final String KEY_COPY_TO_LIB = "copy_to_library";
     public static final String KEY_STRIP_WHITESPACE = "strip_whitespace";
-    public static final String KEY_SCROLLING = "rikai";
-    public static final String KEY_RIKAI = "scrolling";
+    public static final String KEY_SCROLLING = "scrolling";
+
+    // Rikai
+    public static final String KEY_RIKAI = "rikai";
     public static final String KEY_RIKAI_SIZE = "rikai_font_size";
+    public static final String KEY_DICTIONARY_VERSION = "dictionary version";
+    public static final String KEY_HEISIG6 = "heisig6";
 
     public static final String KEY_LAST_FILE = "last_file";
     public static final String KEY_DEVICE_NAME = "device_name";
@@ -202,7 +206,6 @@ public class Configuration {
     public static final String KEY_SCAN_FOLDER = "scan_folder";
     public static final String KEY_USE_SCAN_FOLDER = "use_scan_folder";
 
-    public static final String KEY_DICTIONARY_VERSION = "dictionary version";
 
     // Flag for whether PageTurner is running on a Nook Simple Touch - an e-ink
     // based Android device
@@ -684,6 +687,10 @@ public class Configuration {
 
     public String getDictionaryVersion(){
         return settings.getString(KEY_DICTIONARY_VERSION, "1.0.0");
+    }
+
+    public boolean getHeisig6(){
+        return settings.getBoolean(KEY_HEISIG6, true);
     }
 
     public void setDictionaryVersion(String version){

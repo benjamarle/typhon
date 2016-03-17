@@ -354,6 +354,7 @@ public class ReadingFragment extends RoboFragment implements
         private boolean allowColoursFromCSS;
         private boolean rikaiEnabled;
         private int rikaiSize;
+        private boolean heisig6;
     }
 
     private SavedConfigState savedConfigState = new SavedConfigState();
@@ -394,7 +395,7 @@ public class ReadingFragment extends RoboFragment implements
     private void initDictionaries(DictionaryInfo dictionaryInfo) {
         try {
             dictionaries.add(new DroidWordEdictDictionary(dictionaryInfo.getEdictPath().getAbsolutePath(), new Deinflector(dictionaryInfo.getDeinflectPath().getAbsolutePath()), new DroidSqliteDatabase(), getResources()));
-            kanjiDictionary = new DroidKanjiDictionary(dictionaryInfo.getKanjiPath().getAbsolutePath(), Integer.MAX_VALUE, getResources());
+            kanjiDictionary = new DroidKanjiDictionary(dictionaryInfo.getKanjiPath().getAbsolutePath(), Integer.MAX_VALUE, getResources(), config.getHeisig6());
             dictionaries.add(kanjiDictionary);
             dictionaries.add(new DroidNamesDictionary(dictionaryInfo.getNamesPath().getAbsolutePath(), new DroidSqliteDatabase(), getResources()));
         } catch (IOException e) {
@@ -840,6 +841,7 @@ public class ReadingFragment extends RoboFragment implements
 
         savedConfigState.rikaiEnabled = config.isRikaiEnabled();
         savedConfigState.rikaiSize = config.getRikaiSize();
+        savedConfigState.heisig6 = config.getHeisig6();
 
     }
 
@@ -1508,7 +1510,8 @@ public class ReadingFragment extends RoboFragment implements
                 || config.isAllowStyling() != savedConfigState.allowStyling
                 || config.isUseColoursFromCSS() != savedConfigState.allowColoursFromCSS
                 || config.isRikaiEnabled() != savedConfigState.rikaiEnabled
-                || config.getRikaiSize() != savedConfigState.rikaiSize) {
+                || config.getRikaiSize() != savedConfigState.rikaiSize
+                || config.getHeisig6() != savedConfigState.heisig6) {
 
             textLoader.invalidateCachedText();
             restartActivity();

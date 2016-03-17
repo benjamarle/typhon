@@ -339,8 +339,6 @@
     </PreferenceCategory>
 
 
-
-
     <PreferenceCategory android:title="@string/pref_rikai">
         <CheckBoxPreference
             android:defaultValue="true"
@@ -348,6 +346,11 @@
             android:key="rikai"
             android:summary="@string/pref_rikai_summary"
             android:title="@string/pref_rikai" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="heisig6"
+            android:summary="@string/pref_rikai_heisig6_summary"
+            android:title="@string/pref_rikai_heisig6" />
         <com.hlidskialf.android.preference.SeekBarPreference
             android:defaultValue="40"
             android:dialogTitle="@string/pref_rikai_font_size"
@@ -385,8 +388,8 @@
 
         <CheckBoxPreference
             android:defaultValue="true"
-            android:disableDependentsState="true"
             android:dependency="rikai"
+            android:disableDependentsState="true"
             android:key="scrolling"
             android:summary="@string/pref_scrolling_summary"
             android:title="@string/pref_scrolling" />

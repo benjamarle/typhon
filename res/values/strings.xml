@@ -272,9 +272,11 @@
     <string name="pref_v_animation_summary">Vertical page change animations</string>
     <string name="pref_navigation_settings">Navigation settings</string>
     <string name="pref_scrolling">Enable scrolling</string>
-    <string name="pref_scrolling_summary">Enabled browser-style scrolling</string>
+    <string name="pref_scrolling_summary">Enable browser-style scrolling</string>
     <string name="pref_rikai">Enable rikai</string>
-    <string name="pref_rikai_summary">Enabled rikai Japanese dictionary lookup</string>
+    <string name="pref_rikai_summary">Enable rikai Japanese dictionary lookup</string>
+    <string name="pref_rikai_heisig6">Enable Heisig 6th index</string>
+    <string name="pref_rikai_heisig6_summary">Enable the 6th version of Heisig index in the kanji lookup</string>
     <string name="pref_rikai_font_size">Rikai font size</string>
     <string name="pref_rikai_font_size_summary">Size of the font of the dictionary lookup</string>
     <string name="pref_nav_vol">Enable volume buttons</string>

@@ -15,8 +15,10 @@ import static org.rikai.HtmlEntryUtils.*;
  */
 public class DroidKanjiEntry extends KanjiEntry implements DroidEntity {
 
+    boolean heisig6 = true;
+
     // default value are set to the rikaichan style
-    private int kanjiColor= -4724737;
+    private int kanjiColor = -4724737;
 
     private int kanaColor = -4128832;
 
@@ -60,6 +62,14 @@ public class DroidKanjiEntry extends KanjiEntry implements DroidEntity {
         this.indexColor = indexColor;
     }
 
+    public boolean isHeisig6() {
+        return heisig6;
+    }
+
+    public void setHeisig6(boolean heisig6) {
+        this.heisig6 = heisig6;
+    }
+
     @Override
     public int getBackgroundColor() {
         return Color.GRAY;
@@ -68,12 +78,16 @@ public class DroidKanjiEntry extends KanjiEntry implements DroidEntity {
     @Override
     public String toStringCompact() {
         Map<KanjiTag, String> prop = this.getMisc();
-        String heisigNumber = prop.get(KanjiTag.L);
+        KanjiTag heisigTag = KanjiTag.L;
+        if (heisig6) {
+            heisigTag = KanjiTag.LL;
+        }
+        String heisigNumber = prop.get(heisigTag);
         StringBuilder result = new StringBuilder();
         result.append(wrapColor(kanjiColor, this.getKanji().toString()));
         result.append(" [").append(wrapColor(kanaColor, this.getYomi())).append("]");
         if (heisigNumber != null) {
-            result.append(" (" +wrapColor(indexColor, heisigNumber) + ")");
+            result.append(" (" + wrapColor(indexColor, heisigNumber) + ")");
         }
         result.append("<br/>");
         result.append(wrapColor(this.definitionColor, this.getDefinition()));
