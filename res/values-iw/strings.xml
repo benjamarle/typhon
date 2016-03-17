@@ -3,7 +3,6 @@
 <resources>
   
   <string name="title">כותר</string>
-  <string name="app_desc">פייג\'-טרנר היא אפליקציית קריאת ספרים אלקטרוניים המאפשרת סינכרון התקדמות הקריאה בין מכשירים שונים שבשימושך</string>
   <string name="browse">דפדף...</string>
   <string name="open_file">פתיחת קובץ ePub</string>
   <string name="open_library">הספרים שלי</string>

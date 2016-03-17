@@ -2,7 +2,6 @@
 <resources>
     
     <string name="title">Titel</string>
-    <string name="app_desc">PageTurner is een synchroniserende e-book reader waarmee je je voortgang op meerdere apparaten synchroon kan houden.</string>
     <string name="browse">Bladeren…</string>
     <string name="open_file">Open ePub-bestand</string>
     <string name="open_library">Mijn boeken</string>

@@ -5,7 +5,7 @@
     <string name="app_name" translatable="false">TypHon</string>
     
     <string name="title">Title</string>
-    <string name="app_desc">PageTurner is a syncing e-book reader that allows you to sync your reading progress over multiple devices.</string>
+    <string name="app_desc">TypHon is an e-book reader that allows you to use a Rikai-like dictionary lookup for Japanese.</string>
     <string name="browse">Browse…</string>
     <string name="open_file">Open ePub file</string>
     <string name="open_library">My Books</string>

@@ -2,7 +2,6 @@
 <resources>
     
     <string name="title">العنوان</string>
-    <string name="app_desc">برنامج يقراء الكتب الإلكترونية لمختلف الأجهزة</string>
     <string name="browse">أستعراض…</string>
     <string name="open_file">فتح ملف ePub</string>
     <string name="open_library">الكتب</string>
