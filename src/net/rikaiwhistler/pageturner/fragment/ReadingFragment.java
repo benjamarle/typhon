@@ -494,7 +494,8 @@ public class ReadingFragment extends RoboFragment implements
         try {
             // Only add item if there aren't any duplicates
             if (!api.checkForDuplicates(mid, did, flds)) {
-                Uri noteUri = api.addNewNote(mid, did, flds, AnkiDroidConfig.TAGS);
+                String tags = AnkiDroidConfig.TAGS+","+bookTitle.replaceAll("[^A-Za-z0-9]","_");
+                Uri noteUri = api.addNewNote(mid, did, flds, tags);
                 if (noteUri != null) {
                     Toast.makeText(context, getResources().getString(R.string.anki_card_added, flds[0]), Toast.LENGTH_LONG).show();
                 }
