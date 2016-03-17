@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PageTurner</string>
     <string name="title">Titel</string>
     <string name="app_desc">PageTurner ist ein E-Book Reader, welcher den Lesefortschritt zwischen Geräten synchronisieren kann.</string>
     <string name="browse">Durchsuchen…</string>

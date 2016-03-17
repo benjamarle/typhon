@@ -2,7 +2,7 @@
 <resources>
 
     
-    <string name="app_name" translatable="false">RikaiTurner</string>
+    <string name="app_name" translatable="false">TypHon</string>
     
     <string name="title">Title</string>
     <string name="app_desc">PageTurner is a syncing e-book reader that allows you to sync your reading progress over multiple devices.</string>
