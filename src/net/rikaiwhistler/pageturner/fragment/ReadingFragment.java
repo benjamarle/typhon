@@ -386,12 +386,8 @@ public class ReadingFragment extends RoboFragment implements
 
     private void loadDictionaries() {
         DictionaryInfo dictionaryInfo = new DictionaryInfo(this.getActivity());
-
-        if (!dictionaryInfo.exists()) {
-            downloadAndExtract(dictionaryInfo);
-        } else {
-            initDictionaries(dictionaryInfo);
-        }
+        downloadAndExtract(dictionaryInfo);
+        initDictionaries(dictionaryInfo);
     }
 
 
@@ -549,6 +545,7 @@ public class ReadingFragment extends RoboFragment implements
                     extractor.setOnFinishTasklistener((boolean success) -> {
                         if (success) {
                             dictInfo.getZipPath().delete();
+                            config.setDictionaryVersion(dictInfo.getDictionaryVersion());
                             initDictionaries(dictInfo);
                         } else {
                             dictInfo.getEdictPath().delete();

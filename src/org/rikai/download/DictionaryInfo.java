@@ -34,13 +34,13 @@ import java.io.File;
  * by this app. The path is depended on a context, hence the methods are not static.
  */
 final public class DictionaryInfo {
-    private static final String DICTIONARY_VERSION = "1.0.1";
+    private static final String DICTIONARY_VERSION = "1.0.2";
     private static final String DICTIONARY_ZIP_FILE = "DictFiles-" + DICTIONARY_VERSION + ".zip";
     private static final String DICTIONARY_EDICT_FILE = "polaredict.sqlite";
     private static final String DICTIONARY_NAMES_FILE = "polarnames.sqlite";
     private static final String DICTIONARY_DEINFECT_FILE = "deinflect.dat";
     private static final String DICTIONARY_KANJI_FILE = "kanji.dat";
-    private static final String DICTIONARY_FOLDER_URL = "https://www.dropbox.com/s/2o32yg2sf4hhoe9";
+    private static final String DICTIONARY_FOLDER_URL = "https://www.dropbox.com/s/chquj3kxuyjps4x";
     private final Context mContext;
 
     public DictionaryInfo(Context context) {
