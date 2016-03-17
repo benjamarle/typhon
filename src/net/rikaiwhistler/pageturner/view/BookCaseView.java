@@ -84,8 +84,6 @@ public class BookCaseView extends GridView {
 	}
 	
 	public void scrollToChild( int index ) {
-		System.out.println("Scrolling to child " + index );
-		
 		int y = getChildAt(index).getTop();
 		
 		int delta = y - getScrollY();
