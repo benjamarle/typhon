@@ -202,6 +202,8 @@ public class Configuration {
     public static final String KEY_SCAN_FOLDER = "scan_folder";
     public static final String KEY_USE_SCAN_FOLDER = "use_scan_folder";
 
+    public static final String KEY_DICTIONARY_VERSION = "dictionary version";
+
     // Flag for whether PageTurner is running on a Nook Simple Touch - an e-ink
     // based Android device
 
@@ -678,6 +680,14 @@ public class Configuration {
         }
 
         editor.commit();
+    }
+
+    public String getDictionaryVersion(){
+        return settings.getString(KEY_DICTIONARY_VERSION, "1.0.0");
+    }
+
+    public void setDictionaryVersion(String version){
+        updateValue(KEY_DICTIONARY_VERSION, version);
     }
 
     private void updateValue(String key, Object value) {

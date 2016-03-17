@@ -516,13 +516,24 @@ public class ReadingFragment extends RoboFragment implements
     private void downloadAndExtract(DictionaryInfo dictInfo) {
 
         FragmentActivity activity = getActivity();
+        boolean update = false;
         if (dictInfo.exists()) {
-            return;
+            if(config.getDictionaryVersion().compareToIgnoreCase(dictInfo.getDictionaryVersion()) < 0){
+                update = true;
+            }else {
+                return;
+            }
         }
 
+        int downloadMsg = R.string.dm_dict_message;
+        int downloadTitle = R.string.dm_dict_title;
+        if(update){
+            downloadMsg = R.string.dm_dict_update_message;
+            downloadTitle = R.string.dm_dict_update_title;
+        }
         new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.dm_dict_title)
-                .setMessage(R.string.dm_dict_message)
+                .setTitle(downloadTitle)
+                .setMessage(downloadMsg)
                 .setPositiveButton(R.string.dm_dict_yes, (DialogInterface dialog, int which) -> {
                     final SimpleDownloader downloader = new SimpleDownloader(activity);
                     final SimpleExtractor extractor = new SimpleExtractor(activity);
