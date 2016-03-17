@@ -1624,7 +1624,7 @@ public class ReadingFragment extends RoboFragment implements
         // This is a hack to give the longclick handler time
         // to find the word the user long clicked on.
 
-        if (this.selectedWord != null) {
+        if (this.selectedWord != null && !this.config.isRikaiEnabled()) {
 
             final CharSequence word = this.selectedWord.getText();
             final int startIndex = this.selectedWord.getStartOffset();
