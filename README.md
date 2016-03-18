@@ -11,6 +11,8 @@ project for the dictionary lookup called JRikai.
 
 Typhon is licensed under the GPL-V3 license.
 
+Benjamin Marlé benjamarle@gmail.com
+
 Building Typhon
 -------------------
 
