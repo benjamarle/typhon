@@ -4,7 +4,7 @@ Typhon, the synchronizing ebook reader for Android
 Typhon is a free, open-source ebook reader that allows you to keep your reading progress synchronized across multiple devices.
 This means you can read a few pages on your phone, than grab your tablet continuing where you left off.
 
-It is a fork of Typhon ( http://www.Typhon-reader.org/ ) and it adds a feature for Japanese dictionary lookup.
+It is a fork of PageTurner ( http://www.pageturner-reader.org/ ) and it adds a feature for Japanese dictionary lookup.
 
 The lookup code takes its root on JadeReader. I recycled the Android specific code and made another 
 project for the dictionary lookup called JRikai.
