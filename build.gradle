@@ -62,25 +62,20 @@ dependencies {
             [group: 'org.slf4j', name: 'slf4j-android', version: '1.6.1-RC1'],
             [group: 'org.codehaus.jedi', name: 'jedi-core', version: '3.0.5']
     )
-
-    compile( 'net.nightwhistler.htmlspanner:htmlspanner:0.5-SNAPSHOT') {
+    compile('net.nightwhistler.htmlspanner:htmlspanner:0.5-SNAPSHOT') {
         exclude module: 'ant'
         exclude module: 'commons-io'
     }
-
     compile('nl.siegmann.epublib:epublib-core:3.1') {
         exclude group: 'xmlpull'
         exclude group: 'org.slf4j'
         exclude group: 'net.sf.kxml'
     }
-
     compile 'org.roboguice:roboguice:3.0.1'
-
     compile files('libs/JRikai.jar')
-
     provided(
-        [group: 'com.google.android', name: 'annotations', version: '4.1.1.4'],
-        [group: 'org.slf4j', name: 'slf4j-api', version: '1.6.1']
+            [group: 'com.google.android', name: 'annotations', version: '4.1.1.4'],
+            [group: 'org.slf4j', name: 'slf4j-api', version: '1.6.1']
     )
 }
 
@@ -91,23 +86,24 @@ idea {
 }
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'typhon_release'
+        }
+    }
     buildToolsVersion '23.0.0 rc2'
     compileSdkVersion 22
-
     compileOptions.encoding = 'utf-8'
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     defaultConfig {
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
         minSdkVersion 11
         targetSdkVersion 22
-		applicationId "net.zorgblub.typhon"
+        applicationId "net.zorgblub.typhon"
     }
-    
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -123,33 +119,27 @@ android {
         }
 
     }
-
     packagingOptions {
-	    exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
-	}
-
+    }
     lintOptions {
-          abortOnError false
+        abortOnError false
     }
-
-    signingConfigs {
-        release {
-            if ( System.getenv("KEYSTORE") ) {
-                storeFile file(System.getenv("KEYSTORE"))
-                storePassword System.getenv("KEYSTORE_PASSWORD")
-                keyAlias System.getenv("KEY_ALIAS")
-                keyPassword System.getenv("KEY_PASSWORD")
-            }
-        }
-    }
-
     buildTypes {
         release {
-            if ( System.getenv("KEYSTORE") ) {
-                signingConfig signingConfigs.release
-            }
+            zipAlignEnabled true
+            debuggable false
+            jniDebuggable false
+            signingConfig signingConfigs.release
+            renderscriptDebuggable false
+            minifyEnabled true
+            pseudoLocalesEnabled false
+            applicationIdSuffix 'net.zorgblub.typhon'
+            versionNameSuffix '1.0.0Beta'
         }
+    }
+    productFlavors {
     }
 }
 
