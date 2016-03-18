@@ -23,7 +23,7 @@
    		</ListView>    
         
     
-   		<net.rikaiwhistler.pageturner.view.BookCaseView
+   		<net.zorgblub.typhon.view.BookCaseView
       		android:id="@+id/bookCaseView"
       		android:layout_width="fill_parent"
       		android:layout_height="fill_parent"

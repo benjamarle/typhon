@@ -13,8 +13,8 @@
     
     <string name="show_toc">Inhoudsopgave</string>   
     <string name="rolling_blind">Auto-scroll</string>
-    <string name="about">Over PageTurner</string>
-    <string name="about_gpl">PageTurner is vrije software onder de GPL v3.</string>
+    <string name="about">Over Typhon</string>
+    <string name="about_gpl">Typhon is vrije software onder de GPL v3.</string>
     <string name="error_open_bk">Fout bij het openen van het boek: %s</string>
     
     <string name="dictionary_lookup">Opzoeken in woordenboek</string>
@@ -87,7 +87,7 @@
         <item>Alles gesorteerd op auteur</item> 
     </string-array>
       
-    <string name="access_denied">Uw toegangssleutel is ongeldig. Ga naar pageturner-reader.org om een geldige sleutel te verkrijgen.</string>
+    <string name="access_denied">Uw toegangssleutel is ongeldig. Ga naar Typhon-reader.org om een geldige sleutel te verkrijgen.</string>
     <string name="import_books">Boeken importeren</string>
     <string name="import_desc">Je kan je hele SD-kaart scannen of een specifieke map kiezen om te doorzoeken.</string>
     <string name="scan_whole_card">Scan mijn hele SD-kaart</string>
@@ -154,7 +154,7 @@
     <string name="tts_failed">TTS kon niet worden gestart.</string>
 
     <string name="search_library">Bibliotheek doorzoeken</string>
-    <string name="no_sync_points">Je hebt nog geen opgeslagen cloud-sync-punten.\nSync-punten worden opgeslagen bij het verlaten van PageTurner.</string>
+    <string name="no_sync_points">Je hebt nog geen opgeslagen cloud-sync-punten.\nSync-punten worden opgeslagen bij het verlaten van Typhon.</string>
     <string name="no_new_books_found">De scan heeft geen nieuwe boeken gevonden.</string>
 
     <string name="next_page">Volgende pagina…</string>
@@ -168,7 +168,7 @@
 
     <string name="dead_link">Sorry, de link waar je op geklikt hebt lijkt niet te werken.</string>
     <string name="could_not_load">Er is een fout opgetreden tijdens het laden van de tekst: %s</string>
-    <string name="out_of_memory">Sorry, PageTurner kon niet genoeg geheugen vrij maken om dit bestand te openen.</string>
+    <string name="out_of_memory">Sorry, Typhon kon niet genoeg geheugen vrij maken om dit bestand te openen.</string>
 
     <string name="highlight">Markeren</string>
     <string name="highlights">Markeringen</string>
@@ -220,7 +220,7 @@
 
     <string name="pref_my_books_settings">Mijn Boeken-instellingen</string>
     <string name="pref_copy_to_library">Kopieren naar bibliotheekmap</string>
-    <string name="pref_copy_to_library_summary">Bepaalt of PageTurner boeken naar zijn eigen bibliotheek map moet kopieren.</string>
+    <string name="pref_copy_to_library_summary">Bepaalt of Typhon boeken naar zijn eigen bibliotheek map moet kopieren.</string>
     <string name="pref_calibre_server">Calibre content server</string>
     <string name="pref_calibre_server_summary">Maak verbinding met je eigen Calibre-bibliotheek.</string>
     <string name="pref_calibre_server_message">Calibre-URL</string>
@@ -239,7 +239,7 @@
     <string name="pref_keep_screen_on">Voorkom vergrendeling</string>
     <string name="pref_keep_screen_on_summary">Voorkomt dat het scherm vergrendelt tijdens het lezen.</string>
     <string name="pref_set_brightness">Helderheidsinstellingen</string>
-    <string name="pref_set_brightness_summary">Laat PageTurner de schermhelderheid beheren.</string>
+    <string name="pref_set_brightness_summary">Laat Typhon de schermhelderheid beheren.</string>
     <string name="pref_day_bright">Schermhelderheid</string>
     <string name="pref_day_bright_summary">Voor dagstand.</string>
     <string name="pref_day_night">Schermhelderheid</string>
@@ -318,11 +318,11 @@
     <string name="pref_sans_serif_summary">Het lettertype dat gebruikt wordt als een boek een Sans-Serif-font vraagt.</string>
 
     <string name="pref_lang">UI-taal</string>
-    <string name="pref_lang_summary">Schakel PageTurner naar een andere taal.</string>
+    <string name="pref_lang_summary">Schakel Typhon naar een andere taal.</string>
     <string name="language_switch_message">De nieuwe taalinstelling wordt actief bij het openen van een nieuw boek.</string>
 
     <string name="pref_accept_self_signed">Accepteer alle certificaten</string>
-    <string name="pref_accept_self_signed_summary">Staat toe dat PageTurner verbinding maakt met sites die een niet-vertrouwd certificaat gebruiken.</string>
+    <string name="pref_accept_self_signed_summary">Staat toe dat Typhon verbinding maakt met sites die een niet-vertrouwd certificaat gebruiken.</string>
 
     <string-array name="supported_languagesLabels">
         <item>Gebruik apparaatinstelling</item>
@@ -351,7 +351,7 @@
     <string name="pref_dev_settings">Ontwikkelaarsinstellingen</string>
 
     <string name="pref_acra">Verstuur foutrapportages</string>
-    <string name="pref_acra_summary">Staat PageTurner toe om anonieme rapporten te versturen bij crashes.</string>
+    <string name="pref_acra_summary">Staat Typhon toe om anonieme rapporten te versturen bij crashes.</string>
 
     <string name="opds_settings">OPDS-instellingen</string>
 
@@ -369,7 +369,7 @@
     <string name="pref_css_colours_night_summary">Voor nachtstand</string>
 
     <string name="pref_always_open_book">Open altijd het laatste boek</string>
-    <string name="pref_always_open_book_summary">PageTurner zal altijd in het meest recent gelezen boek starten, in plaats van in het laatst geopende scherm</string>
+    <string name="pref_always_open_book_summary">Typhon zal altijd in het meest recent gelezen boek starten, in plaats van in het laatst geopende scherm</string>
 
     <string name="pref_sync_server">Sync Server</string>
     <string name="pref_sync_server_summary">Bepaalt welke server gebruikt wordt voor synchronisatie.</string>

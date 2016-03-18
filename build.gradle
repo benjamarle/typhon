@@ -104,8 +104,8 @@ android {
     defaultConfig {
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
         minSdkVersion 11
-
         targetSdkVersion 22
+		applicationId "net.zorgblub.typhon"
     }
     
     sourceSets {

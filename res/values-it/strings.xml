@@ -2,7 +2,7 @@
 <resources>
     
     <string name="title">Titolo</string>
-    <string name="app_desc">PageTurner è un lettore di e-book che integra un dizionario di giapponese tipo Rikai.</string>
+    <string name="app_desc">Typhon è un lettore di e-book che integra un dizionario di giapponese tipo Rikai.</string>
     <string name="browse">Sfoglia…</string>
     <string name="open_file">Apri file ePub</string>
     <string name="open_library">I miei libri</string>
@@ -14,8 +14,8 @@
     
     <string name="show_toc">Mostra indice</string>   
     <string name="rolling_blind">Scorrimento automatico</string>
-    <string name="about">Info su PageTurner</string>
-    <string name="about_gpl">PageTurner è software libero sotto licenza GPLv3.</string>
+    <string name="about">Info su Typhon</string>
+    <string name="about_gpl">Typhon è software libero sotto licenza GPLv3.</string>
     <string name="error_open_bk">Errore nell\'apertura del libro: %s</string>
     
     <string name="dictionary_lookup">Cerca nel dizionario</string>
@@ -88,7 +88,7 @@
         <item>Tutti i libri per autore</item> 
     </string-array>
         
-    <string name="access_denied">Il vostro accesso-chiave non è valida. Si prega di visitare pageturner-reader.org per ottenere una chiave di accesso valido.</string>
+    <string name="access_denied">Il vostro accesso-chiave non è valida. Si prega di visitare Typhon-reader.org per ottenere una chiave di accesso valido.</string>
     <string name="import_books">Importa libri</string>
     <string name="import_desc">È possibile eseguire la scansione dell\'intero SD-Card, o di specificare una cartella per la ricerca.</string>
     <string name="scan_whole_card">Scansione tutta la mia carta SD</string>
@@ -158,7 +158,7 @@
     <string name="tts_failed">TTS Failed.</string>
 
     <string name="search_library">Search library</string>
-    <string name="no_sync_points">You don\'t have any cloud-sync points stored yet.\nSync points are stored automatically when you leave PageTurner.</string>
+    <string name="no_sync_points">You don\'t have any cloud-sync points stored yet.\nSync points are stored automatically when you leave Typhon.</string>
     <string name="no_new_books_found">The scan did not find any new books.</string>
 
     <string name="next_page">Next page…</string>
@@ -172,7 +172,7 @@
 
     <string name="dead_link">Sorry, it looks like the link you clicked is broken.</string>
     <string name="could_not_load">Could not load text: %s</string>
-    <string name="out_of_memory">Sorry, PageTurner could not free enough memory to load this file.</string>
+    <string name="out_of_memory">Sorry, Typhon could not free enough memory to load this file.</string>
 
     <string name="highlight">Highlight</string>
     <string name="highlights">Highlights</string>
@@ -220,7 +220,7 @@
 
     <string name="pref_my_books_settings">Impostazioni libreria</string>
     <string name="pref_copy_to_library">Copia in cartella libreria</string>
-    <string name="pref_copy_to_library_summary">PageTurner copierà i file in una cartella specifica</string>
+    <string name="pref_copy_to_library_summary">Typhon copierà i file in una cartella specifica</string>
  
     <string name="pref_visual_settings">Impostazioni visive</string>
     <string name="pref_full_screen">Schermo intero</string>
@@ -228,7 +228,7 @@
     <string name="pref_screen_orientation">Orientamento schermo</string>
     <string name="pref_screen_orientation_summary">Permette di bloccare l\'orientamento dello schermo</string>
    <string name="pref_set_brightness">Controlli luminosità</string>
-    <string name="pref_set_brightness_summary">Permette a PageTurner di controllare la luminosità dello schermo</string>
+    <string name="pref_set_brightness_summary">Permette a Typhon di controllare la luminosità dello schermo</string>
     <string name="pref_day_bright">Luminosità schermo</string>
     <string name="pref_day_bright_summary">In modalità diurna</string>
     <string name="pref_day_night">Luminosità schermo</string>
@@ -328,7 +328,7 @@
     <string name="pref_sans_serif_summary">Font to use if a book requests a Sans-Serif font.</string>
 
     <string name="pref_lang">UI Language</string>
-    <string name="pref_lang_summary">Allows you to switch PageTurner\'s language settings.</string>
+    <string name="pref_lang_summary">Allows you to switch Typhon\'s language settings.</string>
     <string name="language_switch_message">The new language setting will become active the next time you open a book.</string>
 
     <string name="pref_accept_self_signed">Accept self-signed certificates</string>
@@ -361,7 +361,7 @@
     <string name="pref_dev_settings">Development settings</string>
 
     <string name="pref_acra">Send error reports</string>
-    <string name="pref_acra_summary">Allow PageTurner to send anonymous error reports when it crashes.</string>
+    <string name="pref_acra_summary">Allow Typhon to send anonymous error reports when it crashes.</string>
 
     <string name="opds_settings">OPDS settings</string>
 
@@ -378,7 +378,7 @@
     <string name="pref_css_colours_night_summary">For night mode</string>
 
     <string name="pref_always_open_book">Always open last book</string>
-    <string name="pref_always_open_book_summary">PageTurner will always start in the last read book instead of last open screen.</string>
+    <string name="pref_always_open_book_summary">Typhon will always start in the last read book instead of last open screen.</string>
 
     <string name="pref_sync_server">Sync Server</string>
     <string name="pref_sync_server_summary">Select which server you would like to sync with.</string>

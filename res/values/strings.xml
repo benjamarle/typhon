@@ -15,8 +15,8 @@
     <string name="prefs">Settings</string>
     <string name="show_toc">Show TOC</string>
     <string name="rolling_blind">Auto-scroll</string>
-    <string name="about">About PageTurner</string>
-    <string name="about_gpl">PageTurner is free software under the GPL v3.</string>
+    <string name="about">About Typhon</string>
+    <string name="about_gpl">Typhon is free software under the GPL v3.</string>
     <string name="error_open_bk">Error opening book: %s</string>
     <string name="dictionary_lookup">Look up in Dictionary</string>
     <string name="wikipedia_lookup">Search on Wikipedia</string>
@@ -86,7 +86,7 @@
     </string-array>
  
 
-    <string name="access_denied">Your access-key is invalid. Please visit pageturner-reader.org to obtain a valid access key.</string>
+    <string name="access_denied">Your access-key is invalid. Please visit Typhon-reader.org to obtain a valid access key.</string>
     <string name="import_books">Import Books</string>
     <string name="import_desc">You can either scan your entire SD-Card, or specify a folder to search.</string>
     <string name="scan_whole_card">Scan my entire SD Card</string>
@@ -148,7 +148,7 @@
     <string name="tts_failed">TTS Failed.</string>
 
     <string name="search_library">Search library</string>
-    <string name="no_sync_points">You don\'t have any cloud-sync points stored yet.\nSync points are stored automatically when you leave PageTurner.</string>
+    <string name="no_sync_points">You don\'t have any cloud-sync points stored yet.\nSync points are stored automatically when you leave Typhon.</string>
     <string name="no_new_books_found">The scan did not find any new books.</string>
 
     <string name="next_page">Next page…</string>
@@ -162,7 +162,7 @@
 
     <string name="dead_link">Sorry, it looks like the link you clicked is broken.</string>
     <string name="could_not_load">Could not load text: %s</string>
-    <string name="out_of_memory">Sorry, PageTurner could not free enough memory to load this file.</string>
+    <string name="out_of_memory">Sorry, Typhon could not free enough memory to load this file.</string>
 
     <string name="highlight">Highlight</string>
     <string name="highlights">Highlights</string>
@@ -212,7 +212,7 @@
     <string name="pref_scroll_speed_summary">How many seconds a page will be displayed.</string>
     <string name="pref_my_books_settings">My Books settings</string>
     <string name="pref_copy_to_library">Copy to library folder</string>
-    <string name="pref_copy_to_library_summary">Should PageTurner copy files to its own library folder</string>
+    <string name="pref_copy_to_library_summary">Should Typhon copy files to its own library folder</string>
     <string name="pref_calibre_server">Calibre content server</string>
     <string name="pref_calibre_server_summary">Connect to your own Calibre library</string>
     <string name="pref_calibre_server_message">Calibre URL</string>
@@ -230,7 +230,7 @@
     <string name="pref_keep_screen_on">Keep screen on</string>
     <string name="pref_keep_screen_on_summary">Prevents the screen from locking while reading</string>
     <string name="pref_set_brightness">Brightness controls</string>
-    <string name="pref_set_brightness_summary">Lets PageTurner control screen brightness</string>
+    <string name="pref_set_brightness_summary">Lets Typhon control screen brightness</string>
     <string name="pref_day_bright">Screen brightness</string>
     <string name="pref_day_bright_summary">For day mode</string>
     <string name="pref_day_night">Screen brightness</string>
@@ -315,7 +315,7 @@
     <string name="pref_sans_serif_summary">Font to use if a book requests a Sans-Serif font.</string>   
     
     <string name="pref_lang">UI Language</string>
-    <string name="pref_lang_summary">Allows you to switch PageTurner\'s language settings.</string>
+    <string name="pref_lang_summary">Allows you to switch Typhon\'s language settings.</string>
     <string name="language_switch_message">The new language setting will become active the next time you open a book.</string>
 
     <string name="pref_accept_self_signed">Accept self-signed certificates</string>
@@ -348,7 +348,7 @@
     <string name="pref_dev_settings">Development settings</string>
 
     <string name="pref_acra">Send error reports</string>
-    <string name="pref_acra_summary">Allow PageTurner to send anonymous error reports when it crashes.</string>
+    <string name="pref_acra_summary">Allow Typhon to send anonymous error reports when it crashes.</string>
 
     <string name="opds_settings">OPDS settings</string>
 
@@ -364,7 +364,7 @@
     <string name="pref_css_colours_night_summary">For night mode</string>
 
     <string name="pref_always_open_book">Always open last book</string>
-    <string name="pref_always_open_book_summary">PageTurner will always start in the last read book instead of last open screen.</string>
+    <string name="pref_always_open_book_summary">Typhon will always start in the last read book instead of last open screen.</string>
 
     <string name="pref_sync_server">Sync Server</string>
     <string name="pref_sync_server_summary">Select which server you would like to sync with.</string>

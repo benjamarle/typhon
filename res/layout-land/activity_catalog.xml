@@ -25,7 +25,7 @@
 
         <fragment
             android:id="@+id/fragment_book_details"
-            class="net.rikaiwhistler.pageturner.fragment.BookDetailsFragment"
+            class="net.zorgblub.typhon.fragment.BookDetailsFragment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />

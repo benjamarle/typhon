@@ -15,13 +15,13 @@
     
    
                 
-        <net.rikaiwhistler.pageturner.view.bookview.BookView 
+        <net.zorgblub.typhon.view.bookview.BookView
             android:id="@+id/bookView"
         	android:layout_width="fill_parent"
 	        android:layout_height="fill_parent">	        
           
                 
-                <view class="net.rikaiwhistler.pageturner.view.bookview.BookView$InnerView"               
+                <view class="net.zorgblub.typhon.view.bookview.BookView$InnerView"
                     android:id="@+id/innerView"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
@@ -30,8 +30,8 @@
                     
                         
            
-        </net.rikaiwhistler.pageturner.view.bookview.BookView>
-	    <net.rikaiwhistler.pageturner.view.AnimatedImageView
+        </net.zorgblub.typhon.view.bookview.BookView>
+	    <net.zorgblub.typhon.view.AnimatedImageView
     	     android:layout_width="fill_parent"
         	android:layout_height="fill_parent" 
         	android:id="@+id/dummyView" />
@@ -95,7 +95,7 @@
 			android:background="@color/translucent_black" />   
   </RelativeLayout>
 
-    <org.rikai.glosslist.ExpandableListView
+    <org.zorgblub.rikai.glosslist.ExpandableListView
         android:id="@id/definition_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

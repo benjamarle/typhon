@@ -12,8 +12,8 @@
     
     <string name="show_toc">Inhaltsverzeichnis anzeigen</string>   
     <string name="rolling_blind">Automatischer Seitenwechsel</string>
-    <string name="about">Über PageTurner</string>
-    <string name="about_gpl">PageTurner ist freie Software unter der GPL v3.</string>
+    <string name="about">Über Typhon</string>
+    <string name="about_gpl">Typhon ist freie Software unter der GPL v3.</string>
     <string name="error_open_bk">Fehler beim Öffnen des Buchs: %s</string>
     
     <string name="dictionary_lookup">In Wörterbuch nachschlagen</string>
@@ -87,7 +87,7 @@
         <item>Alle Bücher nach Author</item> 
     </string-array>
         
-    <string name="access_denied">Diese Version von PageTurner wird nicht mehr durch den Synchronisations-Server unterstützt, bitte aktualisieren Sie auf eine neuere Version im Android Markt.</string>
+    <string name="access_denied">Diese Version von Typhon wird nicht mehr durch den Synchronisations-Server unterstützt, bitte aktualisieren Sie auf eine neuere Version im Android Markt.</string>
      <string name="import_books">Bücher importieren</string>
 	<string name="import_desc">Du kannst entweder die ganze Speicherkarte durchsuchen oder einen Ordner zum Durchsuchen auswählen.</string>
 	<string name="scan_whole_card">Meine ganze Speicherkarte durchsuchen</string>
@@ -160,7 +160,7 @@
     <string name="tts_failed">TTS Fehler.</string>
 
     <string name="search_library">Durchsuche Bibliothek</string>
-    <string name="no_sync_points">Sie haben bisher keine Cloud-Sync Punkte angelegt. Diese werden automatisch angelegt wenn Sie PageTurner verlassen.</string>
+    <string name="no_sync_points">Sie haben bisher keine Cloud-Sync Punkte angelegt. Diese werden automatisch angelegt wenn Sie Typhon verlassen.</string>
     <string name="no_new_books_found">Die Suche hat keine neuen Bücher gefunden.</string>
 
     <string name="next_page">Nächste Seite…</string>
@@ -213,7 +213,7 @@
     <string name="pref_device_name_summary">Eindeutiger Gerätename, um Synchronisationskonflikte zu beheben.</string>
     <string name="pref_device_name_message">Bitte einen eindeutigen Gerätenamen eingeben.</string>
     <string name="pref_access_key">Zugangsschlüssel</string>
-    <string name="pref_access_key_summary">Ein Zugangsschlüssel ist für die Synchronisation notwendig. Gehe auf pageturner-reader.org um mehr Informationen zu erhalten.</string>
+    <string name="pref_access_key_summary">Ein Zugangsschlüssel ist für die Synchronisation notwendig. Gehe auf Typhon-reader.org um mehr Informationen zu erhalten.</string>
     <string name="pref_access_key_message">Bitte den Zugangsschlüssel eingeben.</string>
 
     <string name="pref_autoscroll_settings">Automatischer Seitenwechsel</string>
@@ -224,7 +224,7 @@
 
     <string name="pref_my_books_settings">Meine Bücher</string>
     <string name="pref_copy_to_library">In Bücherregal kopieren</string>
-    <string name="pref_copy_to_library_summary">Soll PageTurner die Buchdateien in seinen eigenen Bücherregal Ordner kopieren?</string>
+    <string name="pref_copy_to_library_summary">Soll Typhon die Buchdateien in seinen eigenen Bücherregal Ordner kopieren?</string>
     <string name="pref_calibre_server">Calibre Server</string>
     <string name="pref_calibre_server_summary">Verbinde zu Deiner eigenen Calibre Bibliothek</string>
     <string name="pref_calibre_server_message">Calibre URL</string>
@@ -240,7 +240,7 @@
     <string name="pref_keep_screen_on">Bildschirm anlassen</string>
     <string name="pref_keep_screen_on_summary">Bildschirm nicht während des Lesens sperren</string>
     <string name="pref_set_brightness">Helligkeit</string>
-    <string name="pref_set_brightness_summary">PageTurner darf die Bildschirmhelligkeit ändern</string>
+    <string name="pref_set_brightness_summary">Typhon darf die Bildschirmhelligkeit ändern</string>
     <string name="pref_day_bright">Bildschirmhelligkeit</string>
     <string name="pref_day_bright_summary">Für den Tagmodus</string>
     <string name="pref_day_night">Bildschirmhelligkeit</string>
@@ -323,7 +323,7 @@
     <string name="pref_sans_serif_summary">Schriftart zur Verwendung wenn ein Buch eine Sans-Serif-Schrift benötigt.</string>
 
     <string name="pref_lang">Sprache Bedienung</string>
-    <string name="pref_lang_summary">Erlaubt die Anpassung von PageTurner\'s Spracheinstellungen.</string>
+    <string name="pref_lang_summary">Erlaubt die Anpassung von Typhon\'s Spracheinstellungen.</string>
     <string name="language_switch_message">Die neuen Spracheinstellungen werden aktiv wenn sie das nächste Buch öffnen.</string>
 
     <string name="pref_accept_self_signed">Akzeptiere selbst-signierte Zertifikate</string>
@@ -357,7 +357,7 @@
     <string name="pref_dev_settings">Entwicklungs-Einstellungen</string>
 
     <string name="pref_acra">Sende Fehler-Berichte</string>
-    <string name="pref_acra_summary">Erlaubt es PageTurner, bei Problemen anonyme Fehler-Berichte zu senden.</string>
+    <string name="pref_acra_summary">Erlaubt es Typhon, bei Problemen anonyme Fehler-Berichte zu senden.</string>
 
     <string name="opds_settings">OPDS Einstellungen</string>
 
@@ -373,7 +373,7 @@
     <string name="pref_css_colours_night_summary">Für den Nachtmodus</string>
 
     <string name="pref_always_open_book">Immer das letzte Buch beim Start öffnen</string>
-    <string name="pref_always_open_book_summary">PageTurner öffnet immer das zuletzt gelesene Buch.</string>
+    <string name="pref_always_open_book_summary">Typhon öffnet immer das zuletzt gelesene Buch.</string>
 
     <string name="pref_sync_server">Sync Server</string>
     <string name="pref_sync_server_summary">Wähle den Server mit dem Du synchronisieren möchtest.</string>
