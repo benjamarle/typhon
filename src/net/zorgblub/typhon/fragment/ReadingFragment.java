@@ -3030,10 +3030,12 @@ public class ReadingFragment extends RoboFragment implements
     }
 
     @Override
-    public void onScreenDoubleTap() {
+    public boolean onScreenDoubleTap() {
         if (config.isRikaiEnabled()) {
             toggleTitleBar();
+            return true;
         }
+        return false;
     }
 
     private void launchFileManager() {

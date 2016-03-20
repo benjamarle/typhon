@@ -168,7 +168,7 @@ public interface BookViewListener {
 	 */
 	void onScreenTap();
 
-	void onScreenDoubleTap();
+	boolean onScreenDoubleTap();
 
     /**
      * Called when a background calculation for page numbers is started.

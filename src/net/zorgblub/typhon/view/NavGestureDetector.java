@@ -188,8 +188,6 @@ public class NavGestureDetector extends GestureDetector.SimpleOnGestureListener 
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
-        bookViewListener.onScreenDoubleTap();
-
-        return super.onDoubleTap(e);
+        return bookViewListener.onScreenDoubleTap();
     }
 }
