@@ -147,6 +147,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zorgblub.anki.AnkiDroidConfig;
 import org.zorgblub.rikai.DroidEdictEntry;
+import org.zorgblub.rikai.DroidEntry;
+import org.zorgblub.rikai.DroidEpwingDictionary;
 import org.zorgblub.rikai.DroidKanjiDictionary;
 import org.zorgblub.rikai.DroidNamesDictionary;
 import org.zorgblub.rikai.DroidSqliteDatabase;
@@ -166,6 +168,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import jedi.functional.Command;
 import jedi.option.None;
@@ -388,6 +392,8 @@ public class ReadingFragment extends RoboFragment implements
 
     private void initDictionaries(DictionaryInfo dictionaryInfo) {
         try {
+            DroidEpwingDictionary epwingDictionary = new DroidEpwingDictionary("/sdcard/Kenkyusha");
+            dictionaries.add(epwingDictionary);
             dictionaries.add(new DroidWordEdictDictionary(dictionaryInfo.getEdictPath().getAbsolutePath(), new Deinflector(dictionaryInfo.getDeinflectPath().getAbsolutePath()), new DroidSqliteDatabase(), getResources()));
             kanjiDictionary = new DroidKanjiDictionary(dictionaryInfo.getKanjiPath().getAbsolutePath(), Integer.MAX_VALUE, getResources(), config.getHeisig6());
             dictionaries.add(kanjiDictionary);
@@ -398,11 +404,12 @@ public class ReadingFragment extends RoboFragment implements
             LOG.error("Could not load dictionary data", e);
         }
 
-        Runnable task = () -> {
-            forEach(dictionaries, (dictionary) -> dictionary.load());
-        };
-        Thread thread = new Thread(task);
-        thread.run();
+        ExecutorService executorService = Executors.newCachedThreadPool();
+
+        for (Dictionary dic:
+             dictionaries) {
+            executorService.submit(() -> {dic.load();});
+        }
     }
 
     @Override
@@ -651,8 +658,8 @@ public class ReadingFragment extends RoboFragment implements
         }
 
         // fill listview with words and definitions
-        AdvancedArrayAdapter<AbstractEntry> adapter
-                = new AdvancedArrayAdapter<AbstractEntry>(this.getActivity(), R.layout.definition_row, entries);
+        AdvancedArrayAdapter<DroidEntry> adapter
+                = new AdvancedArrayAdapter<DroidEntry>(this.getActivity(), R.layout.definition_row, entries);
         ssView.setTextSize(config.getRikaiSize());
         ssView.setSizeChangeListener((newSize) -> {
             config.setRikaiSize(newSize);

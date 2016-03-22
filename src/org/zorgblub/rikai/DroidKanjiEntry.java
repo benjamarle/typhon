@@ -1,6 +1,8 @@
 package org.zorgblub.rikai;
 
 import android.graphics.Color;
+import android.text.Html;
+import android.text.Spanned;
 
 import org.rikai.dictionary.kanji.KanjiEntry;
 import org.rikai.dictionary.kanji.KanjiTag;
@@ -10,7 +12,7 @@ import java.util.Map;
 /**
  * Created by Benjamin on 17/09/2015.
  */
-public class DroidKanjiEntry extends KanjiEntry implements DroidEntity {
+public class DroidKanjiEntry extends KanjiEntry implements DroidEntry {
 
     boolean heisig6 = true;
 
@@ -89,5 +91,10 @@ public class DroidKanjiEntry extends KanjiEntry implements DroidEntity {
         result.append("<br/>");
         result.append(HtmlEntryUtils.wrapColor(this.definitionColor, this.getDefinition()));
         return result.toString();
+    }
+
+    @Override
+    public Spanned render() {
+        return Html.fromHtml(toStringCompact());
     }
 }
