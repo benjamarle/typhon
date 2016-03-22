@@ -143,6 +143,8 @@ import org.rikai.dictionary.db.DatabaseException;
 import org.rikai.dictionary.edict.EdictEntry;
 import org.rikai.dictionary.kanji.KanjiDictionary;
 import org.rikai.dictionary.kanji.KanjiEntry;
+import org.rikai.dictionary.wordnet.Lang;
+import org.rikai.dictionary.wordnet.WordnetDictionary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zorgblub.anki.AnkiDroidConfig;
@@ -151,6 +153,7 @@ import org.zorgblub.rikai.DroidKanjiDictionary;
 import org.zorgblub.rikai.DroidNamesDictionary;
 import org.zorgblub.rikai.DroidSqliteDatabase;
 import org.zorgblub.rikai.DroidWordEdictDictionary;
+import org.zorgblub.rikai.DroidWordnetDictionary;
 import org.zorgblub.rikai.download.DictionaryInfo;
 import org.zorgblub.rikai.download.SimpleDownloader;
 import org.zorgblub.rikai.download.SimpleExtractor;
@@ -392,6 +395,12 @@ public class ReadingFragment extends RoboFragment implements
             kanjiDictionary = new DroidKanjiDictionary(dictionaryInfo.getKanjiPath().getAbsolutePath(), Integer.MAX_VALUE, getResources(), config.getHeisig6());
             dictionaries.add(kanjiDictionary);
             dictionaries.add(new DroidNamesDictionary(dictionaryInfo.getNamesPath().getAbsolutePath(), new DroidSqliteDatabase(), getResources()));
+            WordnetDictionary engWnDic = new DroidWordnetDictionary("/sdcard/wnjpn.db", new DroidSqliteDatabase(), getResources());
+            engWnDic.setLang(Lang.ENG);
+            WordnetDictionary jpnWnDic = new DroidWordnetDictionary("/sdcard/wnjpn.db", new DroidSqliteDatabase(), getResources());
+            jpnWnDic.setLang(Lang.JPN);
+            dictionaries.add(engWnDic);
+            dictionaries.add(jpnWnDic);
         } catch (IOException e) {
             LOG.error("Could not load deinflector data", e);
         } catch (DatabaseException e) {

@@ -52,10 +52,10 @@ public class DroidSqliteDatabase implements SqliteDatabase {
     }
 
     @Override
-    public ResultCursor findWord(String word) {
+    public ResultCursor findWord(String... params) {
         Cursor cursor = database.rawQuery(
                 searchQuery,
-                new String[]{word, word}
+               params
         );
 
         return new DroidResultCursor(cursor);
@@ -76,7 +76,10 @@ public class DroidSqliteDatabase implements SqliteDatabase {
         @Override
         public String getValue(String s) {
             return cursor.getString(cursor.getColumnIndex(s));
+        }
 
+        public int getIntValue(String s) {
+            return cursor.getInt(cursor.getColumnIndex(s));
         }
 
         @Override
