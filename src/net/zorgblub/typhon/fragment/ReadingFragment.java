@@ -155,7 +155,8 @@ import org.zorgblub.rikai.download.DictionaryInfo;
 import org.zorgblub.rikai.download.SimpleDownloader;
 import org.zorgblub.rikai.download.SimpleExtractor;
 import org.zorgblub.rikai.glosslist.AdvancedArrayAdapter;
-import org.zorgblub.rikai.glosslist.ExpandableListView;
+import org.zorgblub.rikai.glosslist.DraggablePane;
+import org.zorgblub.rikai.glosslist.PinchableListView;
 
 import java.io.File;
 import java.io.IOException;
@@ -273,7 +274,10 @@ public class ReadingFragment extends RoboFragment implements
     private TextView wordView;
 
     @InjectView(R.id.definition_view)
-    private ExpandableListView ssView;
+    private DraggablePane ssView;
+
+    @InjectView(R.id.gloss)
+    private PinchableListView plView;
 
     private KanjiDictionary kanjiDictionary;
 
@@ -632,8 +636,8 @@ public class ReadingFragment extends RoboFragment implements
         this.bookView.addListener(this);
         this.bookView.setTextSelectionCallback(this);
 
-        ssView.setOnItemClickListener(this);
-        ssView.setOnItemLongClickListener(this);
+        plView.setOnItemClickListener(this);
+        plView.setOnItemLongClickListener(this);
     }
 
     /**
@@ -653,11 +657,11 @@ public class ReadingFragment extends RoboFragment implements
         // fill listview with words and definitions
         AdvancedArrayAdapter<AbstractEntry> adapter
                 = new AdvancedArrayAdapter<AbstractEntry>(this.getActivity(), R.layout.definition_row, entries);
-        ssView.setTextSize(config.getRikaiSize());
-        ssView.setSizeChangeListener((newSize) -> {
+        plView.setTextSize(config.getRikaiSize());
+        plView.setSizeChangeListener((newSize) -> {
             config.setRikaiSize(newSize);
         });
-        ssView.setAdapter(adapter);
+        plView.setAdapter(adapter);
         ssView.setTag(R.string.tag_word_list, entries);
 
         // set the height of the ssView to only occupied part of the screen

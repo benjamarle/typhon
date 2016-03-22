@@ -20,7 +20,7 @@ Date: 2013 04 26
 
 -->
 <resources>
-    <declare-styleable name="ExpandableListView">
+    <declare-styleable name="DraggablePane">
         <attr name="bar_height" format="dimension"/>
         <attr name="close_button_width" format="dimension"/>
         <attr name="background_color" format="reference|color"/>

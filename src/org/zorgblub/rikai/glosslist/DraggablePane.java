@@ -23,68 +23,54 @@ package org.zorgblub.rikai.glosslist;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 
 import net.zorgblub.typhon.R;
 
-public class ExpandableListView extends RelativeLayout implements Concealable, View.OnTouchListener {
+public class DraggablePane extends RelativeLayout implements Concealable, View.OnTouchListener {
 
     @SuppressWarnings("unused")
     private static final String TAG = "JTEXT";
-    public static final int MAX_SIZE = 80;
-    public static final int MIN_SIZE = 20;
-    public static final int DEFAULT_SIZE = 40;
+
 
     /**
      * the Views that made up of this ExpandableListView
      */
-    private PinchableListView mContentView;
+    private View mContentView;
 
     private Button mCloseButton;
     private Button mDragBar;
 
     private boolean mShowBar;
-    private int mTextSize = DEFAULT_SIZE;
-
-    private int mTextColor;
-    private int mBackgroundColor;
 
     private float mDragBarOriginalY;
-
-    private SizeChangeListener mSizeChangeListener;
 
     /**
      * true if the user is dragging the mDragBar
      */
     private boolean mResizing = false;
 
-    private OnConcealListener mOnConcealListener = null;
-    private OnRevealListener mOnRevealListener = null;
-
     @SuppressWarnings("unused")
-    public ExpandableListView(Context context) {
+    public DraggablePane(Context context) {
         super(context);
         init(context, null);
     }
 
     @SuppressWarnings("unused")
-    public ExpandableListView(Context context, AttributeSet attrs) {
+    public DraggablePane(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
     @SuppressWarnings("unused")
-    public ExpandableListView(Context context, AttributeSet attrs, int defStyle) {
+    public DraggablePane(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs);
     }
@@ -93,27 +79,13 @@ public class ExpandableListView extends RelativeLayout implements Concealable, V
         LayoutInflater inflater =
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.expandable_listview, this);
-
-        mContentView = (PinchableListView) view.findViewById(R.id.gloss);
-
-        // prevent the ListView from changing its background colour when scrolling
-        mContentView.setCacheColorHint(Color.TRANSPARENT);
-        mContentView.setOnPinchListener(new PinchableListView.OnPinchListener() {
-            @Override
-            public boolean onPinch(float scale) {
-                if(!scaleTextSize(scale))
-                    return false;
-
-                mContentView.invalidateViews();
-                return true;
-            }
-        });
+        mContentView = view.findViewById(R.id.gloss);
 
         mCloseButton = (Button) view.findViewById(R.id.gloss_close);
         mDragBar = (Button) view.findViewById(R.id.gloss_drag);
 
 
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ExpandableListView);
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.DraggablePane);
 
         ViewGroup.LayoutParams p;
 
@@ -121,7 +93,7 @@ public class ExpandableListView extends RelativeLayout implements Concealable, V
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
 
 		/* the height of the top bar */
-        int bar_height = a.getDimensionPixelSize(R.styleable.ExpandableListView_bar_height, 0);
+        int bar_height = a.getDimensionPixelSize(R.styleable.DraggablePane_bar_height, 0);
         if (bar_height != 0) {
             // set mCloseButton height
             p = mCloseButton.getLayoutParams();
@@ -139,27 +111,22 @@ public class ExpandableListView extends RelativeLayout implements Concealable, V
 
 		/* width of the close button */
         int close_button_width =
-                a.getDimensionPixelSize(R.styleable.ExpandableListView_close_button_width, 0);
+                a.getDimensionPixelSize(R.styleable.DraggablePane_close_button_width, 0);
         if (close_button_width != 0) {
             p = mCloseButton.getLayoutParams();
             p.width = close_button_width;
             mCloseButton.setLayoutParams(p);
         }
 
-        mTextColor = getResources().getColor(R.color.default_def_text_color);
 
-		/* background color of this view */
-        mBackgroundColor =
-                a.getColor(R.styleable.ExpandableListView_background_color, getResources().getColor(R.color.default_def_bg_color));
-        mContentView.setBackgroundColor(mBackgroundColor);
 
 		/* the initial height of the view, -1 if not set */
-        int initial_height = a.getDimensionPixelSize(R.styleable.ExpandableListView_initial_height, -1);
+        int initial_height = a.getDimensionPixelSize(R.styleable.DraggablePane_initial_height, -1);
         if (initial_height != -1) {
             setHeight(initial_height);
         }
 
-        mShowBar = a.getBoolean(R.styleable.ExpandableListView_show_bar, true);
+        mShowBar = a.getBoolean(R.styleable.DraggablePane_show_bar, true);
         if (mShowBar) {
             mCloseButton.setOnClickListener(new OnClickListener() {
                 public void onClick(View v) {
@@ -172,69 +139,6 @@ public class ExpandableListView extends RelativeLayout implements Concealable, V
         }
 
         a.recycle();
-    }
-
-    /**
-     * set the data behind the listview of this compound control
-     *
-     * @param adapter the ListAdapter which is responsible for maintaining the data backing this list
-     *                and for producing a view to represent an item in that data set.
-     */
-    public void setAdapter(ListAdapter adapter) {
-        if (adapter instanceof AdvancedArrayAdapter) {
-            AdvancedArrayAdapter advancedArrayAdapter = (AdvancedArrayAdapter) adapter;
-            advancedArrayAdapter.setTextPixelSize(getTextSize());
-            advancedArrayAdapter.setColor(mTextColor);
-        }
-        mContentView.setAdapter(adapter);
-    }
-
-    /**
-     * return the adapter behind the listview of this compound control
-     *
-     * @return the adapter behind the listview of this compound control
-     */
-    @SuppressWarnings("unused")
-    public ListAdapter getAdapter() {
-        return mContentView.getAdapter();
-    }
-
-
-    public void setTextSize(int size) {
-        mTextSize = size;
-        if (mContentView.getAdapter() instanceof AdvancedArrayAdapter) {
-            ((AdvancedArrayAdapter) mContentView.getAdapter()).setTextPixelSize(size);
-        }
-        fireSizeChangeEvent(size);
-    }
-
-    public int getTextSize() {
-        return mTextSize;
-    }
-
-    public boolean scaleTextSize(float scale) {
-        int oldSize = getTextSize();
-        int newSize = Math.round(oldSize * scale);
-        newSize = Math.min(newSize, MAX_SIZE);
-        newSize = Math.max(MIN_SIZE, newSize);
-
-        if (newSize == oldSize)
-            return false;
-        this.setTextSize(newSize);
-        return true;
-    }
-
-    public void setTextColor(int color) {
-        mTextColor = color;
-
-        if (mContentView.getAdapter() instanceof AdvancedArrayAdapter) {
-            ((AdvancedArrayAdapter) mContentView.getAdapter()).setColor(color);
-        }
-    }
-
-    public void setDefintionBackgroundColor(int color) {
-        mBackgroundColor = color;
-        mContentView.setBackgroundColor(color);
     }
 
     /**
@@ -257,11 +161,6 @@ public class ExpandableListView extends RelativeLayout implements Concealable, V
      * @param visibility vsibility can be VISIBLE, INVISIBLE or NONE
      */
     private void internalSetVisibility(int visibility) {
-        if (visibility == VISIBLE && mOnRevealListener != null) {
-            mOnRevealListener.onReveal(this);
-        } else if ((visibility == INVISIBLE || visibility == GONE) && mOnConcealListener != null) {
-            mOnConcealListener.onConceal(this);
-        }
         this.setVisibility(visibility);
         mContentView.setVisibility(visibility);
         mCloseButton.setVisibility(visibility);
@@ -292,23 +191,6 @@ public class ExpandableListView extends RelativeLayout implements Concealable, V
     @Override
     public boolean isDisplaying() {
         return mContentView.getVisibility() == View.VISIBLE;
-    }
-
-    public void setOnConcealListener(OnConcealListener onConcealListener) {
-        mOnConcealListener = onConcealListener;
-    }
-
-    @SuppressWarnings("unused")
-    public void setOnRevealListener(OnRevealListener onRevealListener) {
-        mOnRevealListener = onRevealListener;
-    }
-
-    public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
-        mContentView.setOnItemClickListener(listener);
-    }
-
-    public void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener) {
-        mContentView.setOnItemLongClickListener(listener);
     }
 
     @Override
@@ -345,13 +227,4 @@ public class ExpandableListView extends RelativeLayout implements Concealable, V
         return false;
     }
 
-    public void setSizeChangeListener(SizeChangeListener sizeChangeListener) {
-        this.mSizeChangeListener = sizeChangeListener;
-    }
-
-    public void fireSizeChangeEvent(int newSize){
-        if(mSizeChangeListener != null){
-            mSizeChangeListener.onSizeChange(newSize);
-        }
-    }
 }
