@@ -20,14 +20,10 @@ Date: 2013-06-09
 */
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-
-import net.zorgblub.typhon.R;
 
 public class PinchableListView extends ListView {
 
@@ -38,11 +34,8 @@ public class PinchableListView extends ListView {
 	private ScaleGestureDetector mScaleDetector;
 
 	private OnPinchListener mOnPinchListener;
-
 	private int mTextSize = DEFAULT_SIZE;
 
-	private int mTextColor;
-	private int mBackgroundColor;
 	private SizeChangeListener mSizeChangeListener;
 
 	@SuppressWarnings("unused")
@@ -67,22 +60,8 @@ public class PinchableListView extends ListView {
 		mScaleDetector = new ScaleGestureDetector(this.getContext(), new ScaleListener());
 
 
-		// prevent the ListView from changing its background colour when scrolling
-		this.setCacheColorHint(Color.TRANSPARENT);
-		this.setOnPinchListener(new PinchableListView.OnPinchListener() {
-			@Override
-			public boolean onPinch(float scale) {
-				if(!PinchableListView.this.scaleTextSize(scale))
-					return false;
 
-				PinchableListView.this.invalidateViews();
-				return true;
-			}
-		});
-		mTextColor = getResources().getColor(R.color.default_def_text_color);
 
-		/* background color of this view */
-		mBackgroundColor = Color.BLACK;
 	}
 
 	@Override
@@ -110,25 +89,12 @@ public class PinchableListView extends ListView {
 		boolean onPinch(float scale);
 	}
 
-	/**
-	 * set the data behind the listview of this compound control
-	 *
-	 * @param adapter the ListAdapter which is responsible for maintaining the data backing this list
-	 *                and for producing a view to represent an item in that data set.
-	 */
-	public void setAdapter(ListAdapter adapter) {
-		if (adapter instanceof AdvancedArrayAdapter) {
-			AdvancedArrayAdapter advancedArrayAdapter = (AdvancedArrayAdapter) adapter;
-			advancedArrayAdapter.setTextPixelSize(getTextSize());
-			advancedArrayAdapter.setColor(mTextColor);
-		}
-		super.setAdapter(adapter);
-	}
+
 
 	public void setTextSize(int size) {
 		mTextSize = size;
-		if (this.getAdapter() instanceof AdvancedArrayAdapter) {
-			((AdvancedArrayAdapter) this.getAdapter()).setTextPixelSize(size);
+		if (this.getAdapter() instanceof DictionaryEntryAdapter) {
+			((DictionaryEntryAdapter) this.getAdapter()).setTextPixelSize(size);
 		}
 		fireSizeChangeEvent(size);
 	}
@@ -149,28 +115,7 @@ public class PinchableListView extends ListView {
 		return true;
 	}
 
-	public void setTextColor(int color) {
-		mTextColor = color;
 
-		if (this.getAdapter() instanceof AdvancedArrayAdapter) {
-			((AdvancedArrayAdapter) this.getAdapter()).setColor(color);
-		}
-	}
-
-	public void setDefintionBackgroundColor(int color) {
-		mBackgroundColor = color;
-		this.setBackgroundColor(color);
-	}
-
-	/**
-	 * return the adapter behind the listview of this compound control
-	 *
-	 * @return the adapter behind the listview of this compound control
-	 */
-	@SuppressWarnings("unused")
-	public ListAdapter getAdapter() {
-		return super.getAdapter();
-	}
 
 	public void setSizeChangeListener(SizeChangeListener sizeChangeListener) {
 		this.mSizeChangeListener = sizeChangeListener;

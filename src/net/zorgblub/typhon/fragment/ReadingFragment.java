@@ -54,6 +54,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.telephony.TelephonyManager;
 import android.text.Spannable;
@@ -154,9 +155,9 @@ import org.zorgblub.rikai.DroidWordEdictDictionary;
 import org.zorgblub.rikai.download.DictionaryInfo;
 import org.zorgblub.rikai.download.SimpleDownloader;
 import org.zorgblub.rikai.download.SimpleExtractor;
-import org.zorgblub.rikai.glosslist.AdvancedArrayAdapter;
+import org.zorgblub.rikai.glosslist.DictionaryEntryAdapter;
+import org.zorgblub.rikai.glosslist.DictionaryPagerAdapter;
 import org.zorgblub.rikai.glosslist.DraggablePane;
-import org.zorgblub.rikai.glosslist.PinchableListView;
 
 import java.io.File;
 import java.io.IOException;
@@ -276,8 +277,10 @@ public class ReadingFragment extends RoboFragment implements
     @InjectView(R.id.definition_view)
     private DraggablePane ssView;
 
-    @InjectView(R.id.gloss)
-    private PinchableListView plView;
+    @InjectView(R.id.viewpager)
+    private ViewPager ssPager;
+
+    private DictionaryPagerAdapter dictionaryPagerAdapter;
 
     private KanjiDictionary kanjiDictionary;
 
@@ -332,6 +335,8 @@ public class ReadingFragment extends RoboFragment implements
 
     private List<Dictionary> dictionaries = new ArrayList<Dictionary>();
 
+
+
     private enum Orientation {
         HORIZONTAL, VERTICAL
     }
@@ -377,10 +382,6 @@ public class ReadingFragment extends RoboFragment implements
         HandlerThread bgThread = new HandlerThread("background");
         bgThread.start();
         this.backgroundHandler = new Handler(bgThread.getLooper());
-
-        if (config.isRikaiEnabled()) {
-            loadDictionaries();
-        }
     }
 
     private void loadDictionaries() {
@@ -388,7 +389,6 @@ public class ReadingFragment extends RoboFragment implements
         downloadAndExtract(dictionaryInfo);
         initDictionaries(dictionaryInfo);
     }
-
 
     private void initDictionaries(DictionaryInfo dictionaryInfo) {
         try {
@@ -402,11 +402,73 @@ public class ReadingFragment extends RoboFragment implements
             LOG.error("Could not load dictionary data", e);
         }
 
+        dictionaryPagerAdapter = new DictionaryPagerAdapter(this.getActivity(), dictionaries);
+        this.ssPager.setAdapter(dictionaryPagerAdapter);
+
         Runnable task = () -> {
             forEach(dictionaries, (dictionary) -> dictionary.load());
         };
         Thread thread = new Thread(task);
         thread.run();
+    }
+
+    @Override
+    public void onWordPressed(SelectedWord selectedWord) {
+        if (config.isRikaiEnabled()) {
+            this.selectedWord = selectedWord;
+
+            CharSequence word = this.selectedWord.getText();
+
+            if(dictionaryPagerAdapter == null)
+                return;
+            Entries query = dictionaryPagerAdapter.search(word);
+
+
+            int startOffset = this.selectedWord.getStartOffset();
+            bookView.setDefinitionHighlight(startOffset, startOffset + query.getMaxLen());
+
+            ssView.setTag(R.string.tag_word_list, query);
+
+            // set the height of the ssView to only occupied part of the screen
+            // do this only if the ssView is invisible, this is the default height
+            if (!ssView.isDisplaying() || ssView.getHeight() < 10) {
+                ssView.setHeight((int) (bookView.getHeight() / 2.6));
+                ssView.reveal();
+            }
+        }
+    }
+
+    /**
+     * display the definition in the gloss view
+     *
+     * @param entries the definitions
+     */
+    private void showDefinition(Entries entries) {
+
+
+        if (entries.size() == 0) {
+            // this will make sure the entries size is not 0, otherwise
+            // setting the adapter will crash
+            entries.add(new DroidEdictEntry("No word found"));
+        }
+
+        // fill listview with words and definitions
+        DictionaryEntryAdapter<AbstractEntry> adapter
+                = new DictionaryEntryAdapter<AbstractEntry>(this.getActivity(), R.layout.definition_row, entries);
+
+        //TODO plView.setTextSize(config.getRikaiSize());
+        //TODO plView.setSizeChangeListener((newSize) -> {
+        //TODO     config.setRikaiSize(newSize);
+        //TODO });
+        //TODO  plView.setAdapter(adapter);
+        ssView.setTag(R.string.tag_word_list, entries);
+
+        // set the height of the ssView to only occupied part of the screen
+        // do this only if the ssView is invisible, this is the default height
+        if (!ssView.isDisplaying() || ssView.getHeight() < 10) {
+            ssView.setHeight((int) (bookView.getHeight() / 2.6));
+            ssView.reveal();
+        }
     }
 
     @Override
@@ -426,11 +488,7 @@ public class ReadingFragment extends RoboFragment implements
             return;
         }
         showDefinition(query);
-
-
     }
-
-
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -636,43 +694,16 @@ public class ReadingFragment extends RoboFragment implements
         this.bookView.addListener(this);
         this.bookView.setTextSelectionCallback(this);
 
-        plView.setOnItemClickListener(this);
-        plView.setOnItemLongClickListener(this);
-    }
-
-    /**
-     * display the definition in the gloss view
-     *
-     * @param entries the definitions
-     */
-    private void showDefinition(Entries entries) {
-
-
-        if (entries.size() == 0) {
-            // this will make sure the entries size is not 0, otherwise
-            // setting the adapter will crash
-            entries.add(new DroidEdictEntry("No word found"));
-        }
-
-        // fill listview with words and definitions
-        AdvancedArrayAdapter<AbstractEntry> adapter
-                = new AdvancedArrayAdapter<AbstractEntry>(this.getActivity(), R.layout.definition_row, entries);
-        plView.setTextSize(config.getRikaiSize());
-        plView.setSizeChangeListener((newSize) -> {
-            config.setRikaiSize(newSize);
-        });
-        plView.setAdapter(adapter);
-        ssView.setTag(R.string.tag_word_list, entries);
-
-        // set the height of the ssView to only occupied part of the screen
-        // do this only if the ssView is invisible, this is the default height
-        if (!ssView.isDisplaying() || ssView.getHeight() < 10) {
-            ssView.setHeight((int) (bookView.getHeight() / 2.6));
-            ssView.reveal();
+        if (config.isRikaiEnabled()) {
+            loadDictionaries();
         }
 
 
+        //TODO plView.setOnItemClickListener(this);
+        //TODO plView.setOnItemLongClickListener(this);
     }
+
+
 
     private void seekToPointInPlayback(int position) {
 
@@ -2991,30 +3022,6 @@ public class ReadingFragment extends RoboFragment implements
     @Override
     public boolean onRightEdgeSlide(int value) {
         return false;
-    }
-
-    @Override
-    public void onWordPressed(SelectedWord selectedWord) {
-        if (config.isRikaiEnabled()) {
-            this.selectedWord = selectedWord;
-
-            CharSequence word = this.selectedWord.getText();
-
-
-            Entries query = new Entries();
-
-            forEach(dictionaries, (dictionary) -> {
-                Entries currentQuery = dictionary.query(word.toString());
-                query.addAll(currentQuery);
-                query.setMaxLen(Math.max(currentQuery.getMaxLen(), query.getMaxLen()));
-            });
-            showDefinition(query);
-
-            int startOffset = this.selectedWord.getStartOffset();
-            bookView.setDefinitionHighlight(startOffset, startOffset + query.getMaxLen());
-
-            Log.d("NavGestureDetector", "Kanji query result :" + query.toString());
-        }
     }
 
     @Override

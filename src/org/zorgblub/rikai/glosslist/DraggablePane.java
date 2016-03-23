@@ -79,7 +79,7 @@ public class DraggablePane extends RelativeLayout implements Concealable, View.O
         LayoutInflater inflater =
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.expandable_listview, this);
-        mContentView = view.findViewById(R.id.gloss);
+        mContentView = view.findViewById(R.id.viewpager);
 
         mCloseButton = (Button) view.findViewById(R.id.gloss_close);
         mDragBar = (Button) view.findViewById(R.id.gloss_drag);

@@ -98,7 +98,6 @@
         android:layout_above="@id/myTitleBarLayout"
         android:orientation="vertical"
         android:visibility="gone"
-        custom:background_color="@color/control_background"
         custom:bar_height="40dp"
         custom:base_text_size="20sp"
         custom:close_button_width="50dp"

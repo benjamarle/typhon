@@ -25,18 +25,22 @@ Date: 2013 04 26
         android:layout_height="wrap_content"
         >
 
-    <org.zorgblub.rikai.glosslist.PinchableListView
-            android:id="@+id/gloss"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/control_background"
+        >
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/pager_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:paddingTop="20dp"
-            android:background="#C7000000"
-            android:fadeScrollbars="false"
-            android:textColor="#ffffffff"
-            android:divider="#C7C0C0C0"
-            android:dividerHeight="1dp"
-            />
+            android:layout_gravity="top"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:textColor="#aaffffff"
+            android:background="@color/opaque_black"/>
+    </android.support.v4.view.ViewPager>
     <!--  android:fadeScrollbars="false" always shows scrollbar -->
 
     <Button android:id="@+id/gloss_close"
@@ -49,7 +53,7 @@ Date: 2013 04 26
             android:background="@color/transparent"
             android:paddingRight="5dp"
             android:layout_alignParentTop="true"
-            android:layout_alignRight="@id/gloss"
+            android:layout_alignRight="@id/viewpager"
             />
     <Button android:id="@+id/gloss_drag"
             android:layout_width="match_parent"
