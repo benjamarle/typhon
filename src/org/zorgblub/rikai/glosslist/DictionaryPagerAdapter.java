@@ -5,14 +5,14 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.zorgblub.typhon.view.bookview.SelectedWord;
+
 import org.rikai.dictionary.Dictionary;
 import org.rikai.dictionary.Entries;
+import org.zorgblub.rikai.DictionaryService;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import static jedi.functional.FunctionalPrimitives.forEach;
 
 /**
  * Created by Benjamin on 22/03/2016.
@@ -21,38 +21,43 @@ public class DictionaryPagerAdapter extends PagerAdapter {
 
     private Context context;
 
-    private List<Dictionary> dictionaries;
+    private List<DictionaryListView> viewList = new ArrayList<DictionaryListView>();
 
-    private Set<DictionaryListView> viewSet = new HashSet<DictionaryListView>();
+    private DictionaryService dictionaryService;
 
-    private CharSequence currentWord;
+    private SelectedWord selectedWord;
 
-    public DictionaryPagerAdapter(Context context, List<Dictionary> dictionaries) {
+    public DictionaryPagerAdapter(Context context, DictionaryService dictionaryService){
         this.context = context;
-        this.dictionaries = dictionaries;
+        this.dictionaryService = dictionaryService;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        Dictionary dic = dictionaries.get(position);
-        DictionaryListView dictionaryListView = new DictionaryListView(this.context, dic);
-        if(currentWord != null){
-            dictionaryListView.search(currentWord.toString());
+        DictionaryListView dictionaryListView = new DictionaryListView(this.context);
+        dictionaryListView.setIndex(position);
+        if(selectedWord != null){
+            updateView(position, dictionaryListView);
         }
         container.addView(dictionaryListView);
-        viewSet.add(dictionaryListView);
+        viewList.add(position, dictionaryListView);
         return dictionaryListView;
+    }
+
+    private void updateView(int position, DictionaryListView dictionaryListView) {
+        Entries query = dictionaryService.query(position, selectedWord);
+        dictionaryListView.setResults(query);
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
-        viewSet.remove(object);
+        viewList.remove(position);
     }
 
     @Override
     public int getCount() {
-        return dictionaries.size();
+        return dictionaryService.getNbDictionaries();
     }
 
     @Override
@@ -62,20 +67,22 @@ public class DictionaryPagerAdapter extends PagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return "View : "+position;
+        return this.dictionaryService.getDictionary(position).toString();
     }
 
-    public Entries search(CharSequence word){
-        currentWord = word;
-        Entries query = new Entries();
-        forEach(viewSet, (view) ->{
-            Entries currentQuery = view.search(word.toString());
-            query.addAll(currentQuery);
-            query.setMaxLen(Math.max(currentQuery.getMaxLen(), query.getMaxLen()));
-        });
-        return query;
+    public SelectedWord getSelectedWord() {
+        return selectedWord;
     }
 
+    public void setSelectedWord(SelectedWord selectedWord) {
+        this.selectedWord = selectedWord;
+        for (DictionaryListView lv: viewList) {
+            updateView(lv.getIndex(), lv);
+        }
+    }
 
+    public DictionaryListView getView(int location) {
+        return viewList.get(location);
+    }
 }
 

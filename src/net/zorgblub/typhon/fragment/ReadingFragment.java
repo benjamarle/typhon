@@ -147,6 +147,7 @@ import org.rikai.dictionary.kanji.KanjiEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zorgblub.anki.AnkiDroidConfig;
+import org.zorgblub.rikai.DictionaryServiceImpl;
 import org.zorgblub.rikai.DroidEdictEntry;
 import org.zorgblub.rikai.DroidKanjiDictionary;
 import org.zorgblub.rikai.DroidNamesDictionary;
@@ -157,6 +158,7 @@ import org.zorgblub.rikai.download.SimpleDownloader;
 import org.zorgblub.rikai.download.SimpleExtractor;
 import org.zorgblub.rikai.glosslist.DictionaryEntryAdapter;
 import org.zorgblub.rikai.glosslist.DictionaryPagerAdapter;
+import org.zorgblub.rikai.glosslist.DictionaryPane;
 import org.zorgblub.rikai.glosslist.DraggablePane;
 
 import java.io.File;
@@ -188,7 +190,7 @@ import static net.zorgblub.typhon.PlatformUtil.executeTask;
 import static net.zorgblub.ui.UiUtils.onMenuPress;
 
 public class ReadingFragment extends RoboFragment implements
-        BookViewListener, TextSelectionCallback, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+        BookViewListener, TextSelectionCallback, DictionaryPane.BookReader {
 
     private static final String POS_KEY = "offset:";
     private static final String IDX_KEY = "index:";
@@ -275,14 +277,8 @@ public class ReadingFragment extends RoboFragment implements
     private TextView wordView;
 
     @InjectView(R.id.definition_view)
-    private DraggablePane ssView;
+    private DictionaryPane dictionaryPane;
 
-    @InjectView(R.id.viewpager)
-    private ViewPager ssPager;
-
-    private DictionaryPagerAdapter dictionaryPagerAdapter;
-
-    private KanjiDictionary kanjiDictionary;
 
     @Inject
     private TelephonyManager telephonyManager;
@@ -304,6 +300,8 @@ public class ReadingFragment extends RoboFragment implements
 
     @Inject
     private BookmarkDatabaseHelper bookmarkDatabaseHelper;
+
+    private DictionaryServiceImpl dictionaryService;
 
     /*
     This is actually a RemoteControlClient, but we declare it
@@ -384,250 +382,6 @@ public class ReadingFragment extends RoboFragment implements
         this.backgroundHandler = new Handler(bgThread.getLooper());
     }
 
-    private void loadDictionaries() {
-        DictionaryInfo dictionaryInfo = new DictionaryInfo(this.getActivity());
-        downloadAndExtract(dictionaryInfo);
-        initDictionaries(dictionaryInfo);
-    }
-
-    private void initDictionaries(DictionaryInfo dictionaryInfo) {
-        try {
-            dictionaries.add(new DroidWordEdictDictionary(dictionaryInfo.getEdictPath().getAbsolutePath(), new Deinflector(dictionaryInfo.getDeinflectPath().getAbsolutePath()), new DroidSqliteDatabase(), getResources()));
-            kanjiDictionary = new DroidKanjiDictionary(dictionaryInfo.getKanjiPath().getAbsolutePath(), Integer.MAX_VALUE, getResources(), config.getHeisig6());
-            dictionaries.add(kanjiDictionary);
-            dictionaries.add(new DroidNamesDictionary(dictionaryInfo.getNamesPath().getAbsolutePath(), new DroidSqliteDatabase(), getResources()));
-        } catch (IOException e) {
-            LOG.error("Could not load deinflector data", e);
-        } catch (DatabaseException e) {
-            LOG.error("Could not load dictionary data", e);
-        }
-
-        dictionaryPagerAdapter = new DictionaryPagerAdapter(this.getActivity(), dictionaries);
-        this.ssPager.setAdapter(dictionaryPagerAdapter);
-
-        Runnable task = () -> {
-            forEach(dictionaries, (dictionary) -> dictionary.load());
-        };
-        Thread thread = new Thread(task);
-        thread.run();
-    }
-
-    @Override
-    public void onWordPressed(SelectedWord selectedWord) {
-        if (config.isRikaiEnabled()) {
-            this.selectedWord = selectedWord;
-
-            CharSequence word = this.selectedWord.getText();
-
-            if(dictionaryPagerAdapter == null)
-                return;
-            Entries query = dictionaryPagerAdapter.search(word);
-
-
-            int startOffset = this.selectedWord.getStartOffset();
-            bookView.setDefinitionHighlight(startOffset, startOffset + query.getMaxLen());
-
-            ssView.setTag(R.string.tag_word_list, query);
-
-            // set the height of the ssView to only occupied part of the screen
-            // do this only if the ssView is invisible, this is the default height
-            if (!ssView.isDisplaying() || ssView.getHeight() < 10) {
-                ssView.setHeight((int) (bookView.getHeight() / 2.6));
-                ssView.reveal();
-            }
-        }
-    }
-
-    /**
-     * display the definition in the gloss view
-     *
-     * @param entries the definitions
-     */
-    private void showDefinition(Entries entries) {
-
-
-        if (entries.size() == 0) {
-            // this will make sure the entries size is not 0, otherwise
-            // setting the adapter will crash
-            entries.add(new DroidEdictEntry("No word found"));
-        }
-
-        // fill listview with words and definitions
-        DictionaryEntryAdapter<AbstractEntry> adapter
-                = new DictionaryEntryAdapter<AbstractEntry>(this.getActivity(), R.layout.definition_row, entries);
-
-        //TODO plView.setTextSize(config.getRikaiSize());
-        //TODO plView.setSizeChangeListener((newSize) -> {
-        //TODO     config.setRikaiSize(newSize);
-        //TODO });
-        //TODO  plView.setAdapter(adapter);
-        ssView.setTag(R.string.tag_word_list, entries);
-
-        // set the height of the ssView to only occupied part of the screen
-        // do this only if the ssView is invisible, this is the default height
-        if (!ssView.isDisplaying() || ssView.getHeight() < 10) {
-            ssView.setHeight((int) (bookView.getHeight() / 2.6));
-            ssView.reveal();
-        }
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Object item = parent.getAdapter().getItem(position);
-
-        Entries<AbstractEntry> entries = (Entries) ssView.getTag(R.string.tag_word_list);
-        AbstractEntry entry = entries.get(position);
-
-        if (!(entry instanceof EdictEntry)) return;
-
-        EdictEntry edictEntry = (EdictEntry) entry;
-        String word = edictEntry.getWord();
-        Entries<KanjiEntry> query = kanjiDictionary.query(word, false);
-        if (query.isEmpty()) {
-            Toast.makeText(context, R.string.no_kanji_found, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        showDefinition(query);
-    }
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-        AbstractEntry item = (AbstractEntry) parent.getAdapter().getItem(position);
-        if(!(item instanceof EdictEntry))
-            return false;
-
-        if(AddContentApi.getAnkiDroidPackageName(context) == null){
-            // AnkiDroid not installed
-            Toast.makeText(context, R.string.anki_not_installed, Toast.LENGTH_LONG).show();
-        }
-
-        EdictEntry entry = (EdictEntry) item;
-
-        FragmentActivity context = this.getActivity();
-
-        String reqPerm = AddContentApi.checkRequiredPermission(context);
-        if(reqPerm != null){
-            // Request permission for Android 6+
-            Toast.makeText(context, R.string.anki_permission_denied, Toast.LENGTH_LONG).show();
-            return false;
-        }
-
-
-        // Get api instance
-        final AddContentApi api = new AddContentApi(context);
-        // Look for our deck, add a new one if it doesn't exist
-        Long did = api.findDeckIdByName(AnkiDroidConfig.DECK_NAME);
-        if (did == null) {
-            did = api.addNewDeck(AnkiDroidConfig.DECK_NAME);
-        }
-        // Look for our model, add a new one if it doesn't exist
-        Long mid = api.findModelIdByName(AnkiDroidConfig.MODEL_NAME, AnkiDroidConfig.FIELDS.length);
-        if (mid == null) {
-            mid = api.addNewCustomModel(AnkiDroidConfig.MODEL_NAME, AnkiDroidConfig.FIELDS,
-                    AnkiDroidConfig.CARD_NAMES, AnkiDroidConfig.QFMT, AnkiDroidConfig.AFMT,
-                    AnkiDroidConfig.CSS, did);
-        }
-
-        // Double-check that everything was added correctly
-        String[] fieldNames = api.getFieldList(mid);
-        if (mid == null || did == null || fieldNames == null) {
-            Toast.makeText(context, R.string.anki_card_add_fail, Toast.LENGTH_LONG).show();
-            return false;
-        }
-
-
-        String sentence = this.selectedWord.getContextSentence().toString();
-        String originalWord = entry.getOriginalWord();
-
-        sentence = sentence.replace(originalWord, "<span class=\"emph\">"+originalWord+"</span>");
-
-        String flds[] = {originalWord, entry.getReading(), entry.getGloss(), sentence, entry.getReason(), entry.getWord()};
-
-
-
-        // Add a new note using the current field map
-        try {
-            // Only add item if there aren't any duplicates
-            if (!api.checkForDuplicates(mid, did, flds)) {
-                String tags = AnkiDroidConfig.TAGS+","+bookTitle.replaceAll("[^A-Za-z0-9]","_");
-                Uri noteUri = api.addNewNote(mid, did, flds, tags);
-                if (noteUri != null) {
-                    Toast.makeText(context, getResources().getString(R.string.anki_card_added, flds[0]), Toast.LENGTH_LONG).show();
-                }
-            }else{
-                Toast.makeText(context, getResources().getString(R.string.anki_card_already_added), Toast.LENGTH_LONG).show();
-            }
-        } catch (Exception e) {
-            Log.e("AnkiCardAdd", "Exception adding cards to AnkiDroid", e);
-            Toast.makeText(context, R.string.anki_card_add_fail, Toast.LENGTH_LONG).show();
-            return false;
-        }
-
-        return true;
-    }
-
-    private void downloadAndExtract(DictionaryInfo dictInfo) {
-
-        FragmentActivity activity = getActivity();
-        boolean update = false;
-        if (dictInfo.exists()) {
-            if(config.getDictionaryVersion().compareToIgnoreCase(dictInfo.getDictionaryVersion()) < 0){
-                update = true;
-            }else {
-                return;
-            }
-        }
-
-        int downloadMsg = R.string.dm_dict_message;
-        int downloadTitle = R.string.dm_dict_title;
-        if(update){
-            downloadMsg = R.string.dm_dict_update_message;
-            downloadTitle = R.string.dm_dict_update_title;
-        }
-        new AlertDialog.Builder(getActivity())
-                .setTitle(downloadTitle)
-                .setMessage(downloadMsg)
-                .setPositiveButton(R.string.dm_dict_yes, (DialogInterface dialog, int which) -> {
-                    final SimpleDownloader downloader = new SimpleDownloader(activity);
-                    final SimpleExtractor extractor = new SimpleExtractor(activity);
-                    downloader.setOnFinishTaskListener((boolean success) -> {
-
-                        if (success) {
-                            extractor.execute(dictInfo.getZipPath().getAbsolutePath());
-                        } else {
-                            dictInfo.getZipPath().delete();
-                            showDownloadTroubleDialog();
-                        }
-                    });
-                    extractor.setOnFinishTasklistener((boolean success) -> {
-                        if (success) {
-                            dictInfo.getZipPath().delete();
-                            config.setDictionaryVersion(dictInfo.getDictionaryVersion());
-                            initDictionaries(dictInfo);
-                        } else {
-                            dictInfo.getEdictPath().delete();
-                            dictInfo.getNamesPath().delete();
-                            dictInfo.getKanjiPath().delete();
-                            dictInfo.getDeinflectPath().delete();
-                            showDownloadTroubleDialog();
-                        }
-
-                    });
-                    downloader.execute(dictInfo.getDownloadUrl(), dictInfo.getZipPath().getAbsolutePath());
-                })
-                .setNegativeButton(R.string.dm_dict_no, null)
-                .create()
-                .show();
-    }
-
-    private void showDownloadTroubleDialog() {
-        new AlertDialog.Builder(getActivity())
-                .setMessage(R.string.dm_dict_alternate_download_address)
-                .setPositiveButton(R.string.msg_ok, null)
-                .create()
-                .show();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -694,13 +448,7 @@ public class ReadingFragment extends RoboFragment implements
         this.bookView.addListener(this);
         this.bookView.setTextSelectionCallback(this);
 
-        if (config.isRikaiEnabled()) {
-            loadDictionaries();
-        }
-
-
-        //TODO plView.setOnItemClickListener(this);
-        //TODO plView.setOnItemLongClickListener(this);
+        this.dictionaryPane.setBookReader(this);
     }
 
 
@@ -3025,6 +2773,13 @@ public class ReadingFragment extends RoboFragment implements
     }
 
     @Override
+    public void onWordPressed(SelectedWord word) {
+        if(config.isRikaiEnabled()){
+            dictionaryPane.onWordChanged(word);
+        }
+    }
+
+    @Override
     public void onWordLongPressed(SelectedWord word) {
         if (!config.isRikaiEnabled()) {
             Activity activity = getActivity();
@@ -3370,6 +3125,22 @@ public class ReadingFragment extends RoboFragment implements
         }
 
         return result;
+    }
+
+    @Override
+    public String getBookTitle() {
+        return getBookView().getBook().getTitle();
+    }
+
+    @Override
+    public void setMatch(SelectedWord word, int length) {
+        int startOffset = word.getStartOffset();
+        bookView.setDefinitionHighlight(startOffset, startOffset + length);
+    }
+
+    @Override
+    public int getHeight() {
+        return bookView.getHeight();
     }
 
     private class ManualProgressSync extends

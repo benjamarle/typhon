@@ -42,4 +42,9 @@ public class DroidNamesDictionary extends NamesDictionary {
         droidEdictEntry.setReasonColor(reasonColor);
         return droidEdictEntry;
     }
+
+    @Override
+    public String toString() {
+        return "Enamdic";
+    }
 }

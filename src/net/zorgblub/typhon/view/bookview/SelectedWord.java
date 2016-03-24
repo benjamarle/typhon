@@ -37,4 +37,20 @@ public class SelectedWord {
     public CharSequence getContextSentence() {
         return contextSentence;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SelectedWord that = (SelectedWord) o;
+
+        return text.equals(that.text);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return text.hashCode();
+    }
 }

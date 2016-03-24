@@ -44,4 +44,9 @@ public class DroidWordEdictDictionary extends WordEdictDictionary {
         droidEdictEntry.setReasonColor(reasonColor);
         return droidEdictEntry;
     }
+
+    @Override
+    public String toString() {
+        return "Edict";
+    }
 }

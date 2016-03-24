@@ -3,9 +3,17 @@ package org.zorgblub.rikai.glosslist;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
+import android.widget.Toast;
+
+import com.ichi2.anki.api.AddContentApi;
 
 import net.zorgblub.typhon.R;
 
@@ -13,36 +21,38 @@ import org.rikai.dictionary.AbstractEntry;
 import org.rikai.dictionary.Dictionary;
 import org.rikai.dictionary.DictionaryNotLoadedException;
 import org.rikai.dictionary.Entries;
+import org.rikai.dictionary.edict.EdictEntry;
+import org.rikai.dictionary.kanji.KanjiEntry;
+import org.zorgblub.anki.AnkiDroidConfig;
 import org.zorgblub.rikai.DroidEdictEntry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Benjamin on 22/03/2016.
  */
 public class DictionaryListView extends PinchableListView {
 
-    private Dictionary dictionary;
-
-    private int maxLength;
-
     private int mTextColor;
 
     private int mBackgroundColor;
 
-    public DictionaryListView(Context context, Dictionary dictionary) {
+    private int index;
+
+
+    public DictionaryListView(Context context) {
         super(context);
-        this.dictionary = dictionary;
         init();
     }
 
-    public DictionaryListView(Context context, AttributeSet attrs, Dictionary dictionary) {
+    public DictionaryListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.dictionary = dictionary;
         init();
     }
 
-    public DictionaryListView(Context context, AttributeSet attrs, int defStyle, Dictionary dictionary) {
+    public DictionaryListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.dictionary = dictionary;
         init();
     }
 
@@ -73,34 +83,6 @@ public class DictionaryListView extends PinchableListView {
     private int getPixels(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
     }
-
-    public Dictionary getDictionary() {
-        return dictionary;
-    }
-
-    public void setDictionary(Dictionary dictionary) {
-        this.dictionary = dictionary;
-    }
-
-    public Entries search(String word){
-        Entries entries;
-        try {
-            entries = dictionary.query(word);
-            maxLength = entries.getMaxLen();
-            if(entries.size() == 0){
-                entries.add(new DroidEdictEntry("No word found for this dictionary"));
-            }
-        } catch (DictionaryNotLoadedException e){
-            entries = new Entries();
-            entries.add(new DroidEdictEntry("Dictionary not yet loaded"));
-        }
-
-        DictionaryEntryAdapter<AbstractEntry> adapter
-                = new DictionaryEntryAdapter<AbstractEntry>(this.getContext(), R.layout.definition_row, entries);
-        this.setAdapter(adapter);
-        return entries;
-    }
-
     /**
      * set the data behind the listview of this compound control
      *
@@ -116,6 +98,12 @@ public class DictionaryListView extends PinchableListView {
         super.setAdapter(adapter);
     }
 
+    public void setResults(Entries entries){
+        DictionaryEntryAdapter<AbstractEntry> adapter
+                = new DictionaryEntryAdapter<AbstractEntry>(this.getContext(), R.layout.definition_row, entries);
+        this.setAdapter(adapter);
+    }
+
     public void setDefintionBackgroundColor(int color) {
         mBackgroundColor = color;
         this.setBackgroundColor(color);
@@ -129,4 +117,11 @@ public class DictionaryListView extends PinchableListView {
         }
     }
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 }

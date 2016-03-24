@@ -46,4 +46,9 @@ public class DroidKanjiDictionary extends KanjiDictionary {
         droidEdictEntry.setHeisig6(this.heisig6);
         return droidEdictEntry;
     }
+
+    @Override
+    public String toString() {
+        return "Kanjidic";
+    }
 }

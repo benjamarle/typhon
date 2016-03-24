@@ -95,7 +95,7 @@
 			android:background="@color/translucent_black" />   
   </RelativeLayout>
 
-    <org.zorgblub.rikai.glosslist.DraggablePane
+    <org.zorgblub.rikai.glosslist.DictionaryPane
         android:id="@id/definition_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
