@@ -434,7 +434,7 @@
         dictionary data and re-download the dictionary?
     </string>
     <string name="dm_dict_alternate_download_address">If you have trouble downloading the
-        dictionary, please email me at steinsgate.sg@gmail.com.\nSorry for the inconvenience.
+        dictionary, go to https://bitbucket.org/biboomig/typhon in the issue section for support.\nSorry for the inconvenience.
     </string>
 
     <!-- option menu text -->

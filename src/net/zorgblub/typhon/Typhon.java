@@ -34,27 +34,34 @@ public class Typhon extends Application {
 
     private static boolean acraInitDone;
 
+	private static Typhon instance;
+	public static Typhon get() { return instance; }
+
+
+
 	@Override
 	public void onCreate() {
-
-        //This is a work-around because unit-tests call ACRA more than once.
-        if ( ! acraInitDone ) {
-            ACRA.init(this);
-            acraInitDone = true;
-        }
-
 		if(Configuration.IS_EINK_DEVICE) { // e-ink looks better with dark-on-light (esp. Nook Touch where theming breaks light-on-dark
 			setTheme(R.style.Theme_AppCompat_Light);
+
+			//This is a work-around because unit-tests call ACRA more than once.
+			if ( ! acraInitDone ) {
+				ACRA.init(this);
+				acraInitDone = true;
+			}
+
 		}
 
 		super.onCreate();
+		instance = this;
 	}
-	
+
 	public static void changeLanguageSetting(Context context, Configuration typhonConfig) {
-		android.content.res.Configuration config = new android.content.res.Configuration(
-				context.getResources().getConfiguration());
-	    
-		config.locale = typhonConfig.getLocale();
-	    context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());	    
-	}
+	android.content.res.Configuration config = new android.content.res.Configuration(
+	context.getResources().getConfiguration());
+
+	config.locale = typhonConfig.getLocale();
+	context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+}
+
 }

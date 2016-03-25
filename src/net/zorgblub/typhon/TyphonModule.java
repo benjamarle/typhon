@@ -45,6 +45,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
+import org.zorgblub.rikai.DictionaryService;
+import org.zorgblub.rikai.DictionaryServiceImpl;
 
 import java.net.MalformedURLException;
 import java.net.URL;

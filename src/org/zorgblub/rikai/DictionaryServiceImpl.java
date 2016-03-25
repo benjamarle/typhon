@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Message;
 import android.util.Log;
 import android.util.Pair;
 import android.util.SparseArray;
@@ -13,6 +14,7 @@ import com.ichi2.anki.api.AddContentApi;
 
 import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.R;
+import net.zorgblub.typhon.Typhon;
 import net.zorgblub.typhon.view.bookview.SelectedWord;
 
 import org.rikai.deinflector.Deinflector;
@@ -32,8 +34,8 @@ import org.zorgblub.rikai.download.SimpleExtractor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
+import static jedi.functional.FunctionalPrimitives.firstOrNull;
 import static jedi.functional.FunctionalPrimitives.forEach;
 
 /**
@@ -43,23 +45,36 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     private ArrayList<Dictionary> dictionaries = new ArrayList<>();
 
+    private Context context;
+
     private Configuration config;
 
-    private DictionaryListener listener;
+    private DictionaryListener dictionaryListener;
+
+    private MessageListener messageListener;
 
     private int currentDictionary;
 
     private SparseArray<Pair<SelectedWord, Entries>> matchesCaches = new SparseArray<>();
 
+    private boolean initialized;
+
     private static final Logger LOG = LoggerFactory
             .getLogger("DictionaryService");
 
-    public DictionaryServiceImpl(Configuration config) {
-        this.config = config;
+    private DictionaryServiceImpl() {
+        Typhon typhon = Typhon.get();
+        this.context = typhon.getApplicationContext();
+        this.config = new Configuration(this.context);
     }
 
     @Override
     public void initDictionaries(Context context) {
+        if(initialized){
+            fireDictionaryLoaded();
+            return;
+        }
+
         DictionaryInfo dictionaryInfo = new DictionaryInfo(context);
         DictionaryStatus status = checkDictionaries(dictionaryInfo);
         fireDictionaryChecked(status);
@@ -89,6 +104,7 @@ public class DictionaryServiceImpl implements DictionaryService {
         Runnable task = () -> {
             forEach(dictionaries, (dictionary) -> dictionary.load());
             fireDictionaryLoaded();
+            initialized = true;
         };
         Thread thread = new Thread(task);
         thread.run();
@@ -116,6 +132,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     @Override
     public void downloadAndExtract(DictionaryInfo dictInfo, Context context){
+        // TODO Separate the UI dialogs with the download business
         final SimpleDownloader downloader = new SimpleDownloader(context);
         downloader.setOnFinishTaskListener((boolean success) -> {
             if (success) {
@@ -180,32 +197,53 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     private void fireDictionaryChecked(DictionaryStatus status){
-        if(listener == null)
+        if(dictionaryListener == null)
             return;
-         listener.onDictionaryChecked(status);
+         dictionaryListener.onDictionaryChecked(status);
     }
 
     private void fireDictionaryLoaded(){
-        if(listener == null)
+        if(dictionaryListener == null)
             return;
-         listener.onDictionaryLoaded();
+         dictionaryListener.onDictionaryLoaded();
     }
 
     private void fireCurrentDictionaryChanged(int index){
-        if(listener == null)
+        if(dictionaryListener == null)
             return;
-        listener.onCurrentDictionaryChanged(index);
+        dictionaryListener.onCurrentDictionaryChanged(index);
     }
 
     private void fireCurrentMatchChanged(SelectedWord word, Entries match){
-        if(listener == null)
+        if(dictionaryListener == null)
             return;
-        listener.onCurrentMatchChanged(word, match);
+        dictionaryListener.onCurrentMatchChanged(word, match);
     }
 
     @Override
     public void setDictionaryListener(DictionaryListener dictionaryListener){
-        this.listener = dictionaryListener;
+        this.dictionaryListener = dictionaryListener;
+    }
+
+    public interface MessageListener{
+        void onMessage(int id);
+
+        void onMessage(int id, Object... params);
+    }
+
+    public void fireOnMessage(int id){
+        if(this.messageListener != null)
+            this.messageListener.onMessage(id);
+    }
+
+
+    public void fireOnMessage(int id, Object... params){
+        if(this.messageListener != null)
+            this.messageListener.onMessage(id, params);
+    }
+
+    public void setMessageListener(MessageListener messageListener){
+        this.messageListener = messageListener;
     }
 
     public void setCurrentDictionary(int index){
@@ -245,6 +283,10 @@ public class DictionaryServiceImpl implements DictionaryService {
         return entries;
     }
 
+    @Override
+    public Pair<SelectedWord, Entries> getLastMatch(int dicIndex) {
+        return matchesCaches.get(dicIndex);
+    }
 
     @Override
     public boolean saveInAnki(AbstractEntry abstractEntry, Context context, SelectedWord selectedWord, String bookTitle){
@@ -254,7 +296,8 @@ public class DictionaryServiceImpl implements DictionaryService {
 
         if(AddContentApi.getAnkiDroidPackageName(context) == null){
             // AnkiDroid not installed
-            Toast.makeText(context, R.string.anki_not_installed, Toast.LENGTH_LONG).show();
+            fireOnMessage(R.string.anki_not_installed);
+            return false;
         }
 
 
@@ -264,7 +307,7 @@ public class DictionaryServiceImpl implements DictionaryService {
         if(reqPerm != null){
             // Request permission for Android 6+
             //TODO request the permission as a resolution
-            Toast.makeText(context, R.string.anki_permission_denied, Toast.LENGTH_LONG).show();
+            fireOnMessage(R.string.anki_permission_denied);
             return false;
         }
 
@@ -287,7 +330,7 @@ public class DictionaryServiceImpl implements DictionaryService {
         // Double-check that everything was added correctly
         String[] fieldNames = api.getFieldList(mid);
         if (mid == null || did == null || fieldNames == null) {
-            Toast.makeText(context, R.string.anki_card_add_fail, Toast.LENGTH_LONG).show();
+            fireOnMessage(R.string.anki_card_add_fail);
             return false;
         }
 
@@ -308,19 +351,31 @@ public class DictionaryServiceImpl implements DictionaryService {
                 String tags = AnkiDroidConfig.TAGS+","+bookTitle.replaceAll("[^A-Za-z0-9]","_");
                 Uri noteUri = api.addNewNote(mid, did, flds, tags);
                 if (noteUri != null) {
-                    Toast.makeText(context, context.getResources().getString(R.string.anki_card_added, flds[0]), Toast.LENGTH_LONG).show();
+                    fireOnMessage(R.string.anki_card_added, flds[0]);
                 }
             }else{
-                Toast.makeText(context, R.string.anki_card_already_added, Toast.LENGTH_LONG).show();
+                fireOnMessage(R.string.anki_card_already_added);
             }
         } catch (Exception e) {
             Log.e("AnkiCardAdd", "Exception adding cards to AnkiDroid", e);
-            Toast.makeText(context, R.string.anki_card_add_fail, Toast.LENGTH_LONG).show();
+            fireOnMessage(R.string.anki_card_add_fail);
             return false;
         }
         return true;
     }
 
+    /* Singleton pattern */
+
+    private static DictionaryService instance;
+
+    public static DictionaryService get() {
+        if(instance == null) instance = getSync();
+        return instance;
+    }
+
+    private static synchronized DictionaryService getSync() {
+        if(instance == null) instance = new DictionaryServiceImpl();
+        return instance;
+    }
+
 }
-
-

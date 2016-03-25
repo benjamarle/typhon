@@ -17,6 +17,11 @@ public class SelectedWord {
         this.contextSentence = contextSentence;
     }
 
+    public SelectedWord(CharSequence text){
+        this.text = text;
+        contextSentence = "No context sentence";
+    }
+
     public int getStartOffset() {
         return startOffset;
     }

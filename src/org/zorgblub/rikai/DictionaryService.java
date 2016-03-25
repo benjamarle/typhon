@@ -1,6 +1,7 @@
 package org.zorgblub.rikai;
 
 import android.content.Context;
+import android.util.Pair;
 
 import net.zorgblub.typhon.view.bookview.SelectedWord;
 
@@ -27,9 +28,13 @@ public interface DictionaryService {
 
     Entries query(int dicIndex, SelectedWord word);
 
+    Pair<SelectedWord, Entries>  getLastMatch(int dicIndex);
+
     boolean saveInAnki(AbstractEntry abstractEntry, Context context, SelectedWord selectedWord, String bookTitle);
 
     void setCurrentDictionary(int index);
+
+    void setMessageListener(DictionaryServiceImpl.MessageListener messageListener);
 
 
 }

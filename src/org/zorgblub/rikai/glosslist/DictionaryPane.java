@@ -5,13 +5,20 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Pair;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.R;
 import net.zorgblub.typhon.view.bookview.SelectedWord;
 
+import org.rikai.dictionary.AbstractEntry;
+import org.rikai.dictionary.Dictionary;
 import org.rikai.dictionary.Entries;
+import org.rikai.dictionary.edict.EdictEntry;
+import org.rikai.dictionary.kanji.KanjiDictionary;
 import org.zorgblub.rikai.DictionaryService;
 import org.zorgblub.rikai.DictionaryServiceImpl;
 import org.zorgblub.rikai.download.DictionaryInfo;
@@ -74,9 +81,21 @@ public class DictionaryPane extends DraggablePane implements DictionaryServiceIm
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         dictionaryInfo = new DictionaryInfo(context);
-        dictionaryService = new DictionaryServiceImpl(new Configuration(context));
+        dictionaryService = DictionaryServiceImpl.get();
         dictionaryService.setDictionaryListener(this);
         dictionaryService.initDictionaries(context);
+
+        dictionaryService.setMessageListener(new DictionaryServiceImpl.MessageListener() {
+            @Override
+            public void onMessage(int id) {
+                Toast.makeText(DictionaryPane.this.getContext(), id, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onMessage(int id, Object... params) {
+                Toast.makeText(DictionaryPane.this.getContext(), context.getResources().getString(id, params), Toast.LENGTH_LONG).show();
+            }
+        }); // simple toaster
 
         // to update the match length when changing page
         viewPager.setOnPageChangeListener(longestMatchUpdater);
@@ -85,42 +104,6 @@ public class DictionaryPane extends DraggablePane implements DictionaryServiceIm
     public void setBookReader(BookReader bookReader) {
         this.bookReader = bookReader;
     }
-
-    /* TODO convert these features
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Object item = parent.getAdapter().getItem(position);
-
-        Entries<AbstractEntry> entries = (Entries) ssView.getTag(R.string.tag_word_list);
-        AbstractEntry entry = entries.get(position);
-
-        if (!(entry instanceof EdictEntry)) return;
-
-        EdictEntry edictEntry = (EdictEntry) entry;
-        String word = edictEntry.getWord();
-        Entries<KanjiEntry> query = kanjiDictionary.query(word, false);
-        if (query.isEmpty()) {
-            Toast.makeText(context, R.string.no_kanji_found, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        showDefinition(query);
-    }
-
-
-
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        AbstractEntry item = (AbstractEntry) parent.getAdapter().getItem(position);
-        if(!(item instanceof EdictEntry))
-            return false;
-
-
-        dictionaryService.saveInAnki(item, this.getContext());
-        return true;
-    }*/
-
 
     public void downloadDictionaries(Context context, boolean update){
         int downloadMsg = R.string.dm_dict_message;
@@ -153,9 +136,68 @@ public class DictionaryPane extends DraggablePane implements DictionaryServiceIm
         }
     }
 
+    private class ClickListener implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener{
+
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Pair<SelectedWord, Entries> lastMatch = getLastMatch(view);
+
+            if(lastMatch == null)
+                return;
+
+            Entries entries = lastMatch.second;
+
+            Object abstractEntry = entries.get(position);
+            if(!(abstractEntry instanceof EdictEntry))
+                return;
+
+            EdictEntry edictEntry = (EdictEntry) abstractEntry;
+
+            int kanjiDicIndex = -1;
+            for(int i = 0; i < dictionaryService.getNbDictionaries(); i++){
+                Dictionary dic = dictionaryService.getDictionary(i);
+                if(dic instanceof KanjiDictionary){
+                    kanjiDicIndex = i;
+                    break;
+                }
+            }
+            if(kanjiDicIndex < 0)
+                return;
+            SelectedWord word = new SelectedWord(edictEntry.getWord());
+            dictionaryService.query(kanjiDicIndex, word);
+            pagerAdapter.setSelectedWord(word);
+            viewPager.setCurrentItem(kanjiDicIndex);
+        }
+
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            Pair<SelectedWord, Entries> lastMatch = getLastMatch(view);
+
+            if(lastMatch == null)
+                return false;
+
+            SelectedWord selectedWord = lastMatch.first;
+            Entries entries = lastMatch.second;
+            AbstractEntry e = (AbstractEntry) entries.get(position);
+            return dictionaryService.saveInAnki(e, DictionaryPane.this.getContext(), selectedWord,bookReader.getBookTitle());
+        }
+
+        private Pair<SelectedWord, Entries> getLastMatch(View v) {
+            DictionaryListView view = (DictionaryListView) v.getParent();
+            DictionaryListView dlv = view;
+            int dicIndex = dlv.getIndex();
+
+            return dictionaryService.getLastMatch(dicIndex);
+        }
+    }
+
     @Override
     public void onDictionaryLoaded() {
         DictionaryPagerAdapter dictionaryPagerAdapter = new DictionaryPagerAdapter(this.getContext(), this.dictionaryService);
+        ClickListener clickListener = new ClickListener();
+        dictionaryPagerAdapter.setClickListener(clickListener);
+        dictionaryPagerAdapter.setLongClickListener(clickListener);
         viewPager.setAdapter(dictionaryPagerAdapter);
         this.pagerAdapter = dictionaryPagerAdapter;
     }
