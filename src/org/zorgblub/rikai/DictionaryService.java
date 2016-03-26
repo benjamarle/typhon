@@ -8,7 +8,10 @@ import net.zorgblub.typhon.view.bookview.SelectedWord;
 import org.rikai.dictionary.AbstractEntry;
 import org.rikai.dictionary.Dictionary;
 import org.rikai.dictionary.Entries;
-import org.zorgblub.rikai.download.DictionaryInfo;
+import org.zorgblub.rikai.download.settings.DictionarySettings;
+import org.zorgblub.rikai.download.settings.DownloadableSettings;
+
+import java.util.List;
 
 /**
  * Created by Benjamin on 23/03/2016.
@@ -16,9 +19,9 @@ import org.zorgblub.rikai.download.DictionaryInfo;
 public interface DictionaryService {
     void initDictionaries(Context context);
 
-    DictionaryServiceImpl.DictionaryStatus checkDictionaries(DictionaryInfo dictInfo);
+    DictionaryServiceImpl.DictionaryStatus checkDictionaries(List<DictionarySettings> list);
 
-    void downloadAndExtract(DictionaryInfo dictInfo, Context context);
+    void downloadAndExtract(List<DownloadableSettings> list, Context context);
 
     Dictionary getDictionary(int index);
 
@@ -35,6 +38,8 @@ public interface DictionaryService {
     void setCurrentDictionary(int index);
 
     void setMessageListener(DictionaryServiceImpl.MessageListener messageListener);
+
+    List<DownloadableSettings> getDownloadableSettings();
 
 
 }

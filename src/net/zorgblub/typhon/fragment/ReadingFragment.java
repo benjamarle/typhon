@@ -29,7 +29,6 @@ import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
@@ -50,18 +49,15 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.PowerManager;
 import android.speech.tts.TextToSpeech;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.telephony.TelephonyManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Display;
 import android.view.GestureDetector;
@@ -78,7 +74,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -90,7 +85,6 @@ import android.widget.ViewSwitcher;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.ichi2.anki.api.AddContentApi;
 
 import net.nightwhistler.htmlspanner.spans.CenterSpan;
 import net.zorgblub.typhon.Configuration;
@@ -136,30 +130,11 @@ import net.zorgblub.typhon.view.bookview.TextSelectionCallback;
 import net.zorgblub.ui.ActionModeBuilder;
 import net.zorgblub.ui.DialogFactory;
 
-import org.rikai.deinflector.Deinflector;
-import org.rikai.dictionary.AbstractEntry;
 import org.rikai.dictionary.Dictionary;
-import org.rikai.dictionary.Entries;
-import org.rikai.dictionary.db.DatabaseException;
-import org.rikai.dictionary.edict.EdictEntry;
-import org.rikai.dictionary.kanji.KanjiDictionary;
-import org.rikai.dictionary.kanji.KanjiEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.zorgblub.anki.AnkiDroidConfig;
 import org.zorgblub.rikai.DictionaryServiceImpl;
-import org.zorgblub.rikai.DroidEdictEntry;
-import org.zorgblub.rikai.DroidKanjiDictionary;
-import org.zorgblub.rikai.DroidNamesDictionary;
-import org.zorgblub.rikai.DroidSqliteDatabase;
-import org.zorgblub.rikai.DroidWordEdictDictionary;
-import org.zorgblub.rikai.download.DictionaryInfo;
-import org.zorgblub.rikai.download.SimpleDownloader;
-import org.zorgblub.rikai.download.SimpleExtractor;
-import org.zorgblub.rikai.glosslist.DictionaryEntryAdapter;
-import org.zorgblub.rikai.glosslist.DictionaryPagerAdapter;
 import org.zorgblub.rikai.glosslist.DictionaryPane;
-import org.zorgblub.rikai.glosslist.DraggablePane;
 
 import java.io.File;
 import java.io.IOException;
@@ -181,7 +156,6 @@ import roboguice.inject.InjectView;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 import static jedi.functional.FunctionalPrimitives.firstOption;
-import static jedi.functional.FunctionalPrimitives.forEach;
 import static jedi.functional.FunctionalPrimitives.isEmpty;
 import static jedi.functional.FunctionalPrimitives.map;
 import static jedi.option.Options.none;
@@ -334,7 +308,6 @@ public class ReadingFragment extends RoboFragment implements
     private List<Dictionary> dictionaries = new ArrayList<Dictionary>();
 
 
-
     private enum Orientation {
         HORIZONTAL, VERTICAL
     }
@@ -450,7 +423,6 @@ public class ReadingFragment extends RoboFragment implements
 
         this.dictionaryPane.setBookReader(this);
     }
-
 
 
     private void seekToPointInPlayback(int position) {
@@ -2216,7 +2188,7 @@ public class ReadingFragment extends RoboFragment implements
 
         Option<Bitmap> bitmap = getBookViewSnapshot();
         /*
-		TODO: is this OK?
+        TODO: is this OK?
         We don't set anything when we get None instead of Some.
         */
         bitmap.forEach(dummyView::setImageBitmap);
@@ -2774,7 +2746,7 @@ public class ReadingFragment extends RoboFragment implements
 
     @Override
     public void onWordPressed(SelectedWord word) {
-        if(config.isRikaiEnabled()){
+        if (config.isRikaiEnabled()) {
             dictionaryPane.onWordChanged(word);
         }
     }

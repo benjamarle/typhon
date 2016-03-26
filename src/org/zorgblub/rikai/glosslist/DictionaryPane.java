@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.R;
 import net.zorgblub.typhon.view.bookview.SelectedWord;
 
@@ -21,7 +20,6 @@ import org.rikai.dictionary.edict.EdictEntry;
 import org.rikai.dictionary.kanji.KanjiDictionary;
 import org.zorgblub.rikai.DictionaryService;
 import org.zorgblub.rikai.DictionaryServiceImpl;
-import org.zorgblub.rikai.download.DictionaryInfo;
 
 /**
  * Created by Benjamin on 22/03/2016.
@@ -31,10 +29,6 @@ public class DictionaryPane extends DraggablePane implements DictionaryServiceIm
     private DictionaryService dictionaryService;
 
     private DictionaryPagerAdapter pagerAdapter;
-
-    private DictionaryInfo dictionaryInfo;
-
-    private SelectedWord selectedWord;
 
     private ViewPager viewPager;
 
@@ -80,7 +74,6 @@ public class DictionaryPane extends DraggablePane implements DictionaryServiceIm
     private void init(Context context) {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        dictionaryInfo = new DictionaryInfo(context);
         dictionaryService = DictionaryServiceImpl.get();
         dictionaryService.setDictionaryListener(this);
         dictionaryService.initDictionaries(context);
@@ -113,7 +106,7 @@ public class DictionaryPane extends DraggablePane implements DictionaryServiceIm
             downloadTitle = R.string.dm_dict_update_title;
         }
         DialogInterface.OnClickListener downloadAndExtractFunction = (DialogInterface dialog, int which) -> {
-            dictionaryService.downloadAndExtract(dictionaryInfo, context);
+            dictionaryService.downloadAndExtract(dictionaryService.getDownloadableSettings(), context);
         };
         new AlertDialog.Builder(context)
                 .setTitle(downloadTitle)
@@ -207,7 +200,6 @@ public class DictionaryPane extends DraggablePane implements DictionaryServiceIm
             Toast.makeText(this.getContext(), "Dictionary not ready yet", Toast.LENGTH_SHORT);
             return;
         }
-        this.selectedWord = word;
         pagerAdapter.setSelectedWord(word);
         pagerAdapter.notifyDataSetChanged();
         showPane();

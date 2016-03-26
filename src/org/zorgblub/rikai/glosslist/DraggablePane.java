@@ -34,7 +34,7 @@ import android.widget.RelativeLayout;
 
 import net.zorgblub.typhon.R;
 
-public class DraggablePane extends RelativeLayout implements Concealable, View.OnTouchListener {
+public class DraggablePane extends RelativeLayout implements View.OnTouchListener {
 
     @SuppressWarnings("unused")
     private static final String TAG = "JTEXT";
@@ -170,7 +170,6 @@ public class DraggablePane extends RelativeLayout implements Concealable, View.O
     /**
      * show this View
      */
-    @Override
     public void reveal() {
         internalSetVisibility(View.VISIBLE);
     }
@@ -178,7 +177,6 @@ public class DraggablePane extends RelativeLayout implements Concealable, View.O
     /**
      * Hide this view
      */
-    @Override
     public void conceal() {
         internalSetVisibility(View.INVISIBLE);
     }
@@ -188,7 +186,6 @@ public class DraggablePane extends RelativeLayout implements Concealable, View.O
      *
      * @return true if the widget is visible, false otherwise
      */
-    @Override
     public boolean isDisplaying() {
         return mContentView.getVisibility() == View.VISIBLE;
     }
