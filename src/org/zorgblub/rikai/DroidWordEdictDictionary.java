@@ -25,6 +25,8 @@ public class DroidWordEdictDictionary extends WordEdictDictionary {
 
     private int reasonColor;
 
+    private String name = "Edict";
+
     public DroidWordEdictDictionary(String path, Deinflector deinflector, SqliteDatabase sqliteDatabaseImpl, Resources resources) {
         super(path, deinflector, sqliteDatabaseImpl);
 
@@ -47,6 +49,14 @@ public class DroidWordEdictDictionary extends WordEdictDictionary {
 
     @Override
     public String toString() {
-        return "Edict";
+        return this.getName();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

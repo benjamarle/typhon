@@ -621,4 +621,7 @@
     <string name="anki_card_add_fail">Failed to add new note in AnkiDroid</string>
     <string name="anki_card_added">Successfully added note to AnkiDroid:  %s !</string>
     <string name="anki_card_already_added">Card already present in AnkiDroid</string>
+
+    <string name="dictionary_confirm_delete_title">Delete dictionary</string>
+    <string name="dictionary_confirm_delete_msg">Are you sure you want to delete [%s]?</string>
 </resources>

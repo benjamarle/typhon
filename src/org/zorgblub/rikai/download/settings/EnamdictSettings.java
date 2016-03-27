@@ -1,7 +1,5 @@
 package org.zorgblub.rikai.download.settings;
 
-import android.os.Bundle;
-
 import org.rikai.dictionary.Dictionary;
 import org.zorgblub.rikai.DroidNamesDictionary;
 import org.zorgblub.rikai.DroidSqliteDatabase;
@@ -14,6 +12,8 @@ public class EnamdictSettings extends DownloadableSettings{
     private String basePath = "polarnames.sqlite";
 
     private DictionaryType type = DictionaryType.ENAMDICT;
+
+    private String name = "Enamdict";
 
     @Override
     public String getBasePath() {
@@ -32,5 +32,14 @@ public class EnamdictSettings extends DownloadableSettings{
     @Override
     public DictionaryType getType() {
         return type;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

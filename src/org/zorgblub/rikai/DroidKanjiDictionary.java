@@ -26,6 +26,8 @@ public class DroidKanjiDictionary extends KanjiDictionary {
 
     private boolean heisig6 = true;
 
+    private String name = "Kanjidic";
+
     public DroidKanjiDictionary(String path, int maxNbQueries, Resources resources, boolean heisig6) throws FileNotFoundException {
         super(path, maxNbQueries);
         this.resources = resources;
@@ -49,6 +51,14 @@ public class DroidKanjiDictionary extends KanjiDictionary {
 
     @Override
     public String toString() {
-        return "Kanjidic";
+        return this.getName();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

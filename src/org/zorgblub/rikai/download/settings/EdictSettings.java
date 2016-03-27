@@ -21,6 +21,8 @@ public class EdictSettings extends DownloadableSettings {
 
     private DeinflectorSettings deinflectorSettings = new DeinflectorSettings();
 
+    private String name = "Edict";
+
     public String getBasePath() {
         return basePath;
     }
@@ -40,7 +42,9 @@ public class EdictSettings extends DownloadableSettings {
     @Override
     public Dictionary newInstance() throws IOException {
         Deinflector deinflector = new Deinflector(deinflectorSettings.getFile().getAbsolutePath());
-        return new DroidWordEdictDictionary(this.getFile().getAbsolutePath(), deinflector, new DroidSqliteDatabase(), context.getResources());
+        DroidWordEdictDictionary droidWordEdictDictionary = new DroidWordEdictDictionary(this.getFile().getAbsolutePath(), deinflector, new DroidSqliteDatabase(), context.getResources());
+        droidWordEdictDictionary.setName(this.getName());
+        return droidWordEdictDictionary;
     }
 
     @Override
@@ -57,5 +61,14 @@ public class EdictSettings extends DownloadableSettings {
     public void delete() {
         super.delete();
         deinflectorSettings.delete();
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

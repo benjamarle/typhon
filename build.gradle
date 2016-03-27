@@ -35,7 +35,7 @@ retrolambda {
 }
 
 repositories {
-    
+
     mavenLocal()
 
     maven { url 'http://repo.pageturner-reader.org' }
@@ -43,7 +43,7 @@ repositories {
     maven { url 'http://repo.springsource.org/libs-release' }
 
     mavenCentral()
-    
+
     maven {
         url 'https://oss.sonatype.org/content/repositories/snapshots/'
     }
@@ -74,7 +74,7 @@ dependencies {
     compile 'org.roboguice:roboguice:3.0.1'
     compile files('libs/JRikai.jar')
     compile 'com.google.code.gson:gson:2.6.2'
-
+    compile 'com.github.woxthebox:draglistview:1.2.1'
     provided(
             [group: 'com.google.android', name: 'annotations', version: '4.1.1.4'],
             [group: 'org.slf4j', name: 'slf4j-api', version: '1.6.1']

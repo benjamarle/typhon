@@ -3,7 +3,6 @@ package org.zorgblub.rikai.download.settings;
 import org.rikai.dictionary.Dictionary;
 import org.zorgblub.rikai.DroidKanjiDictionary;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -20,6 +19,8 @@ public class KanjidicSettings extends DownloadableSettings {
     private int maxNbQueries = Integer.MAX_VALUE;
 
     private boolean heisig6 = true;
+
+    private String name = "Kanjidic";
 
     public String getBasePath() {
         return basePath;
@@ -47,5 +48,14 @@ public class KanjidicSettings extends DownloadableSettings {
     @Override
     public DictionaryType getType() {
         return type;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -74,5 +74,10 @@ public abstract class DictionarySettings {
 
     public abstract DictionaryType getType();
 
+    public abstract String getName();
 
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

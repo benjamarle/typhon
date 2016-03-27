@@ -24,6 +24,8 @@ public class DroidNamesDictionary extends NamesDictionary {
 
     private int reasonColor;
 
+    private String name = "Enamdict";
+
     public DroidNamesDictionary(String path, SqliteDatabase sqliteDatabaseImpl, Resources resources) {
         super(path, sqliteDatabaseImpl);
         this.resources = resources;
@@ -45,6 +47,14 @@ public class DroidNamesDictionary extends NamesDictionary {
 
     @Override
     public String toString() {
-        return "Enamdic";
+        return this.getName();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

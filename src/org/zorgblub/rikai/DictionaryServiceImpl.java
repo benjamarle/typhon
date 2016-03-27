@@ -15,7 +15,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
-import com.google.inject.spi.DisableCircularProxiesOption;
 import com.ichi2.anki.api.AddContentApi;
 
 import net.zorgblub.typhon.Configuration;
@@ -23,7 +22,6 @@ import net.zorgblub.typhon.R;
 import net.zorgblub.typhon.Typhon;
 import net.zorgblub.typhon.view.bookview.SelectedWord;
 
-import org.apache.commons.lang.StringUtils;
 import org.rikai.dictionary.AbstractEntry;
 import org.rikai.dictionary.Dictionary;
 import org.rikai.dictionary.DictionaryNotLoadedException;
@@ -87,15 +85,8 @@ public class DictionaryServiceImpl implements DictionaryService {
             return;
         }
 
-        List<DictionarySettings> dicSettings;
 
-        String dictionarySettingsStr = config.getDictionarySettings();
-        if(dictionarySettingsStr.equals("")){
-            dicSettings = getDefaultDictionaries();
-            String settingsStr = serializeSettings(dicSettings);
-            config.setDictionarySettings(settingsStr);
-        }
-        dicSettings = deserializeSettings(dictionarySettingsStr);
+        List<DictionarySettings> dicSettings = getSettings();
 
         DictionaryStatus status = checkDictionaries(dicSettings);
         fireDictionaryChecked(status);
@@ -104,21 +95,38 @@ public class DictionaryServiceImpl implements DictionaryService {
         }
     }
 
-    public String serializeSettings(List<DictionarySettings> settings) {
-        Type targetClassType = new TypeToken<ArrayList<DictionarySettings>>() { }.getType();
+    @Override
+    public List<DictionarySettings> getSettings() {
+        List<DictionarySettings> dicSettings;
+        String dictionarySettingsStr = config.getDictionarySettings();
+        if (dictionarySettingsStr == null || dictionarySettingsStr.length() == 0)
+            return getDefaultDictionaries();
+
+        return deserializeSettings(dictionarySettingsStr);
+    }
+
+    @Override
+    public void saveSettings(List<DictionarySettings> settings) {
+        String settingsStr = serializeSettings(settings);
+        config.setDictionarySettings(settingsStr);
+    }
+
+    protected String serializeSettings(List<DictionarySettings> settings) {
+        Type targetClassType = new TypeToken<ArrayList<DictionarySettings>>() {
+        }.getType();
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         return gson.toJson(settings, targetClassType);
     }
 
-    public List<DictionarySettings> deserializeSettings(String settingsStr){
+    protected List<DictionarySettings> deserializeSettings(String settingsStr) {
         GsonBuilder builder = new GsonBuilder().registerTypeAdapter(DictionarySettings.class,
                 new JsonDeserializer<DictionarySettings>() {
                     @Override
                     public DictionarySettings deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
                         JsonObject asJsonObject = json.getAsJsonObject();
                         JsonElement typeOfSettings = asJsonObject.get("type");
-                        if(typeOfSettings == null)
+                        if (typeOfSettings == null)
                             return context.deserialize(json, typeOfT);
                         String type = typeOfSettings.getAsString();
 
@@ -128,7 +136,8 @@ public class DictionaryServiceImpl implements DictionaryService {
                     }
                 });
         Gson gson = builder.create();
-        Type targetClassType = new TypeToken<ArrayList<DictionarySettings>>() { }.getType();
+        Type targetClassType = new TypeToken<ArrayList<DictionarySettings>>() {
+        }.getType();
         return gson.fromJson(settingsStr, targetClassType);
     }
 
@@ -167,7 +176,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     public enum DictionaryStatus {
         OK,
         UPDATE_NEEDED,
-        NOT_EXISTENT;
+        NOT_EXISTENT
     }
 
     @Override
@@ -211,8 +220,8 @@ public class DictionaryServiceImpl implements DictionaryService {
         }
         File dataPath = DictionarySettings.getDataPath();
 
-        if(!dataPath.exists()){
-            if(!dataPath.mkdirs()){
+        if (!dataPath.exists()) {
+            if (!dataPath.mkdirs()) {
                 showDownloadTroubleDialog(context);
                 return;
             }
@@ -235,10 +244,10 @@ public class DictionaryServiceImpl implements DictionaryService {
 
         Set<String> filenames = new HashSet<>();
 
-        for (DownloadableSettings settings: dictInfo) {
+        for (DownloadableSettings settings : dictInfo) {
             File files[] = settings.getFiles();
-            for (File file:
-                files ) {
+            for (File file :
+                    files) {
                 filenames.add(file.getName());
             }
         }

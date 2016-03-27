@@ -41,5 +41,7 @@ public interface DictionaryService {
 
     List<DownloadableSettings> getDownloadableSettings();
 
+    List<DictionarySettings> getSettings();
 
+    void saveSettings(List<DictionarySettings> settings);
 }

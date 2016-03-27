@@ -13,6 +13,8 @@ public class DeinflectorSettings extends DownloadableSettings{
 
     private String basePath = "deinflect.dat";
 
+    private String name = "Deinflector";
+
     public String getBasePath() {
         return basePath;
     }
@@ -34,5 +36,14 @@ public class DeinflectorSettings extends DownloadableSettings{
     @Override
     public DictionaryType getType() {
         return type;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
