@@ -11,9 +11,11 @@ import java.io.IOException;
  */
 public class KanjidicSettings extends DownloadableSettings {
 
+    private DictionaryType type = DictionaryType.KANJIDIC;
+
     private String basePath = "kanji.dat";
 
-    private boolean stopAtFirstNonKanji;
+    private boolean stopAtFirstNonKanji = true;
 
     private int maxNbQueries = Integer.MAX_VALUE;
 
@@ -44,6 +46,6 @@ public class KanjidicSettings extends DownloadableSettings {
 
     @Override
     public DictionaryType getType() {
-        return DictionaryType.KANJIDIC;
+        return type;
     }
 }

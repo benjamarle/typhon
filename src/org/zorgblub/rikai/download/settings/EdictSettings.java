@@ -5,6 +5,7 @@ import org.rikai.dictionary.Dictionary;
 import org.zorgblub.rikai.DroidSqliteDatabase;
 import org.zorgblub.rikai.DroidWordEdictDictionary;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -13,6 +14,8 @@ import java.io.IOException;
 public class EdictSettings extends DownloadableSettings {
 
     private String basePath = "polaredict.sqlite";
+
+    private DictionaryType type = DictionaryType.EDICT;
 
     private boolean collapseEntries = false;
 
@@ -41,8 +44,13 @@ public class EdictSettings extends DownloadableSettings {
     }
 
     @Override
+    public File[] getFiles() {
+        return new File[]{this.getFile(), this.deinflectorSettings.getFile()};
+    }
+
+    @Override
     public DictionaryType getType() {
-        return DictionaryType.EDICT;
+        return type;
     }
 
     @Override

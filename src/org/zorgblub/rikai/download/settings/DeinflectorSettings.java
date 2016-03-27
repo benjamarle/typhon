@@ -9,6 +9,8 @@ import java.io.IOException;
  */
 public class DeinflectorSettings extends DownloadableSettings{
 
+    private DictionaryType type = null;
+
     private String basePath = "deinflect.dat";
 
     public String getBasePath() {
@@ -31,6 +33,6 @@ public class DeinflectorSettings extends DownloadableSettings{
 
     @Override
     public DictionaryType getType() {
-        return null;
+        return type;
     }
 }

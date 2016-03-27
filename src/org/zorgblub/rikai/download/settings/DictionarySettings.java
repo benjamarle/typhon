@@ -17,17 +17,21 @@ public abstract class DictionarySettings {
 
     protected static Context context = Typhon.get().getApplicationContext();
 
+    private static String DATA_PATH = "/dict_data";
+
     public DictionarySettings() {
 
     }
 
     public boolean exists() {
-        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            return false;
-        }
+        if (!isExternalStorageMounted()) return false;
 
         File file = getFile();
         return file.exists();
+    }
+
+    protected boolean isExternalStorageMounted() {
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
 
     public File getFile() {
@@ -39,15 +43,21 @@ public abstract class DictionarySettings {
      * concatenate the parent directory and the file name together
      *
      * @param filename the name of the file
-     * @return conccatenated path
+     * @return concatenated path
      */
     protected static File makePath(String filename) {
-        String parentDir = getDataPath();
-        return new File(parentDir.endsWith("/") ? parentDir + filename : parentDir + "/" + filename);
+        File parentFile = getDataPath();
+        String parentDir = parentFile.getAbsolutePath();
+        return appendToFile(parentDir, filename);
     }
 
-    protected static String getDataPath() {
-        return context.getExternalFilesDir(null).toString();
+    private static File appendToFile(String baseName, String fileName) {
+        return new File(baseName.endsWith("/") ? baseName + fileName : baseName + "/" + fileName);
+    }
+
+    public static File getDataPath() {
+        String dataPath = context.getExternalFilesDir(null).getAbsolutePath();
+        return appendToFile(dataPath, DATA_PATH);
     }
 
     public boolean isDownloadable(){

@@ -13,6 +13,8 @@ public class EnamdictSettings extends DownloadableSettings{
 
     private String basePath = "polarnames.sqlite";
 
+    private DictionaryType type = DictionaryType.ENAMDICT;
+
     @Override
     public String getBasePath() {
         return basePath;
@@ -29,6 +31,6 @@ public class EnamdictSettings extends DownloadableSettings{
 
     @Override
     public DictionaryType getType() {
-        return DictionaryType.ENAMDICT;
+        return type;
     }
 }

@@ -1,6 +1,9 @@
 package org.zorgblub.rikai.download.settings;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by Benjamin on 25/03/2016.
@@ -34,6 +37,20 @@ public abstract class DownloadableSettings extends DictionarySettings {
             this.getFile().delete();
     }
 
+    public File[] getFiles(){
+        return new File[]{this.getFile()};
+    }
+
+    @Override
+    public boolean exists() {
+        if(!isExternalStorageMounted()) return false;
+        for (File file:
+             getFiles()) {
+            if(!file.exists())
+                return false;
+        }
+        return true;
+    }
 
     public static File getZipFile() {
         return makePath(DICTIONARY_ZIP_FILE);
@@ -46,6 +63,11 @@ public abstract class DownloadableSettings extends DictionarySettings {
     public static void deleteZip() {
         if (existsZip())
             getZipFile().delete();
+    }
+
+    public static void deleteAll() throws IOException{
+        if(getDataPath().exists())
+            FileUtils.deleteDirectory(getDataPath());
     }
 
 }

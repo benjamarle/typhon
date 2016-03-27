@@ -26,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -37,7 +38,10 @@ public class Unzipper {
 
 	private transient boolean mInterrupt;
 
-	public Unzipper() {
+	private Set<String> filenames;
+
+	public Unzipper(Set<String> filenames) {
+		this.filenames = filenames;
 		mInterrupt = false;
 	}
 
@@ -101,13 +105,17 @@ public class Unzipper {
 			ZipEntry ze;
 			while ((ze = zis.getNextEntry()) != null) {
 
+				String name = ze.getName();
 				if (ze.isDirectory()) {
-					File dir = new File(outputDir + ze.getName());
+					File dir = new File(outputDir + name);
 					dir.mkdir();
 					continue;
 				}
 
-				FileOutputStream fos = new FileOutputStream(outputDir + ze.getName());
+				if(!filenames.contains(name))
+					continue;
+
+				FileOutputStream fos = new FileOutputStream(outputDir + name);
 				byte[] buffer = new byte[8192];
 				int readcount;
 

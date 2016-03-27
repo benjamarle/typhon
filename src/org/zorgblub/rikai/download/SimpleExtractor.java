@@ -29,6 +29,7 @@ import android.widget.Toast;
 import net.zorgblub.typhon.R;
 
 import java.io.IOException;
+import java.util.Set;
 
 /**
  * User: ray
@@ -44,9 +45,9 @@ public class SimpleExtractor extends AsyncTask<String, Integer, Boolean> impleme
 	private Unzipper mUnzipper;
 
 
-	public SimpleExtractor(Context context) {
+	public SimpleExtractor(Context context, Set<String> filenames) {
 		mContext = context;
-		mUnzipper = new Unzipper();
+		mUnzipper = new Unzipper(filenames);
 	}
 
 	@Override

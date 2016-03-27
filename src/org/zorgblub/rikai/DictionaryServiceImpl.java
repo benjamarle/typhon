@@ -7,6 +7,15 @@ import android.util.Log;
 import android.util.Pair;
 import android.util.SparseArray;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.reflect.TypeToken;
+import com.google.inject.spi.DisableCircularProxiesOption;
 import com.ichi2.anki.api.AddContentApi;
 
 import net.zorgblub.typhon.Configuration;
@@ -14,6 +23,7 @@ import net.zorgblub.typhon.R;
 import net.zorgblub.typhon.Typhon;
 import net.zorgblub.typhon.view.bookview.SelectedWord;
 
+import org.apache.commons.lang.StringUtils;
 import org.rikai.dictionary.AbstractEntry;
 import org.rikai.dictionary.Dictionary;
 import org.rikai.dictionary.DictionaryNotLoadedException;
@@ -29,10 +39,14 @@ import org.zorgblub.rikai.download.settings.DictionarySettings;
 import org.zorgblub.rikai.download.settings.DictionaryType;
 import org.zorgblub.rikai.download.settings.DownloadableSettings;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static jedi.functional.FunctionalPrimitives.forEach;
 
@@ -73,11 +87,49 @@ public class DictionaryServiceImpl implements DictionaryService {
             return;
         }
 
-        DictionaryStatus status = checkDictionaries(getDefaultDictionaries());
+        List<DictionarySettings> dicSettings;
+
+        String dictionarySettingsStr = config.getDictionarySettings();
+        if(dictionarySettingsStr.equals("")){
+            dicSettings = getDefaultDictionaries();
+            String settingsStr = serializeSettings(dicSettings);
+            config.setDictionarySettings(settingsStr);
+        }
+        dicSettings = deserializeSettings(dictionarySettingsStr);
+
+        DictionaryStatus status = checkDictionaries(dicSettings);
         fireDictionaryChecked(status);
         if (status.equals(DictionaryStatus.OK)) {
-            loadDictionaries(getDefaultDictionaries(), context);
+            loadDictionaries(dicSettings, context);
         }
+    }
+
+    public String serializeSettings(List<DictionarySettings> settings) {
+        Type targetClassType = new TypeToken<ArrayList<DictionarySettings>>() { }.getType();
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        return gson.toJson(settings, targetClassType);
+    }
+
+    public List<DictionarySettings> deserializeSettings(String settingsStr){
+        GsonBuilder builder = new GsonBuilder().registerTypeAdapter(DictionarySettings.class,
+                new JsonDeserializer<DictionarySettings>() {
+                    @Override
+                    public DictionarySettings deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                        JsonObject asJsonObject = json.getAsJsonObject();
+                        JsonElement typeOfSettings = asJsonObject.get("type");
+                        if(typeOfSettings == null)
+                            return context.deserialize(json, typeOfT);
+                        String type = typeOfSettings.getAsString();
+
+                        DictionaryType dictionaryType = DictionaryType.valueOf(type);
+                        DictionarySettings deserialize = context.deserialize(json, dictionaryType.getSettingsClass());
+                        return deserialize;
+                    }
+                });
+        Gson gson = builder.create();
+        Type targetClassType = new TypeToken<ArrayList<DictionarySettings>>() { }.getType();
+        return gson.fromJson(settingsStr, targetClassType);
     }
 
     protected List<DictionarySettings> getDefaultDictionaries() {
@@ -91,7 +143,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     private void loadDictionaries(List<DictionarySettings> list, Context context) {
 
         try {
-            for (DictionarySettings settings : list ) {
+            for (DictionarySettings settings : list) {
                 dictionaries.add(settings.newInstance());
             }
         } catch (FileNotFoundException e) {
@@ -140,9 +192,9 @@ public class DictionaryServiceImpl implements DictionaryService {
     @Override
     public List<DownloadableSettings> getDownloadableSettings() {
         List<DownloadableSettings> list = new ArrayList<>();
-        for (DictionarySettings settings: getDefaultDictionaries()) {
-            if(settings instanceof DownloadableSettings){
-                list.add((DownloadableSettings)settings);
+        for (DictionarySettings settings : getDefaultDictionaries()) {
+            if (settings instanceof DownloadableSettings) {
+                list.add((DownloadableSettings) settings);
             }
         }
         return list;
@@ -151,6 +203,20 @@ public class DictionaryServiceImpl implements DictionaryService {
     @Override
     public void downloadAndExtract(List<DownloadableSettings> list, Context context) {
         // TODO Separate the UI dialogs with the download business
+        // TODO trouble dialog with more details would be good
+        try {
+            DownloadableSettings.deleteAll();
+        } catch (IOException e) {
+            showDownloadTroubleDialog(context);
+        }
+        File dataPath = DictionarySettings.getDataPath();
+
+        if(!dataPath.exists()){
+            if(!dataPath.mkdirs()){
+                showDownloadTroubleDialog(context);
+                return;
+            }
+        }
         final SimpleDownloader downloader = new SimpleDownloader(context);
         downloader.setOnFinishTaskListener((boolean success) -> {
             if (success) {
@@ -166,14 +232,24 @@ public class DictionaryServiceImpl implements DictionaryService {
 
 
     public void extract(List<DownloadableSettings> dictInfo, Context context) {
-        final SimpleExtractor extractor = new SimpleExtractor(context);
+
+        Set<String> filenames = new HashSet<>();
+
+        for (DownloadableSettings settings: dictInfo) {
+            File files[] = settings.getFiles();
+            for (File file:
+                files ) {
+                filenames.add(file.getName());
+            }
+        }
+        final SimpleExtractor extractor = new SimpleExtractor(context, filenames);
         extractor.setOnFinishTasklistener((boolean success) -> {
             if (success) {
                 DownloadableSettings.deleteZip();
                 config.setDictionaryVersion(DownloadableSettings.getDictionaryVersion());
                 initDictionaries(context);
             } else {
-                for (DownloadableSettings settings: dictInfo) {
+                for (DownloadableSettings settings : dictInfo) {
                     settings.delete();
                 }
                 showDownloadTroubleDialog(context);

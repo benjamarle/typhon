@@ -71,6 +71,7 @@ import static net.zorgblub.typhon.CustomOPDSSite.fromJSON;
 @ContextSingleton
 public class Configuration {
 
+    private static final String KEY_DICTIONARY_SETTINGS = "dictionary_settings";
     private SharedPreferences settings;
     private Context context;
 
@@ -698,6 +699,14 @@ public class Configuration {
 
     public void setDictionaryVersion(String version){
         updateValue(KEY_DICTIONARY_VERSION, version);
+    }
+
+    public String getDictionarySettings(){
+        return settings.getString(KEY_DICTIONARY_SETTINGS, "");
+    }
+
+    public void setDictionarySettings(String settings){
+        updateValue(KEY_DICTIONARY_SETTINGS, settings);
     }
 
     private void updateValue(String key, Object value) {
