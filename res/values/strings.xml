@@ -624,4 +624,10 @@
 
     <string name="dictionary_confirm_delete_title">Delete dictionary</string>
     <string name="dictionary_confirm_delete_msg">Are you sure you want to delete [%s]?</string>
+
+    <string name="dictionary_choose_type">Choose dictionary type:</string>
+    <string name="dictionary_add_success">Dictionary successfully added : %s</string>
+    <string name="dictionary_settings">Dictionary settings</string>
+    <string name="dictionary_settings_summary">Add, remove, reorder and configure the dictionaries</string>
+    <string name="dictionary_remove_success">Dictionary successfully removed !</string>
 </resources>

@@ -1,6 +1,8 @@
 package org.zorgblub.rikai.download.settings.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +23,7 @@ import net.zorgblub.typhon.R;
 import org.zorgblub.rikai.DictionaryService;
 import org.zorgblub.rikai.DictionaryServiceImpl;
 import org.zorgblub.rikai.download.settings.DictionarySettings;
+import org.zorgblub.rikai.download.settings.DictionaryType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +31,8 @@ import java.util.List;
 public class DictionaryConfigFragment extends Fragment {
 
     private DragListView dictionaryListView;
+
+    private ImageButton addButton;
 
     private DictionaryService dictionaryService;
 
@@ -56,9 +62,33 @@ public class DictionaryConfigFragment extends Fragment {
             }
         });
 
+        addButton = (ImageButton) view.findViewById(R.id.dictionary_add_button);
+        addButton.setOnClickListener(v -> {
+            addDictionary();
+        });
+
         dictionaryService = DictionaryServiceImpl.get();
         initDictionaryList();
         return view;
+    }
+
+    public void addDictionary(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setTitle(R.string.dictionary_choose_type)
+                .setItems(DictionaryType.getNames(), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        addDictionary(DictionaryType.values()[which]);
+                        dialog.dismiss();
+                    }
+                });
+         builder.create().show();
+    }
+
+    public void addDictionary(DictionaryType type){
+        DictionaryConfigItemAdapter adapter = (DictionaryConfigItemAdapter)this.dictionaryListView.getAdapter();
+        adapter.addDictionary(type);
+        Toast.makeText(this.getContext(), getResources().getString(R.string.dictionary_add_success, type.getName()), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -86,8 +116,6 @@ public class DictionaryConfigFragment extends Fragment {
             DictionarySettings s = settings.get(i);
             list.add(new Pair<>(i, s));
         }
-
-
         dictionaryListView.setLayoutManager(new LinearLayoutManager(getContext()));
         DictionaryConfigItemAdapter listAdapter = new DictionaryConfigItemAdapter(list, R.layout.dictionary_list_item, R.id.dictionay_item_image, false);
         dictionaryListView.setAdapter(listAdapter, true);

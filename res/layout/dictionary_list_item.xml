@@ -26,5 +26,4 @@
         android:src="@drawable/cross"
         android:layout_gravity="right"
         android:background="@null"/>
-
 </LinearLayout>

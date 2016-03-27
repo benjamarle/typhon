@@ -9,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.woxthebox.draglistview.DragItemAdapter;
 
 import net.zorgblub.typhon.R;
 
 import org.zorgblub.rikai.download.settings.DictionarySettings;
+import org.zorgblub.rikai.download.settings.DictionaryType;
 
 import java.util.ArrayList;
 
@@ -50,6 +52,13 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
         return mItemList.get(position).first;
     }
 
+    public void addDictionary(DictionaryType settings){
+        DictionarySettings implementation = settings.getImplementation();
+        int itemCount = this.getItemCount();
+        Pair<Integer, DictionarySettings> newEntry = new Pair<>(itemCount, implementation);
+        this.addItem(itemCount, newEntry);
+    }
+
     public class ViewHolder extends DragItemAdapter<Pair<Integer, DictionarySettings>, DictionaryConfigItemAdapter.ViewHolder>.ViewHolder implements View.OnClickListener {
         public TextView textView;
 
@@ -83,9 +92,10 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
                     .setTitle(R.string.dictionary_confirm_delete_title)
                     .setIcon(R.drawable.cross)
                     .setPositiveButton(R.string.action_delete, new DialogInterface.OnClickListener() {
-
                         public void onClick(DialogInterface dialog, int which) {
                             DictionaryConfigItemAdapter.this.removeItem(ViewHolder.this.getAdapterPosition());
+
+                            Toast.makeText(v.getContext(), R.string.dictionary_remove_success, Toast.LENGTH_SHORT);
                         }
                     }).setNegativeButton(R.string.action_cancel, null);
             builder.show();

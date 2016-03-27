@@ -7,10 +7,15 @@
         android:id="@+id/drag_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <!--<android.support.design.widget.FloatingActionButton
-        android:id="@+id/myFAB"
+    <ImageButton
+        android:id="@+id/dictionary_add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/page_turner"
-        />-->
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@android:drawable/ic_input_add"
+        android:tint="@android:color/white"
+        android:background="@drawable/add"/>
 </FrameLayout>
