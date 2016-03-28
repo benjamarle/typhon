@@ -330,8 +330,6 @@ public class ReadingFragment extends RoboFragment implements
         private boolean allowStyling;
         private boolean allowColoursFromCSS;
         private boolean rikaiEnabled;
-        private int rikaiSize;
-        private boolean heisig6;
     }
 
     private SavedConfigState savedConfigState = new SavedConfigState();
@@ -595,8 +593,6 @@ public class ReadingFragment extends RoboFragment implements
         savedConfigState.allowColoursFromCSS = config.isUseColoursFromCSS();
 
         savedConfigState.rikaiEnabled = config.isRikaiEnabled();
-        savedConfigState.rikaiSize = config.getRikaiSize();
-        savedConfigState.heisig6 = config.getHeisig6();
 
     }
 
@@ -1265,8 +1261,6 @@ public class ReadingFragment extends RoboFragment implements
                 || config.isAllowStyling() != savedConfigState.allowStyling
                 || config.isUseColoursFromCSS() != savedConfigState.allowColoursFromCSS
                 || config.isRikaiEnabled() != savedConfigState.rikaiEnabled
-                || config.getRikaiSize() != savedConfigState.rikaiSize
-                || config.getHeisig6() != savedConfigState.heisig6
                 || dictionaryService.getLastUpdateTimestamp() > this.dictionaryLastUpdate) {
             DictionaryServiceImpl.reset();
             textLoader.invalidateCachedText();

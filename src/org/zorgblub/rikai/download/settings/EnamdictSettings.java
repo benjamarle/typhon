@@ -26,7 +26,9 @@ public class EnamdictSettings extends DownloadableSettings{
 
     @Override
     public Dictionary newInstance() {
-        return new DroidNamesDictionary(this.getFile().getAbsolutePath(), new DroidSqliteDatabase(), context.getResources());
+        DroidNamesDictionary droidNamesDictionary = new DroidNamesDictionary(this.getFile().getAbsolutePath(), new DroidSqliteDatabase(), context.getResources());
+        droidNamesDictionary.setName(this.getName());
+        return droidNamesDictionary;
     }
 
     @Override

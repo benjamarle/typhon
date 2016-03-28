@@ -14,13 +14,6 @@
             <intent
                 android:action="org.zorgblub.rikai.download.settings.ui.DictionaryConfigActivity"/>
         </Preference>
-        <com.hlidskialf.android.preference.SeekBarPreference
-            android:defaultValue="40"
-            android:dialogTitle="@string/pref_rikai_font_size"
-            android:key="rikai_font_size"
-            android:max="80"
-            android:summary="@string/pref_rikai_font_size_summary"
-            android:title="@string/pref_rikai_font_size" />
     </PreferenceCategory>
 
 

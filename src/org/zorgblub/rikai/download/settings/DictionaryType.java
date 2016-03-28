@@ -6,7 +6,8 @@ package org.zorgblub.rikai.download.settings;
 public enum DictionaryType {
     EDICT(EdictSettings.class, "Edict"),
     KANJIDIC(KanjidicSettings.class, "Kanjidic"),
-    ENAMDICT(EnamdictSettings.class, "Enamdict");
+    ENAMDICT(EnamdictSettings.class, "Enamdict"),
+    WORDNET(WordnetSettings.class, "Wordnet");
 
     private Class<? extends DictionarySettings> clazz;
 
@@ -25,6 +26,8 @@ public enum DictionaryType {
                 return new KanjidicSettings();
             case ENAMDICT:
                 return new EnamdictSettings();
+            case WORDNET:
+                return new WordnetSettings();
         }
         return null;
     }

@@ -134,9 +134,7 @@ public class Configuration {
 
     // Rikai
     public static final String KEY_RIKAI = "rikai";
-    public static final String KEY_RIKAI_SIZE = "rikai_font_size";
     public static final String KEY_DICTIONARY_VERSION = "dictionary version";
-    public static final String KEY_HEISIG6 = "heisig6";
 
     public static final String KEY_LAST_FILE = "last_file";
     public static final String KEY_DEVICE_NAME = "device_name";
@@ -578,14 +576,6 @@ public class Configuration {
         return settings.getBoolean(KEY_RIKAI, true);
     }
 
-    public int getRikaiSize() {
-        return settings.getInt(KEY_RIKAI_SIZE, 40);
-    }
-
-    public void setRikaiSize(int textSize) {
-        updateValue(KEY_RIKAI_SIZE, textSize);
-    }
-
     public boolean isScrollingEnabled() {
         return isRikaiEnabled() || settings.getBoolean(KEY_SCROLLING, false);
     }
@@ -689,23 +679,19 @@ public class Configuration {
         editor.commit();
     }
 
-    public String getDictionaryVersion(){
+    public String getDictionaryVersion() {
         return settings.getString(KEY_DICTIONARY_VERSION, "1.0.0");
     }
 
-    public boolean getHeisig6(){
-        return settings.getBoolean(KEY_HEISIG6, true);
-    }
-
-    public void setDictionaryVersion(String version){
+    public void setDictionaryVersion(String version) {
         updateValue(KEY_DICTIONARY_VERSION, version);
     }
 
-    public String getDictionarySettings(){
+    public String getDictionarySettings() {
         return settings.getString(KEY_DICTIONARY_SETTINGS, "");
     }
 
-    public void setDictionarySettings(String settings){
+    public void setDictionarySettings(String settings) {
         updateValue(KEY_DICTIONARY_SETTINGS, settings);
     }
 

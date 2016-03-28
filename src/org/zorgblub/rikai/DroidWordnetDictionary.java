@@ -18,6 +18,8 @@ public class DroidWordnetDictionary extends WordnetDictionary {
 
     private int definitionColor;
 
+    private String name = "Wordnet";
+
     public DroidWordnetDictionary(String path, SqliteDatabase sqliteDatabaseImpl, Resources resources) {
         super(path, sqliteDatabaseImpl);
 
@@ -33,6 +35,19 @@ public class DroidWordnetDictionary extends WordnetDictionary {
         droidWordnetEntry.setKanjiColor(kanjiColor);
         droidWordnetEntry.setDefinitionColor(definitionColor);
         return droidWordnetEntry;
+    }
+
+    @Override
+    public String toString() {
+        return this.getName();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

@@ -42,6 +42,7 @@ public class KanjidicSettings extends DownloadableSettings {
     public Dictionary newInstance() throws IOException{
         DroidKanjiDictionary droidKanjiDictionary = new DroidKanjiDictionary(this.getFile().getAbsolutePath(), maxNbQueries, context.getResources(), this.heisig6);
         droidKanjiDictionary.setStopAtFirstNonKanji(stopAtFirstNonKanji);
+        droidKanjiDictionary.setName(this.getName());
         return droidKanjiDictionary;
     }
 

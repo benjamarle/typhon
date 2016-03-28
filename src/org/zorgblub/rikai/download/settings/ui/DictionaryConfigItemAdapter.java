@@ -8,9 +8,12 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,9 +21,11 @@ import com.woxthebox.draglistview.DragItemAdapter;
 
 import net.zorgblub.typhon.R;
 
+import org.rikai.dictionary.wordnet.Lang;
 import org.zorgblub.rikai.download.settings.DictionarySettings;
 import org.zorgblub.rikai.download.settings.DictionaryType;
 import org.zorgblub.rikai.download.settings.KanjidicSettings;
+import org.zorgblub.rikai.download.settings.WordnetSettings;
 
 import java.util.ArrayList;
 
@@ -87,6 +92,9 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
             case ENAMDICT:
                 dialogView = inflater.inflate(R.layout.dictionary_enamdict_settings, null);
                 break;
+            case WORDNET:
+                dialogView = inflater.inflate(R.layout.dictionary_wordnet_settings, null);
+                break;
             default:
                 dialogView = inflater.inflate(R.layout.dictionary_edict_settings, null);
                 break;
@@ -108,6 +116,25 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
                 heisig6.setChecked(kanjiDictionary.isHeisig6());
                 heisig6.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     kanjiDictionary.setHeisig6(isChecked);
+                });
+            case WORDNET:
+                WordnetSettings wordnetSettings = (WordnetSettings) settings;
+                Spinner lang = (Spinner) dialogView.findViewById(R.id.dictionary_lang);
+                ArrayAdapter<Lang> adapter = new ArrayAdapter<>(context, R.layout.dictionary_lang_item, Lang.values());
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                lang.setAdapter(adapter);
+                lang.setSelection(wordnetSettings.getLang().ordinal());
+
+                lang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        wordnetSettings.setLang(Lang.values()[position]);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        // not supposed to happen
+                    }
                 });
         }
 

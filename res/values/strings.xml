@@ -416,7 +416,7 @@
 
     <!-- download message box -->
     <string name="dm_dict_message">You need to download the Japanese dictionary for this
-        reader to show definitions of words (~35 mb download, ~110 mb extracted)
+        reader to show definitions of words (~85 mb download)
     </string>
     <string name="dm_dict_update_message">A new version of the Japanese dictionary is available.
     </string>
@@ -635,4 +635,5 @@
     <string name="dictionary_edit_form_type">Type</string>
     <string name="dictionary_edit_title">Edit dictionary</string>
     <string name="dictionary_edit_form_heisig6">Heisig 6th</string>
+    <string name="dictionary_edit_form_lang">Language</string>
 </resources>

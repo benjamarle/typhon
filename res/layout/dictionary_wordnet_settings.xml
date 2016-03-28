@@ -32,4 +32,21 @@
         android:id="@+id/dictionary_type"
         android:layout_gravity="center_horizontal" />
 
+    <View
+        android:padding="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dictionary_edit_form_lang"/>
+    <Spinner
+        android:id="@+id/dictionary_lang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </Spinner>
+
 </LinearLayout>

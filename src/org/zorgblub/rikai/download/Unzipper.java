@@ -105,7 +105,7 @@ public class Unzipper {
 			ZipEntry ze;
 			while ((ze = zis.getNextEntry()) != null) {
 
-				String name = ze.getName();
+ 				String name = ze.getName();
 				if (ze.isDirectory()) {
 					File dir = new File(outputDir + name);
 					dir.mkdir();

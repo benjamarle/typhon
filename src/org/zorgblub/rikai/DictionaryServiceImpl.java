@@ -209,7 +209,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     @Override
     public List<DownloadableSettings> getDownloadableSettings() {
         List<DownloadableSettings> list = new ArrayList<>();
-        for (DictionarySettings settings : getDefaultDictionaries()) {
+        for (DictionarySettings settings : this.getSettings()) {
             if (settings instanceof DownloadableSettings) {
                 list.add((DownloadableSettings) settings);
             }
@@ -282,6 +282,9 @@ public class DictionaryServiceImpl implements DictionaryService {
                 .setPositiveButton(R.string.msg_ok, null)
                 .create()
                 .show();
+
+        // TODO Add retry button
+        // TODO Give details about the error that happened to
     }
 
     @Override

@@ -15,6 +15,8 @@ import java.io.IOException;
  */
 public abstract class DictionarySettings {
 
+    //TODO Font size per dictionary
+
     protected static Context context = Typhon.get().getApplicationContext();
 
     private static String DATA_PATH = "/dict_data";
