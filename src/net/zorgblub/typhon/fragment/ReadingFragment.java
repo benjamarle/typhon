@@ -133,6 +133,7 @@ import net.zorgblub.ui.DialogFactory;
 import org.rikai.dictionary.Dictionary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zorgblub.rikai.DictionaryService;
 import org.zorgblub.rikai.DictionaryServiceImpl;
 import org.zorgblub.rikai.glosslist.DictionaryPane;
 
@@ -275,7 +276,9 @@ public class ReadingFragment extends RoboFragment implements
     @Inject
     private BookmarkDatabaseHelper bookmarkDatabaseHelper;
 
-    private DictionaryServiceImpl dictionaryService;
+    private DictionaryService dictionaryService;
+
+    private long dictionaryLastUpdate;
 
     /*
     This is actually a RemoteControlClient, but we declare it
@@ -353,6 +356,8 @@ public class ReadingFragment extends RoboFragment implements
         HandlerThread bgThread = new HandlerThread("background");
         bgThread.start();
         this.backgroundHandler = new Handler(bgThread.getLooper());
+        dictionaryService = DictionaryServiceImpl.get();
+        dictionaryLastUpdate = dictionaryService.getLastUpdateTimestamp();
     }
 
 
@@ -1261,8 +1266,9 @@ public class ReadingFragment extends RoboFragment implements
                 || config.isUseColoursFromCSS() != savedConfigState.allowColoursFromCSS
                 || config.isRikaiEnabled() != savedConfigState.rikaiEnabled
                 || config.getRikaiSize() != savedConfigState.rikaiSize
-                || config.getHeisig6() != savedConfigState.heisig6) {
-
+                || config.getHeisig6() != savedConfigState.heisig6
+                || dictionaryService.getLastUpdateTimestamp() > this.dictionaryLastUpdate) {
+            DictionaryServiceImpl.reset();
             textLoader.invalidateCachedText();
             restartActivity();
         }

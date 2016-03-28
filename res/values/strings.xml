@@ -630,4 +630,9 @@
     <string name="dictionary_settings">Dictionary settings</string>
     <string name="dictionary_settings_summary">Add, remove, reorder and configure the dictionaries</string>
     <string name="dictionary_remove_success">Dictionary successfully removed !</string>
+
+    <string name="dictionary_edit_form_name">Name</string>
+    <string name="dictionary_edit_form_type">Type</string>
+    <string name="dictionary_edit_title">Edit dictionary</string>
+    <string name="dictionary_edit_form_heisig6">Heisig 6th</string>
 </resources>

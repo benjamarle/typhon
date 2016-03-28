@@ -48,19 +48,7 @@ public class DictionaryConfigFragment extends Fragment {
         dictionaryListView = (DragListView) view.findViewById(R.id.drag_list_view);
         dictionaryListView.getRecyclerView().setVerticalScrollBarEnabled(true);
         dictionaryListView.setDragEnabled(true);
-        dictionaryListView.setDragListListener(new DragListView.DragListListener() {
-            @Override
-            public void onItemDragStarted(int position) {
-                Toast.makeText(dictionaryListView.getContext(), "Start - position: " + position, Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onItemDragEnded(int fromPosition, int toPosition) {
-                if (fromPosition != toPosition) {
-                    Toast.makeText(dictionaryListView.getContext(), "End - position: " + toPosition, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         addButton = (ImageButton) view.findViewById(R.id.dictionary_add_button);
         addButton.setOnClickListener(v -> {

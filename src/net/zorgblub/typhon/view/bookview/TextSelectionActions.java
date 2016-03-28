@@ -94,7 +94,7 @@ public class TextSelectionActions implements ActionMode.Callback {
                                                 )
                                 )
                         )
-                ).setIcon(R.drawable.abc_ic_menu_share_holo_dark);
+                ).setIcon(R.drawable.abc_ic_menu_share_mtrl_alpha);
 
 
         menu.add(R.string.highlight)

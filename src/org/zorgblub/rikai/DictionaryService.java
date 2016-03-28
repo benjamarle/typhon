@@ -31,7 +31,7 @@ public interface DictionaryService {
 
     Entries query(int dicIndex, SelectedWord word);
 
-    Pair<SelectedWord, Entries>  getLastMatch(int dicIndex);
+    Pair<SelectedWord, Entries> getLastMatch(int dicIndex);
 
     boolean saveInAnki(AbstractEntry abstractEntry, Context context, SelectedWord selectedWord, String bookTitle);
 
@@ -44,4 +44,7 @@ public interface DictionaryService {
     List<DictionarySettings> getSettings();
 
     void saveSettings(List<DictionarySettings> settings);
+
+    long getLastUpdateTimestamp();
+
 }

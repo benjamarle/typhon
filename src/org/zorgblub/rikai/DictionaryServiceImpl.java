@@ -69,6 +69,8 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     private boolean initialized;
 
+    private long lastUpdate = System.currentTimeMillis();
+
     private static final Logger LOG = LoggerFactory
             .getLogger("DictionaryService");
 
@@ -109,6 +111,12 @@ public class DictionaryServiceImpl implements DictionaryService {
     public void saveSettings(List<DictionarySettings> settings) {
         String settingsStr = serializeSettings(settings);
         config.setDictionarySettings(settingsStr);
+        this.lastUpdate = System.currentTimeMillis();
+    }
+
+    @Override
+    public long getLastUpdateTimestamp() {
+        return lastUpdate;
     }
 
     protected String serializeSettings(List<DictionarySettings> settings) {
@@ -477,6 +485,10 @@ public class DictionaryServiceImpl implements DictionaryService {
     private static synchronized DictionaryService getSync() {
         if (instance == null) instance = new DictionaryServiceImpl();
         return instance;
+    }
+
+    public static synchronized void reset(){
+        instance = null;
     }
 
 }

@@ -50,6 +50,22 @@ public class KanjidicSettings extends DownloadableSettings {
         return type;
     }
 
+    public int getMaxNbQueries() {
+        return maxNbQueries;
+    }
+
+    public void setMaxNbQueries(int maxNbQueries) {
+        this.maxNbQueries = maxNbQueries;
+    }
+
+    public boolean isHeisig6() {
+        return heisig6;
+    }
+
+    public void setHeisig6(boolean heisig6) {
+        this.heisig6 = heisig6;
+    }
+
     @Override
     public String getName() {
         return name;

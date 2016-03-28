@@ -2,11 +2,14 @@ package org.zorgblub.rikai.download.settings.ui;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +20,7 @@ import net.zorgblub.typhon.R;
 
 import org.zorgblub.rikai.download.settings.DictionarySettings;
 import org.zorgblub.rikai.download.settings.DictionaryType;
+import org.zorgblub.rikai.download.settings.KanjidicSettings;
 
 import java.util.ArrayList;
 
@@ -52,11 +56,70 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
         return mItemList.get(position).first;
     }
 
-    public void addDictionary(DictionaryType settings){
+    public Pair<Integer, DictionarySettings> getItem(int position) {
+        return mItemList.get(position);
+    }
+
+    public void addDictionary(DictionaryType settings) {
         DictionarySettings implementation = settings.getImplementation();
         int itemCount = this.getItemCount();
         Pair<Integer, DictionarySettings> newEntry = new Pair<>(itemCount, implementation);
         this.addItem(itemCount, newEntry);
+    }
+
+    public void editDictionary(DictionarySettings settings, Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setTitle(R.string.dictionary_edit_title);
+
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogView;
+        
+        DictionaryType type = settings.getType();
+
+        switch (type) {
+            case EDICT:
+                dialogView = inflater.inflate(R.layout.dictionary_edict_settings, null);
+                break;
+            case KANJIDIC:
+                dialogView = inflater.inflate(R.layout.dictionary_kanjidic_settings, null);
+                break;
+            case ENAMDICT:
+                dialogView = inflater.inflate(R.layout.dictionary_enamdict_settings, null);
+                break;
+            default:
+                dialogView = inflater.inflate(R.layout.dictionary_edict_settings, null);
+                break;
+        }
+        
+        builder.setView(dialogView);
+
+
+        EditText nameView = (EditText) dialogView.findViewById(R.id.dictionary_name);
+
+        nameView.setText(settings.getName());
+        TextView typeView = (TextView) dialogView.findViewById(R.id.dictionary_type);
+        typeView.setText(settings.getType().getName());
+
+        switch(type){
+            case KANJIDIC:
+                KanjidicSettings kanjiDictionary = (KanjidicSettings) settings;
+                CheckBox heisig6 = (CheckBox) dialogView.findViewById(R.id.dictionary_edit_form_heisig6);
+                heisig6.setChecked(kanjiDictionary.isHeisig6());
+                heisig6.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    kanjiDictionary.setHeisig6(isChecked);
+                });
+        }
+
+        AlertDialog dialog = builder.create();
+        dialog.setOnDismissListener(d -> {
+            settings.setName(nameView.getText().toString());
+
+            DictionaryConfigItemAdapter.this.notifyDataSetChanged();
+
+        });
+
+        dialog.show();
     }
 
     public class ViewHolder extends DragItemAdapter<Pair<Integer, DictionarySettings>, DictionaryConfigItemAdapter.ViewHolder>.ViewHolder implements View.OnClickListener {
@@ -74,7 +137,10 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
         @Override
         public void onItemClicked(View view) {
             // edit
+            int position = ViewHolder.this.getAdapterPosition();
+            Pair<Integer, DictionarySettings> item = getItem(position);
 
+            editDictionary(item.second, view.getContext());
         }
 
         @Override
