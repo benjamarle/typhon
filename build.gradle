@@ -88,7 +88,7 @@ android {
             keyAlias 'typhon_release'
         }
     }
-    buildToolsVersion '23.0.0 rc2'
+    buildToolsVersion '23.0.3'
     compileSdkVersion 22
     compileOptions.encoding = 'utf-8'
     compileOptions {
@@ -130,9 +130,8 @@ android {
             jniDebuggable false
             signingConfig signingConfigs.release
             renderscriptDebuggable false
-            minifyEnabled true
+            //minifyEnabled true
             pseudoLocalesEnabled false
-            applicationIdSuffix 'net.zorgblub.typhon'
             versionNameSuffix '1.0.0Beta'
         }
     }
