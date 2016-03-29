@@ -10,8 +10,8 @@ import java.io.IOException;
  */
 public abstract class DownloadableSettings extends DictionarySettings {
 
-    private static final String DICTIONARY_FOLDER_URL = "https://www.dropbox.com/s/mppzurso6u41uuz";
-    private static final String DICTIONARY_VERSION = "1.0.3";
+    private static final String DICTIONARY_FOLDER_URL = "https://www.dropbox.com/s/n4ukf6avborapn4";
+    private static final String DICTIONARY_VERSION = "1.0.4";
     private static final String DICTIONARY_ZIP_FILE = "DictFiles-" + DICTIONARY_VERSION + ".zip";
 
     public DownloadableSettings() {
