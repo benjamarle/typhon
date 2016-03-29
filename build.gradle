@@ -132,7 +132,6 @@ android {
             renderscriptDebuggable false
             //minifyEnabled true
             pseudoLocalesEnabled false
-            versionNameSuffix '1.0.0Beta'
         }
     }
     productFlavors {
