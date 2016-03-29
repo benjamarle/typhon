@@ -73,13 +73,13 @@ public class DroidEdictEntry extends EdictEntry implements DroidEntity {
     public String toStringCompact() {
         StringBuilder result = new StringBuilder(this.getLength());
 
-        result.append(wrapColor(kanjiColor, this.getWord())).append(' ');
+        result.append(wrapColor(kanjiColor, this.getWord()));
 
         if (this.getReading().length() != 0) {
-            result.append('[').append(wrapColor(kanaColor, this.getReading())).append("] ");
+            result.append(" [").append(wrapColor(kanaColor, this.getReading())).append("]");
         }
         if (this.getReason().length() != 0) {
-            result.append("(").append(wrapColor(reasonColor, this.getReason())).append(")");
+            result.append(" (").append(wrapColor(reasonColor, this.getReason())).append(")");
         }
 
         result.append("<br/>").append(wrapColor(definitionColor, this.getGloss()));

@@ -1,5 +1,6 @@
 package org.zorgblub.rikai.download.settings;
 
+import org.rikai.deinflector.Deinflector;
 import org.rikai.dictionary.Dictionary;
 import org.rikai.dictionary.wordnet.Lang;
 import org.zorgblub.rikai.DroidSqliteDatabase;
@@ -20,11 +21,25 @@ public class WordnetSettings extends DownloadableSettings {
 
     private Lang lang = Lang.ENG;
 
+    private boolean showSynonyms = true;
+
+    private boolean showExamples = true;
+
+    private boolean deinflect = true;
+
+    private DeinflectorSettings deinflectorSettings = new DeinflectorSettings();
+
     @Override
     public Dictionary newInstance() throws IOException {
-        DroidWordnetDictionary droidWordnetDictionary = new DroidWordnetDictionary(this.getFile().getAbsolutePath(), new DroidSqliteDatabase(), context.getResources());
+        Deinflector deinflector = null;
+        if(deinflect){
+            deinflector = new Deinflector(deinflectorSettings.getFile().getAbsolutePath());
+        }
+        DroidWordnetDictionary droidWordnetDictionary = new DroidWordnetDictionary(this.getFile().getAbsolutePath(), deinflector, new DroidSqliteDatabase(), context.getResources());
         droidWordnetDictionary.setLang(this.lang);
         droidWordnetDictionary.setName(this.getName());
+        droidWordnetDictionary.setAddSynonyms(showSynonyms);
+        droidWordnetDictionary.setAddExamples(showExamples);
         return droidWordnetDictionary;
     }
 
@@ -58,5 +73,29 @@ public class WordnetSettings extends DownloadableSettings {
 
     public void setLang(Lang lang) {
         this.lang = lang;
+    }
+
+    public boolean isDeinflect() {
+        return deinflect;
+    }
+
+    public void setDeinflect(boolean deinflect) {
+        this.deinflect = deinflect;
+    }
+
+    public boolean isShowExamples() {
+        return showExamples;
+    }
+
+    public void setShowExamples(boolean showExamples) {
+        this.showExamples = showExamples;
+    }
+
+    public boolean isShowSynonyms() {
+        return showSynonyms;
+    }
+
+    public void setShowSynonyms(boolean showSynonyms) {
+        this.showSynonyms = showSynonyms;
     }
 }

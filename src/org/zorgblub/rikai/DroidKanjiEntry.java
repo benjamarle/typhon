@@ -69,7 +69,7 @@ public class DroidKanjiEntry extends KanjiEntry implements DroidEntity {
 
     @Override
     public int getBackgroundColor() {
-        return Color.GRAY;
+        return Color.BLACK;
     }
 
     @Override

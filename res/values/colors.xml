@@ -9,6 +9,8 @@
     <color name="kanji">#B7E7FF</color>
     <color name="kana">#C0FFC0</color>
     <color name="definition">#FFFFFF</color>
+    <color name="example">#AAAAAA</color>
+    <color name="synonym">#C0FFC0</color>
     <color name="reason">#FFE0A0</color>
     <color name="index">#FFE0A0</color>
 

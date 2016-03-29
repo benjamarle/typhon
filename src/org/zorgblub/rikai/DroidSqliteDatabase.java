@@ -53,10 +53,14 @@ public class DroidSqliteDatabase implements SqliteDatabase {
 
     @Override
     public ResultCursor findWord(String... params) {
-        Cursor cursor = database.rawQuery(
-                searchQuery,
-               params
-        );
+        Cursor cursor = database.rawQuery(searchQuery, params);
+
+        return new DroidResultCursor(cursor);
+    }
+
+    @Override
+    public ResultCursor select(String s, String... strings) {
+        Cursor cursor = database.rawQuery(s, strings);
 
         return new DroidResultCursor(cursor);
     }

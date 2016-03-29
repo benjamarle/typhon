@@ -23,25 +23,13 @@ public class EdictSettings extends DownloadableSettings {
 
     private String name = "Edict";
 
-    public String getBasePath() {
-        return basePath;
-    }
-
-    public void setBasePath(String basePath) {
-        this.basePath = basePath;
-    }
-
-    public boolean isCollapseEntries() {
-        return collapseEntries;
-    }
-
-    public void setCollapseEntries(boolean collapseEntries) {
-        this.collapseEntries = collapseEntries;
-    }
+    private boolean deinflect = true;
 
     @Override
     public Dictionary newInstance() throws IOException {
-        Deinflector deinflector = new Deinflector(deinflectorSettings.getFile().getAbsolutePath());
+        Deinflector deinflector = null;
+        if(deinflect)
+            deinflector = new Deinflector(deinflectorSettings.getFile().getAbsolutePath());
         DroidWordEdictDictionary droidWordEdictDictionary = new DroidWordEdictDictionary(this.getFile().getAbsolutePath(), deinflector, new DroidSqliteDatabase(), context.getResources());
         droidWordEdictDictionary.setName(this.getName());
         return droidWordEdictDictionary;
@@ -70,5 +58,29 @@ public class EdictSettings extends DownloadableSettings {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBasePath() {
+        return basePath;
+    }
+
+    public void setBasePath(String basePath) {
+        this.basePath = basePath;
+    }
+
+    public boolean isCollapseEntries() {
+        return collapseEntries;
+    }
+
+    public void setCollapseEntries(boolean collapseEntries) {
+        this.collapseEntries = collapseEntries;
+    }
+
+    public boolean isDeinflect() {
+        return deinflect;
+    }
+
+    public void setDeinflect(boolean deinflect) {
+        this.deinflect = deinflect;
     }
 }

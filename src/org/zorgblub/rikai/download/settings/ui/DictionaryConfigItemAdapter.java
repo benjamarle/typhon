@@ -24,6 +24,7 @@ import net.zorgblub.typhon.R;
 import org.rikai.dictionary.wordnet.Lang;
 import org.zorgblub.rikai.download.settings.DictionarySettings;
 import org.zorgblub.rikai.download.settings.DictionaryType;
+import org.zorgblub.rikai.download.settings.EdictSettings;
 import org.zorgblub.rikai.download.settings.KanjidicSettings;
 import org.zorgblub.rikai.download.settings.WordnetSettings;
 
@@ -110,6 +111,14 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
         typeView.setText(settings.getType().getName());
 
         switch(type){
+            case EDICT:
+                EdictSettings edictSettings = (EdictSettings) settings;
+                CheckBox deinflectEdict = (CheckBox) dialogView.findViewById(R.id.dictionary_edit_form_deinflect);
+                deinflectEdict.setChecked(edictSettings.isDeinflect());
+                deinflectEdict.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    edictSettings.setDeinflect(isChecked);
+                });
+                break;
             case KANJIDIC:
                 KanjidicSettings kanjiDictionary = (KanjidicSettings) settings;
                 CheckBox heisig6 = (CheckBox) dialogView.findViewById(R.id.dictionary_edit_form_heisig6);
@@ -117,6 +126,7 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
                 heisig6.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     kanjiDictionary.setHeisig6(isChecked);
                 });
+                break;
             case WORDNET:
                 WordnetSettings wordnetSettings = (WordnetSettings) settings;
                 Spinner lang = (Spinner) dialogView.findViewById(R.id.dictionary_lang);
@@ -135,6 +145,24 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
                     public void onNothingSelected(AdapterView<?> parent) {
                         // not supposed to happen
                     }
+                });
+
+                CheckBox synonyms = (CheckBox) dialogView.findViewById(R.id.dictionary_edit_form_synonyms);
+                synonyms.setChecked(wordnetSettings.isShowSynonyms());
+                synonyms.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    wordnetSettings.setShowSynonyms(isChecked);
+                });
+
+                CheckBox examples = (CheckBox) dialogView.findViewById(R.id.dictionary_edit_form_examples);
+                examples.setChecked(wordnetSettings.isShowExamples());
+                examples.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    wordnetSettings.setShowExamples(isChecked);
+                });
+
+                CheckBox deinflectWordnet = (CheckBox) dialogView.findViewById(R.id.dictionary_edit_form_deinflect);
+                deinflectWordnet.setChecked(wordnetSettings.isDeinflect());
+                deinflectWordnet.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    wordnetSettings.setDeinflect(isChecked);
                 });
         }
 

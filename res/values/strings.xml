@@ -635,5 +635,8 @@
     <string name="dictionary_edit_form_type">Type</string>
     <string name="dictionary_edit_title">Edit dictionary</string>
     <string name="dictionary_edit_form_heisig6">Heisig 6th</string>
+    <string name="dictionary_edit_form_synonyms">Show synonyms</string>
+    <string name="dictionary_edit_form_examples">Show examples</string>
+    <string name="dictionary_edit_form_deinflect">Deinflect verbs</string>
     <string name="dictionary_edit_form_lang">Language</string>
 </resources>
