@@ -14,25 +14,19 @@ buildscript {
             url 'https://oss.sonatype.org/content/repositories/snapshots/'
         }
 
+        jcenter()
+
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0-alpha3'
-        classpath 'me.tatarka:gradle-retrolambda:2.4.0'
+        classpath 'com.android.tools.build:gradle:2.1.0-alpha4'
+        classpath 'me.tatarka:gradle-retrolambda:3.3.0-beta4'
     }
-
-
 }
 
 apply plugin: 'com.android.application' //or apply plugin: 'java'
-apply plugin: 'retrolambda'
+apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'idea'
-
-
-
-retrolambda {
-    jdk 'C:\\Program Files\\Java\\jdk1.8.0_45'
-}
 
 repositories {
 
