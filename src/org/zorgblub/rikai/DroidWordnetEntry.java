@@ -24,6 +24,8 @@ public class DroidWordnetEntry extends WordnetEntry implements DroidEntity {
 
     private int reasonColor = -8032;
 
+    private int posColor = -8032;
+
     private int definitionColor = -1;
 
     public DroidWordnetEntry(DeinflectedWord variant, String word, String synset, String reason, String pos, String gloss, String rank, int lexid, int freq) {
@@ -70,6 +72,14 @@ public class DroidWordnetEntry extends WordnetEntry implements DroidEntity {
         this.exampleColor = exampleColor;
     }
 
+    public int getPosColor() {
+        return posColor;
+    }
+
+    public void setPosColor(int posColor) {
+        this.posColor = posColor;
+    }
+
     @Override
     public int getBackgroundColor() {
         return Color.BLACK;
@@ -82,6 +92,9 @@ public class DroidWordnetEntry extends WordnetEntry implements DroidEntity {
         StringBuilder result = new StringBuilder(this.getLength());
 
         result.append(wrapColor(kanjiColor, this.getWord()));
+        if (this.getPartOfSpeech().length() != 0) {
+            result.append(" {").append(wrapColor(posColor, this.getPartOfSpeech())).append("}");
+        }
         if (this.getReason().length() != 0) {
             result.append(" (").append(wrapColor(reasonColor, this.getReason())).append(")");
         }

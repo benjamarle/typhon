@@ -22,6 +22,8 @@ public class DroidWordnetDictionary extends WordnetDictionary {
 
     private int exampleColor;
 
+    private int posColor;
+
     private int reasonColor;
 
     private int definitionColor;
@@ -36,6 +38,7 @@ public class DroidWordnetDictionary extends WordnetDictionary {
         synonymColor = this.resources.getColor(R.color.synonym);
         exampleColor = this.resources.getColor(R.color.example);
         reasonColor = this.resources.getColor(R.color.reason);
+        posColor = this.resources.getColor(R.color.partOfSpeech);
     }
 
     @Override
@@ -46,6 +49,7 @@ public class DroidWordnetDictionary extends WordnetDictionary {
         droidWordnetEntry.setSynonymColor(synonymColor);
         droidWordnetEntry.setExampleColor(exampleColor);
         droidWordnetEntry.setReasonColor(reasonColor);
+        droidWordnetEntry.setPosColor(posColor);
         return droidWordnetEntry;
     }
 
