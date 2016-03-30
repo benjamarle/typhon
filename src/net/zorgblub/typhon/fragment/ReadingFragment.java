@@ -147,13 +147,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import jedi.functional.Command;
 import jedi.option.None;
 import jedi.option.Option;
 import nl.siegmann.epublib.domain.Author;
 import nl.siegmann.epublib.domain.Book;
 import roboguice.fragment.RoboFragment;
-import roboguice.inject.InjectView;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 import static jedi.functional.FunctionalPrimitives.firstOption;
@@ -203,56 +204,56 @@ public class ReadingFragment extends RoboFragment implements
     @Inject
     private Context context;
 
-    @InjectView(R.id.mainContainer)
-    private ViewSwitcher viewSwitcher;
+    @Bind(R.id.mainContainer)
+    ViewSwitcher viewSwitcher;
 
-    @InjectView(R.id.bookView)
-    private BookView bookView;
+    @Bind(R.id.bookView)
+    BookView bookView;
 
-    @InjectView(R.id.myTitleBarTextView)
-    private TextView titleBar;
+    @Bind(R.id.myTitleBarTextView)
+    TextView titleBar;
 
-    @InjectView(R.id.myTitleBarLayout)
-    private RelativeLayout titleBarLayout;
+    @Bind(R.id.myTitleBarLayout)
+    RelativeLayout titleBarLayout;
 
-    @InjectView(R.id.mediaPlayerLayout)
-    private LinearLayout mediaLayout;
+    @Bind(R.id.mediaPlayerLayout)
+    LinearLayout mediaLayout;
 
-    @InjectView(R.id.titleProgress)
-    private SeekBar progressBar;
+    @Bind(R.id.titleProgress)
+    SeekBar progressBar;
 
-    @InjectView(R.id.percentageField)
-    private TextView percentageField;
+    @Bind(R.id.percentageField)
+    TextView percentageField;
 
-    @InjectView(R.id.authorField)
-    private TextView authorField;
+    @Bind(R.id.authorField)
+    TextView authorField;
 
-    @InjectView(R.id.dummyView)
-    private AnimatedImageView dummyView;
+    @Bind(R.id.dummyView)
+    AnimatedImageView dummyView;
 
-    @InjectView(R.id.mediaProgress)
-    private SeekBar mediaProgressBar;
+    @Bind(R.id.mediaProgress)
+    SeekBar mediaProgressBar;
 
-    @InjectView(R.id.pageNumberView)
-    private TextView pageNumberView;
+    @Bind(R.id.pageNumberView)
+    TextView pageNumberView;
 
-    @InjectView(R.id.playPauseButton)
-    private ImageButton playPauseButton;
+    @Bind(R.id.playPauseButton)
+    ImageButton playPauseButton;
 
-    @InjectView(R.id.stopButton)
-    private ImageButton stopButton;
+    @Bind(R.id.stopButton)
+    ImageButton stopButton;
 
-    @InjectView(R.id.nextButton)
-    private ImageButton nextButton;
+    @Bind(R.id.nextButton)
+    ImageButton nextButton;
 
-    @InjectView(R.id.prevButton)
-    private ImageButton prevButton;
+    @Bind(R.id.prevButton)
+    ImageButton prevButton;
 
-    @InjectView(R.id.wordView)
-    private TextView wordView;
+    @Bind(R.id.wordView)
+    TextView wordView;
 
-    @InjectView(R.id.definition_view)
-    private DictionaryPane dictionaryPane;
+    @Bind(R.id.definition_view)
+    DictionaryPane dictionaryPane;
 
 
     @Inject
@@ -361,11 +362,14 @@ public class ReadingFragment extends RoboFragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && config.isFullScreenEnabled()) {
-            return inflater.inflate(R.layout.fragment_reading_fs, container, false);
+            view = inflater.inflate(R.layout.fragment_reading_fs, container, false);
         } else {
-            return inflater.inflate(R.layout.fragment_reading, container, false);
+            view = inflater.inflate(R.layout.fragment_reading, container, false);
         }
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override

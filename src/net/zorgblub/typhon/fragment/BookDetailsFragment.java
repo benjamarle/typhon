@@ -60,9 +60,10 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import jedi.option.Option;
 import roboguice.fragment.RoboFragment;
-import roboguice.inject.InjectView;
 
 import static jedi.functional.FunctionalPrimitives.isEmpty;
 
@@ -81,27 +82,27 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
     @Inject
     private Provider<DisplayMetrics> metricsProvider;
 
-    @InjectView(R.id.mainLayout)
-    private View mainLayout;
+    @Bind(R.id.mainLayout)
+    View mainLayout;
 
-    @InjectView(R.id.itemAuthor)
-    private TextView authorTextView;
+    @Bind(R.id.itemAuthor)
+    TextView authorTextView;
 
-    @InjectView(R.id.itemIcon)
-    private ImageView icon;
+    @Bind(R.id.itemIcon)
+    ImageView icon;
 
-    @InjectView(R.id.buyNowButton)
-    private Button buyNowButton;
+    @Bind(R.id.buyNowButton)
+    Button buyNowButton;
 
-    @InjectView(R.id.firstDivider)
+    @Bind(R.id.firstDivider)
     @Nullable
-    private View divider;
+    View divider;
 
-    @InjectView(R.id.readNowButton)
-    private Button downloadButton;
+    @Bind(R.id.readNowButton)
+    Button downloadButton;
 
-    @InjectView(R.id.addToLibraryButton)
-    private Button addToLibraryButton;
+    @Bind(R.id.addToLibraryButton)
+    Button addToLibraryButton;
 
     @Inject
     private Configuration config;
@@ -111,9 +112,13 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
 
     private Feed feed;
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.catalog_download, container, false);
+        View view = inflater.inflate(R.layout.catalog_download, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
@@ -127,7 +132,7 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if ( this.feed != null ) {
+        if (this.feed != null) {
             doSetFeed(feed);
         }
     }
@@ -138,15 +143,15 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
 
         Option<Link> epubLink = entry.getEpubLink();
 
-        if ( ! isEmpty(epubLink) ) {
+        if (!isEmpty(epubLink)) {
 
             String base = feed.getURL();
 
             try {
                 final URL url = new URL(new URL(base), epubLink.unsafeGet().getHref());
 
-                downloadButton.setOnClickListener( v -> startDownload(true, url.toExternalForm() ));
-                addToLibraryButton.setOnClickListener( v -> startDownload(false, url.toExternalForm()));
+                downloadButton.setOnClickListener(v -> startDownload(true, url.toExternalForm()));
+                addToLibraryButton.setOnClickListener(v -> startDownload(false, url.toExternalForm()));
 
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
@@ -159,8 +164,8 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
 
         Option<Link> buyLink = entry.getBuyLink();
 
-        if ( !isEmpty( buyLink ) ) {
-            buyNowButton.setOnClickListener( v -> {
+        if (!isEmpty(buyLink)) {
+            buyNowButton.setOnClickListener(v -> {
                 String url = buyLink.unsafeGet().getHref();
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
@@ -169,7 +174,7 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
         } else {
             buyNowButton.setVisibility(View.GONE);
 
-            if ( divider != null ) {
+            if (divider != null) {
                 divider.setVisibility(View.GONE);
             }
         }
@@ -177,7 +182,7 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
         if (entry.getAuthor() != null) {
             String authorText = String.format(
                     getString(R.string.book_by), entry.getAuthor()
-                    .getName());
+                            .getName());
             authorTextView.setText(authorText);
         } else {
             authorTextView.setText("");
@@ -186,49 +191,49 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
         final Option<Link> imgLink = Catalog.getImageLink(feed, entry);
 
         Catalog.loadBookDetails(mainLayout, entry, false);
-        icon.setImageDrawable( getActivity().getResources().getDrawable(R.drawable.unknown_cover));
+        icon.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.unknown_cover));
 
         LoadThumbnailTask task = this.loadThumbnailTaskProvider.get();
         task.setLoadFeedCallback(this);
         task.setBaseUrl(feed.getURL());
 
-        imgLink.forEach( task::execute );
+        imgLink.forEach(task::execute);
     }
 
     @Override
     public void setNewFeed(Feed feed, ResultType resultType) {
         this.feed = feed;
-        if ( this.downloadButton != null ) {
+        if (this.downloadButton != null) {
             doSetFeed(feed);
         }
     }
 
     @Override
     public void errorLoadingFeed(String error) {
-        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG ).show();
+        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void emptyFeedLoaded(Feed feed) {
-        errorLoadingFeed( getActivity().getString(R.string.empty_opds_feed) );
+        errorLoadingFeed(getActivity().getString(R.string.empty_opds_feed));
     }
 
     private void setSupportProgressBarIndeterminateVisibility(boolean enable) {
 
         RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
 
-        if ( activity != null) {
+        if (activity != null) {
             activity.setSupportProgressBarIndeterminateVisibility(enable);
         }
     }
 
-    public void notifyLinkUpdated( Link link, Drawable drawable ) {
+    public void notifyLinkUpdated(Link link, Drawable drawable) {
 
-        if ( drawable != null ) {
+        if (drawable != null) {
             icon.setImageDrawable(drawable);
         }
 
-       onLoadingDone();
+        onLoadingDone();
     }
 
     @Override
@@ -242,7 +247,7 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
 
     public void startDownload(final boolean openOnCompletion, final String url) {
 
-        if ( feed == null || feed.getEntries() == null || feed.getEntries().size() == 0 ) {
+        if (feed == null || feed.getEntries() == null || feed.getEntries().size() == 0) {
             return;
         }
 
@@ -251,10 +256,10 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
         final Entry entry = feed.getEntries().get(0);
         String title = entry.getTitle();
 
-        if ( !openOnCompletion && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH ) {
-            task.setCallBack( new NotificationBarCallback(getActivity().getBaseContext(), title, openOnCompletion) );
+        if (!openOnCompletion && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            task.setCallBack(new NotificationBarCallback(getActivity().getBaseContext(), title, openOnCompletion));
         } else {
-            task.setCallBack( new ProgressDialogCallback(getActivity().getBaseContext(), task, openOnCompletion) );
+            task.setCallBack(new ProgressDialogCallback(getActivity().getBaseContext(), task, openOnCompletion));
         }
 
         task.execute(url);
@@ -266,7 +271,7 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
         private boolean openOnCompletion;
         private Context context;
 
-        public AbstractDownloadCallback( Context context, boolean openOnCompletion ) {
+        public AbstractDownloadCallback(Context context, boolean openOnCompletion) {
             this.openOnCompletion = openOnCompletion;
             this.context = context;
         }
@@ -274,11 +279,11 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
         @Override
         public void downloadSuccess(File destFile) {
 
-            if ( ! isAdded() ) {
+            if (!isAdded()) {
                 return;
             }
 
-            if ( openOnCompletion ) {
+            if (openOnCompletion) {
                 Intent intent = getBookOpenIntent(destFile);
                 startActivity(intent);
                 getActivity().finish();
@@ -290,7 +295,7 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
 
             intent = new Intent(context,
                     ReadingActivity.class);
-            config.setLastActivity( ReadingActivity.class );
+            config.setLastActivity(ReadingActivity.class);
 
             intent.setData(Uri.parse(destFile.getAbsolutePath()));
 
@@ -319,7 +324,7 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
 
         public NotificationBarCallback(Context context, String title,
                                        boolean openOnCompletion) {
-            super( context, openOnCompletion );
+            super(context, openOnCompletion);
             this.title = title;
             this.downloadSubtitle = getString(R.string.downloading);
             this.downloadSuccess = getString(R.string.download_complete);
@@ -339,7 +344,7 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
                     .setSmallIcon(R.drawable.download);
             builder.setTicker(downloadSubtitle);
 
-            builder.setProgress( 0, 0, true);
+            builder.setProgress(0, 0, true);
 
             notificationManager.notify(notificationId, builder.build());
 
@@ -348,7 +353,7 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
         @Override
         public void progressUpdate(long progress, long total, int percentage) {
 
-            builder.setProgress( 100, percentage, false);
+            builder.setProgress(100, percentage, false);
             // Displays the progress bar for the first time.
             notificationManager.notify(notificationId, builder.build());
 
@@ -363,7 +368,7 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
 
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
                     getBookOpenIntent(destFile), 0);
-            builder.setContentIntent( contentIntent );
+            builder.setContentIntent(contentIntent);
             builder.setTicker(downloadSuccess);
             builder.setAutoCancel(true);
 
@@ -386,14 +391,14 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
     }
 
     private class ProgressDialogCallback extends AbstractDownloadCallback implements
-        DialogInterface.OnCancelListener {
+            DialogInterface.OnCancelListener {
 
         private ProgressDialog downloadDialog;
         private DownloadFileTask task;
 
         private ProgressDialogCallback(Context context, DownloadFileTask task, boolean openOnCompletion) {
 
-            super( context, openOnCompletion );
+            super(context, openOnCompletion);
 
             this.downloadDialog = new ProgressDialog(getActivity());
             this.task = task;
@@ -403,7 +408,7 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
             downloadDialog.setCancelable(true);
 
 
-            downloadDialog.setOnCancelListener( this );
+            downloadDialog.setOnCancelListener(this);
         }
 
         @Override
@@ -419,7 +424,7 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
 
         @Override
         public void progressUpdate(long progress, long total, int percentage) {
-            downloadDialog.setMax( Long.valueOf(total).intValue() );
+            downloadDialog.setMax(Long.valueOf(total).intValue());
             downloadDialog.setProgress(Long.valueOf(progress).intValue());
         }
 
@@ -429,7 +434,7 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
 
             super.downloadSuccess(destFile);
 
-            if ( ! isOpenOnCompletion() ) {
+            if (!isOpenOnCompletion()) {
                 Toast.makeText(getActivity(), R.string.download_complete,
                         Toast.LENGTH_LONG).show();
             }
@@ -440,7 +445,7 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
 
             downloadDialog.dismiss();
 
-            if ( isAdded() ) {
+            if (isAdded()) {
                 Toast.makeText(getActivity(), R.string.book_failed,
                         Toast.LENGTH_LONG).show();
             }

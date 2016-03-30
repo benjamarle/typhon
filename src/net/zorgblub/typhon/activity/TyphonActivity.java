@@ -26,20 +26,21 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import jedi.option.Option;
 import roboguice.RoboGuice;
-import roboguice.inject.InjectView;
 
 /**
  * Superclass for all Typhon activity classes.
  */
 public abstract class TyphonActivity extends RoboActionBarActivity {
 
-    @InjectView(R.id.drawer_layout)
-    private DrawerLayout mDrawer;
+    @Bind(R.id.drawer_layout)
+    DrawerLayout mDrawer;
 
-    @InjectView(R.id.left_drawer)
-    private ExpandableListView mDrawerOptions;
+    @Bind(R.id.left_drawer)
+    ExpandableListView mDrawerOptions;
 
     private ActionBarDrawerToggle mToggle;
 
@@ -66,6 +67,7 @@ public abstract class TyphonActivity extends RoboActionBarActivity {
 
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(getMainLayoutResource());
+        ButterKnife.bind(this);
 
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawer.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);

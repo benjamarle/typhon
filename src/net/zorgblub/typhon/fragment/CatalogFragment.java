@@ -70,24 +70,25 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nullable;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import jedi.option.Option;
 import roboguice.fragment.RoboFragment;
-import roboguice.inject.InjectView;
 
 import static jedi.functional.FunctionalPrimitives.isEmpty;
 import static jedi.option.Options.option;
 
 public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
-	
-	private static final Logger LOG = LoggerFactory
-			.getLogger("CatalogFragment");
 
-	@InjectView(R.id.catalogList)
-	@Nullable
-	private ListView catalogList;
+    private static final Logger LOG = LoggerFactory
+            .getLogger("CatalogFragment");
 
-	@Inject
-	private Provider<LoadOPDSTask> loadOPDSTaskProvider;
+    @Bind(R.id.catalogList)
+    @Nullable
+    ListView catalogList;
+
+    @Inject
+    private Provider<LoadOPDSTask> loadOPDSTaskProvider;
 
     @Inject
     private Provider<ParseBinDataTask> parseBinDataTaskProvider;
@@ -99,7 +100,7 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
     private DialogFactory dialogFactory;
 
     @Inject
-	private CatalogListAdapter adapter;
+    private CatalogListAdapter adapter;
 
     @Inject
     private Provider<DisplayMetrics> metricsProvider;
@@ -115,65 +116,68 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
 
     private Feed staticFeed;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         DisplayMetrics metrics = metricsProvider.get();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-        this.taskQueue.setTaskQueueListener( this::onLoadingDone );
-	}
+        this.taskQueue.setTaskQueueListener(this::onLoadingDone);
+    }
 
-    public void setBaseURL(  String baseURL ) {
+    public void setBaseURL(String baseURL) {
         this.baseURL = baseURL;
     }
 
     @Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_catalog, container, false);
-	}
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_catalog, container, false);
+
+        ButterKnife.bind(this, view);
+        return view;
+    }
 
     @Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-		setHasOptionsMenu(true);
-		catalogList.setAdapter(adapter);
-        adapter.setImageLoader( (baseURL, link) ->
-                option(thumbnailCache.get(link.getHref())) );
+        setHasOptionsMenu(true);
+        catalogList.setAdapter(adapter);
+        adapter.setImageLoader((baseURL, link) ->
+                option(thumbnailCache.get(link.getHref())));
 
         catalogList.setOnScrollListener(new LoadingScrollListener());
 
-        catalogList.setOnItemClickListener( (list, v, position, a) -> {
+        catalogList.setOnItemClickListener((list, v, position, a) -> {
             Option<Entry> entry = adapter.getItem(position);
-            entry.forEach( e -> onEntryClicked(e, position));
+            entry.forEach(e -> onEntryClicked(e, position));
         });
 
-        if ( staticFeed != null ) {
-            adapter.setFeed( staticFeed );
+        if (staticFeed != null) {
+            adapter.setFeed(staticFeed);
         }
 
-	}
+    }
 
     public void onBecameVisible() {
-        adapter.getFeed().forEach( f ->
-            ((CatalogParent) getActivity() ).onFeedLoaded( f )
+        adapter.getFeed().forEach(f ->
+                ((CatalogParent) getActivity()).onFeedLoaded(f)
         );
     }
-	
-	private void loadOPDSFeed( Entry entry, String url, boolean asDetailsFeed, boolean asSearchFeed, ResultType resultType ) {
 
-		LoadOPDSTask task = this.loadOPDSTaskProvider.get();
-		task.setCallBack(this);
+    private void loadOPDSFeed(Entry entry, String url, boolean asDetailsFeed, boolean asSearchFeed, ResultType resultType) {
+
+        LoadOPDSTask task = this.loadOPDSTaskProvider.get();
+        task.setCallBack(this);
 
         task.setResultType(resultType);
-		task.setAsDetailsFeed(asDetailsFeed);
+        task.setAsDetailsFeed(asDetailsFeed);
         task.setAsSearchFeed(asSearchFeed);
 
         //If we're going to load a completely new feed,
         //cancel all pending downloads.
-        if ( resultType == ResultType.REPLACE ) {
+        if (resultType == ResultType.REPLACE) {
             taskQueue.clear();
             taskQueue.executeTask(task, url);
         } else {
@@ -181,80 +185,80 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
             this.adapter.setLoading(true);
         }
 
-	}
+    }
 
-    public void setStaticFeed( Feed feed ) {
+    public void setStaticFeed(Feed feed) {
         this.staticFeed = feed;
     }
 
     public void performSearch(String searchTerm) {
-    	if (searchTerm != null && searchTerm.length() > 0) {
-			String searchString = URLEncoder.encode(searchTerm);
+        if (searchTerm != null && searchTerm.length() > 0) {
+            String searchString = URLEncoder.encode(searchTerm);
             Option<Feed> feed = adapter.getFeed();
 
-            feed.forEach( f -> f.getSearchLink().forEach( searchLink -> {
+            feed.forEach(f -> f.getSearchLink().forEach(searchLink -> {
                 String linkUrl = searchLink.getHref();
 
-                linkUrl = linkUrl.replace( AtomConstants.SEARCH_TERMS,
+                linkUrl = linkUrl.replace(AtomConstants.SEARCH_TERMS,
                         searchString);
 
                 loadURL(null, linkUrl, false, true, ResultType.REPLACE);
             }));
-		}
+        }
     }
 
     public boolean supportsSearch() {
         return searchMenuItem.isEnabled();
     }
 
-	public void onSearchRequested() {
+    public void onSearchRequested() {
 
-        if ( searchMenuItem == null || ! searchMenuItem.isEnabled() ) {
+        if (searchMenuItem == null || !searchMenuItem.isEnabled()) {
             return;
         }
 
-        if ( searchMenuItem.getActionView() != null ) {
+        if (searchMenuItem.getActionView() != null) {
             this.searchMenuItem.expandActionView();
             this.searchMenuItem.getActionView().requestFocus();
         } else {
-            dialogFactory.showSearchDialog(R.string.search_books, R.string.enter_query, this::performSearch );
+            dialogFactory.showSearchDialog(R.string.search_books, R.string.enter_query, this::performSearch);
         }
-	}
+    }
 
-	public void onEntryClicked( Entry entry, int position ) {		
-			
-		if ( entry.getId() != null && entry.getId().equals(Catalog.CUSTOM_SITES_ID) ) {			
+    public void onEntryClicked(Entry entry, int position) {
+
+        if (entry.getId() != null && entry.getId().equals(Catalog.CUSTOM_SITES_ID)) {
             ((CatalogParent) getActivity()).loadCustomSitesFeed();
-		} else if ( ! isEmpty( entry.getAlternateLink() ) ) {
-			String href = entry.getAlternateLink().unsafeGet().getHref();
-			replaceFeed(entry, href, true);
-		} else if ( ! isEmpty( entry.getEpubLink() )) {
+        } else if (!isEmpty(entry.getAlternateLink())) {
+            String href = entry.getAlternateLink().unsafeGet().getHref();
+            replaceFeed(entry, href, true);
+        } else if (!isEmpty(entry.getEpubLink())) {
             loadFakeFeek(entry);
-		} else if ( ! isEmpty(entry.getAtomLink()) ) {
-			String href = entry.getAtomLink().unsafeGet().getHref();
-			replaceFeed( entry, href, false);
-		} else if ( ! isEmpty( entry.getWebsiteLink() ) ) {
+        } else if (!isEmpty(entry.getAtomLink())) {
+            String href = entry.getAtomLink().unsafeGet().getHref();
+            replaceFeed(entry, href, false);
+        } else if (!isEmpty(entry.getWebsiteLink())) {
             String url = entry.getWebsiteLink().unsafeGet().getHref();
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             startActivity(i);
         }
-	}
+    }
 
-    private void replaceFeed( Entry entry, String href, boolean asDetailsFeed ) {
+    private void replaceFeed(Entry entry, String href, boolean asDetailsFeed) {
 
         String baseURL = entry.getBaseURL();
 
-        if ( baseURL == null ) {
+        if (baseURL == null) {
             baseURL = this.baseURL;
         }
 
-        LOG.debug( "Loading new Feed with baseURL: " + baseURL );
+        LOG.debug("Loading new Feed with baseURL: " + baseURL);
 
         ((CatalogParent) getActivity()).loadFeed(entry, href, baseURL, asDetailsFeed);
     }
 
-    private void loadFakeFeek( Entry entry ) {
+    private void loadFakeFeek(Entry entry) {
 
         Feed fakeFeed = new Feed();
         fakeFeed.addEntry(entry);
@@ -269,42 +273,42 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
 
         String base = null;
 
-        if ( entry != null  ) {
+        if (entry != null) {
             base = entry.getBaseURL();
         }
 
-        if ( base == null ) {
+        if (base == null) {
             base = this.baseURL;
         }
 
         LOG.debug("Using baseURL: " + base);
 
-		try {
-			String target = url;
-			
-			if ( base != null && ! base.equals(Catalog.CUSTOM_SITES_ID)) {
-				target = new URL(new URL(base), url).toString();
-			}
+        try {
+            String target = url;
 
-			LOG.info("Loading " + target);
+            if (base != null && !base.equals(Catalog.CUSTOM_SITES_ID)) {
+                target = new URL(new URL(base), url).toString();
+            }
 
-			loadOPDSFeed(entry, target, asDetailsFeed, asSearchFeed, resultType);
-		} catch (MalformedURLException u) {
-			LOG.error("Malformed URL:", u);
-		}
-	}
+            LOG.info("Loading " + target);
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+            loadOPDSFeed(entry, target, asDetailsFeed, asSearchFeed, resultType);
+        } catch (MalformedURLException u) {
+            LOG.error("Malformed URL:", u);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
 
-        if ( activity == null ) {
+        if (activity == null) {
             return;
         }
 
-		activity.getSupportActionBar().setHomeButtonEnabled(true);
-		inflater.inflate(R.menu.catalog_menu, menu);
+        activity.getSupportActionBar().setHomeButtonEnabled(true);
+        inflater.inflate(R.menu.catalog_menu, menu);
 
         this.searchMenuItem = menu.findItem(R.id.search);
         if (searchMenuItem != null) {
@@ -312,66 +316,66 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
 
             if (searchView != null) {
                 searchView.setSubmitButtonEnabled(true);
-                searchView.setOnQueryTextListener(UiUtils.onQuery( this::performSearch ) );
+                searchView.setOnQueryTextListener(UiUtils.onQuery(this::performSearch));
             } else {
-                searchMenuItem.setOnMenuItemClickListener( item -> {
-                        dialogFactory.showSearchDialog(R.string.search_books,
-                                R.string.enter_query, this::performSearch );
-                        return false;
+                searchMenuItem.setOnMenuItemClickListener(item -> {
+                    dialogFactory.showSearchDialog(R.string.search_books,
+                            R.string.enter_query, this::performSearch);
+                    return false;
                 });
             }
         }
-	}
-	
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
 
         Option<Feed> feed = adapter.getFeed();
 
-        boolean searchEnabled = !isEmpty( feed.flatMap(Feed::getSearchLink) );
+        boolean searchEnabled = !isEmpty(feed.flatMap(Feed::getSearchLink));
 
-		for ( int i=0; i < menu.size(); i++ ) {
-			MenuItem item = menu.getItem(i);
-			
-			boolean enabled;
-			
-			switch (item.getItemId()) {
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
 
-			case R.id.search:
-				enabled = searchEnabled;
-				break;			
-			default:
-				enabled = true;
-			}			
-			
-			item.setEnabled(enabled);
-			item.setVisible(enabled);			
-		}
+            boolean enabled;
+
+            switch (item.getItemId()) {
+
+                case R.id.search:
+                    enabled = searchEnabled;
+                    break;
+                default:
+                    enabled = true;
+            }
+
+            item.setEnabled(enabled);
+            item.setVisible(enabled);
+        }
 
         LOG.debug("Adapter has feed: " + adapter.getFeed());
-	}
+    }
 
     @Override
     public void notifyLinkUpdated(Link link, Drawable drawable) {
 
-        if ( drawable != null ) {
+        if (drawable != null) {
             this.thumbnailCache.put(link.getHref(), drawable);
             adapter.notifyDataSetChanged();
         }
     }
 
     @Override
-	public void errorLoadingFeed(String error) {
-		if ( isAdded() ) {
+    public void errorLoadingFeed(String error) {
+        if (isAdded()) {
             Toast.makeText(getActivity(), getString(R.string.feed_failed) + ": " + error,
-				Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_LONG).show();
         }
-	}
+    }
 
     @Override
     public void emptyFeedLoaded(Feed feed) {
-        if ( feed.isSearchFeed() ) {
-            Toast.makeText(getActivity(), R.string.no_search_results, Toast.LENGTH_LONG ).show();
+        if (feed.isSearchFeed()) {
+            Toast.makeText(getActivity(), R.string.no_search_results, Toast.LENGTH_LONG).show();
         } else {
             errorLoadingFeed(getActivity().getString(R.string.empty_opds_feed));
         }
@@ -390,14 +394,14 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
 
     public void setNewFeed(Feed result, ResultType resultType) {
 
-        if (result != null ) {
+        if (result != null) {
 
-            if ( resultType == null || resultType == ResultType.REPLACE ) {
+            if (resultType == null || resultType == ResultType.REPLACE) {
                 destroyThumbnails();
                 thumbnailCache.clear();
                 adapter.setFeed(result);
-                if ( isAdded() ) {
-                    ((CatalogParent) getActivity() ).onFeedLoaded(result);
+                if (isAdded()) {
+                    ((CatalogParent) getActivity()).onFeedLoaded(result);
                 }
             } else {
                 this.adapter.setLoading(false);
@@ -407,42 +411,42 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
     }
 
     private void destroyThumbnails() {
-        for ( Map.Entry<String, Drawable> entry: thumbnailCache.entrySet() ) {
+        for (Map.Entry<String, Drawable> entry : thumbnailCache.entrySet()) {
             Drawable value = entry.getValue();
 
-            if ( value instanceof FastBitmapDrawable ) {
+            if (value instanceof FastBitmapDrawable) {
                 ((FastBitmapDrawable) value).destroy();
             }
         }
     }
 
-    private void queueImageLoading( String baseURL, Link imageLink ) {
+    private void queueImageLoading(String baseURL, Link imageLink) {
 
         Context context = getActivity();
 
-        if ( context == null ) {
+        if (context == null) {
             return;
         }
 
         //Make sure we only start a single background task for each url
-        if ( this.thumbnailCache.containsKey(imageLink.getHref() ) ) {
+        if (this.thumbnailCache.containsKey(imageLink.getHref())) {
             return;
         } else {
-            this.thumbnailCache.put( imageLink.getHref(), context.getResources().getDrawable(R.drawable.unknown_cover));
+            this.thumbnailCache.put(imageLink.getHref(), context.getResources().getDrawable(R.drawable.unknown_cover));
         }
 
         String href = imageLink.getHref();
 
         // If the image is contained in the feed, load it
         // directly
-        if ( href.startsWith("data:image") ) {
+        if (href.startsWith("data:image")) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
                 ParseBinDataTask binDataTask = this.parseBinDataTaskProvider.get();
                 binDataTask.setLoadFeedCallback(this);
 
                 taskQueue.executeTask(binDataTask, imageLink);
             }
-        }else {
+        } else {
 
             LoadThumbnailTask thumbnailTask = this.loadThumbnailTaskProvider.get();
 
@@ -457,8 +461,8 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
 
         RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
 
-        if ( activity != null) {
-            LOG.debug("Setting progress bar to " + enable );
+        if (activity != null) {
+            LOG.debug("Setting progress bar to " + enable);
             activity.setSupportProgressBarIndeterminateVisibility(enable);
         } else {
             LOG.debug("Got null activity.");
@@ -487,20 +491,20 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
 
         @Override
         public void onScroll(AbsListView view, final int firstVisibleItem, final int visibleItemCount, int totalItemCount) {
-            loadThumbnails(firstVisibleItem, visibleItemCount, totalItemCount );
-            loadNextFeed(firstVisibleItem, visibleItemCount, totalItemCount );
+            loadThumbnails(firstVisibleItem, visibleItemCount, totalItemCount);
+            loadNextFeed(firstVisibleItem, visibleItemCount, totalItemCount);
         }
 
-        private void loadNextFeed( final int firstVisibleItem, final int visibleItemCount, int totalItemCount ) {
+        private void loadNextFeed(final int firstVisibleItem, final int visibleItemCount, int totalItemCount) {
 
             int lastVisibleItem = firstVisibleItem + visibleItemCount;
 
-            if ( totalItemCount - lastVisibleItem  <= LOAD_THRESHOLD && adapter.getCount() > 0) {
+            if (totalItemCount - lastVisibleItem <= LOAD_THRESHOLD && adapter.getCount() > 0) {
 
-                Option<Entry> lastEntry = adapter.getItem( adapter.getCount() -1 );
+                Option<Entry> lastEntry = adapter.getItem(adapter.getCount() - 1);
 
-                lastEntry.flatMap(Entry::getFeed).forEach( feed -> feed.getNextLink().forEach( link -> {
-                    if (! link.getHref().equals(lastLoadedUrl)) {
+                lastEntry.flatMap(Entry::getFeed).forEach(feed -> feed.getNextLink().forEach(link -> {
+                    if (!link.getHref().equals(lastLoadedUrl)) {
                         Entry nextEntry = new Entry();
                         nextEntry.setFeed(feed);
                         nextEntry.addLink(link);
@@ -514,19 +518,19 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
             }
         }
 
-        private void loadThumbnails( final int firstVisibleItem, final int visibleItemCount, int totalItemCount ) {
-            if ( updater != null ) {
+        private void loadThumbnails(final int firstVisibleItem, final int visibleItemCount, int totalItemCount) {
+            if (updater != null) {
                 handler.removeCallbacks(updater);
             }
 
             updater = () -> {
-                for ( int i=0; i < visibleItemCount; i++ ) {
-                    Option<Entry> entry = adapter.getItem( firstVisibleItem + i );
+                for (int i = 0; i < visibleItemCount; i++) {
+                    Option<Entry> entry = adapter.getItem(firstVisibleItem + i);
 
-                    entry.forEach( e -> e.getFeed().forEach( feed -> {
-                        Catalog.getImageLink( feed, e).forEach( imageLink -> {
-                            if ( ! thumbnailCache.containsKey( imageLink.getHref() ) ) {
-                                queueImageLoading( e.getBaseURL(), imageLink );
+                    entry.forEach(e -> e.getFeed().forEach(feed -> {
+                        Catalog.getImageLink(feed, e).forEach(imageLink -> {
+                            if (!thumbnailCache.containsKey(imageLink.getHref())) {
+                                queueImageLoading(e.getBaseURL(), imageLink);
                             }
                         });
                     }));
@@ -535,13 +539,13 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
 
             long delay;
 
-            if ( firstVisibleItem + visibleItemCount == totalItemCount ) {
+            if (firstVisibleItem + visibleItemCount == totalItemCount) {
                 delay = 0; //All items on screen, no wait
             } else {
                 delay = 500; //Default delay
             }
 
-            handler.postDelayed( updater, delay );
+            handler.postDelayed(updater, delay);
         }
 
 
