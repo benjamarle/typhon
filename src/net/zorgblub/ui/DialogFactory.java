@@ -27,18 +27,13 @@ import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
-import com.google.inject.Inject;
-
 public class DialogFactory {
-
-    @Inject
-    private Context context;
 
     public interface SearchCallBack {
         void performSearch(String query);
     }
 
-    public void showSearchDialog( int titleId, int questionId, final SearchCallBack callBack ) {
+    public void showSearchDialog(int titleId, int questionId, final SearchCallBack callBack, Context context ) {
 
         final AlertDialog.Builder searchInputDialogBuilder = new AlertDialog.Builder(context);
 
@@ -79,7 +74,7 @@ public class DialogFactory {
         });
     }
 
-	public AlertDialog buildAboutDialog() {
+	public AlertDialog buildAboutDialog(Context context) {
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle(net.zorgblub.typhon.R.string.about);

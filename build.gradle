@@ -21,12 +21,14 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.0-alpha4'
         classpath 'me.tatarka:gradle-retrolambda:3.3.0-beta4'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
 
 apply plugin: 'com.android.application' //or apply plugin: 'java'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'idea'
+apply plugin: 'com.neenbedankt.android-apt'
 
 repositories {
 
@@ -65,10 +67,14 @@ dependencies {
         exclude group: 'org.slf4j'
         exclude group: 'net.sf.kxml'
     }
+    compile 'org.roboguice:roboguice:3.0.1'
     compile files('libs/JRikai.jar')
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.github.woxthebox:draglistview:1.2.1'
     compile 'com.jakewharton:butterknife:7.0.1'
+    apt 'com.google.dagger:dagger-compiler:2.2'
+    compile 'com.google.dagger:dagger:2.2'
+    provided 'javax.annotation:jsr250-api:1.0'
     //compile 'com.android.support:design:22.+'
     provided(
             [group: 'com.google.android', name: 'annotations', version: '4.1.1.4'],
@@ -140,4 +146,8 @@ android {
 
 retrolambda {
     javaVersion JavaVersion.VERSION_1_7
+}
+
+project.dependencies {
+    provided 'org.roboguice:roboblender:3.0.1'
 }

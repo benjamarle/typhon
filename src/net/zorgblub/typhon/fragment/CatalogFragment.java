@@ -221,7 +221,7 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
             this.searchMenuItem.expandActionView();
             this.searchMenuItem.getActionView().requestFocus();
         } else {
-            dialogFactory.showSearchDialog(R.string.search_books, R.string.enter_query, this::performSearch);
+            dialogFactory.showSearchDialog(R.string.search_books, R.string.enter_query, this::performSearch, getActivity());
         }
     }
 
@@ -320,7 +320,7 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
             } else {
                 searchMenuItem.setOnMenuItemClickListener(item -> {
                     dialogFactory.showSearchDialog(R.string.search_books,
-                            R.string.enter_query, this::performSearch);
+                            R.string.enter_query, this::performSearch, activity);
                     return false;
                 });
             }

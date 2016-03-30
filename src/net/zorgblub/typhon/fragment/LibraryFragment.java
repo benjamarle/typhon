@@ -439,7 +439,7 @@ public class LibraryFragment extends RoboFragment implements ImportCallback {
         onMenuPress(menu, R.id.list_view).thenDo(toggleListener);
 
         onMenuPress(menu, R.id.scan_books).thenDo(this::showImportDialog);
-        onMenuPress(menu, R.id.about).thenDo(dialogFactory.buildAboutDialog()::show);
+        onMenuPress(menu, R.id.about).thenDo(dialogFactory.buildAboutDialog(context)::show);
 
         onMenuPress(menu, R.id.profile_day).thenDo(() -> switchToColourProfile(ColourProfile.DAY));
         onMenuPress(menu, R.id.profile_night).thenDo(() -> switchToColourProfile(ColourProfile.NIGHT));
@@ -456,7 +456,7 @@ public class LibraryFragment extends RoboFragment implements ImportCallback {
 
             } else {
                 searchMenuItem.setOnMenuItemClickListener(item -> {
-                    dialogFactory.showSearchDialog(R.string.search_library, R.string.enter_query, this::performSearch);
+                    dialogFactory.showSearchDialog(R.string.search_library, R.string.enter_query, this::performSearch, context);
                     return false;
                 });
             }
@@ -505,7 +505,7 @@ public class LibraryFragment extends RoboFragment implements ImportCallback {
             this.searchMenuItem.expandActionView();
             this.searchMenuItem.getActionView().requestFocus();
         } else {
-            dialogFactory.showSearchDialog(R.string.search_library, R.string.enter_query, this::performSearch);
+            dialogFactory.showSearchDialog(R.string.search_library, R.string.enter_query, this::performSearch, context);
         }
     }
 

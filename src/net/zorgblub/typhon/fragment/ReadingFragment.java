@@ -83,9 +83,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-
 import net.nightwhistler.htmlspanner.spans.CenterSpan;
 import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.Configuration.AnimationStyle;
@@ -95,6 +92,7 @@ import net.zorgblub.typhon.Configuration.ScrollStyle;
 import net.zorgblub.typhon.PlatformUtil;
 import net.zorgblub.typhon.R;
 import net.zorgblub.typhon.TextUtil;
+import net.zorgblub.typhon.Typhon;
 import net.zorgblub.typhon.activity.LibraryActivity;
 import net.zorgblub.typhon.activity.MediaButtonReceiver;
 import net.zorgblub.typhon.activity.ReadingActivity;
@@ -147,6 +145,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import jedi.functional.Command;
@@ -187,22 +188,22 @@ public class ReadingFragment extends RoboFragment implements
     Provider<ActionModeBuilder> actionModeBuilderProvider;
 
     @Inject
-    private ProgressService progressService;
+    ProgressService progressService;
 
     @Inject
-    private LibraryService libraryService;
+    LibraryService libraryService;
 
     @Inject
-    private Configuration config;
+    Configuration config;
 
     @Inject
-    private DialogFactory dialogFactory;
+    DialogFactory dialogFactory;
 
     @Inject
-    private NotificationManager notificationManager;
+    NotificationManager notificationManager;
 
     @Inject
-    private Context context;
+    Context context;
 
     @Bind(R.id.mainContainer)
     ViewSwitcher viewSwitcher;
@@ -255,27 +256,26 @@ public class ReadingFragment extends RoboFragment implements
     @Bind(R.id.definition_view)
     DictionaryPane dictionaryPane;
 
+    @Inject
+    TelephonyManager telephonyManager;
 
     @Inject
-    private TelephonyManager telephonyManager;
+    PowerManager powerManager;
 
     @Inject
-    private PowerManager powerManager;
+    AudioManager audioManager;
 
     @Inject
-    private AudioManager audioManager;
+    TTSPlaybackQueue ttsPlaybackItemQueue;
 
     @Inject
-    private TTSPlaybackQueue ttsPlaybackItemQueue;
+    TextLoader textLoader;
 
     @Inject
-    private TextLoader textLoader;
+    HighlightManager highlightManager;
 
     @Inject
-    private HighlightManager highlightManager;
-
-    @Inject
-    private BookmarkDatabaseHelper bookmarkDatabaseHelper;
+    BookmarkDatabaseHelper bookmarkDatabaseHelper;
 
     private DictionaryService dictionaryService;
 
@@ -349,6 +349,7 @@ public class ReadingFragment extends RoboFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Typhon.getComponent().inject(this);
 
         // Restore preferences
         this.uiHandler = new Handler();
@@ -509,6 +510,7 @@ public class ReadingFragment extends RoboFragment implements
 
         DisplayMetrics metrics = new DisplayMetrics();
         RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
+        this.context = activity;
 
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
@@ -2546,7 +2548,7 @@ public class ReadingFragment extends RoboFragment implements
                 return true;
 
             case R.id.about:
-                dialogFactory.buildAboutDialog().show();
+                dialogFactory.buildAboutDialog(context).show();
                 return true;
 
             case R.id.add_bookmark:
@@ -2956,7 +2958,7 @@ public class ReadingFragment extends RoboFragment implements
             MenuItemCompat.expandActionView(searchMenuItem);
             MenuItemCompat.getActionView(searchMenuItem).requestFocus();
         } else {
-            dialogFactory.showSearchDialog(R.string.search_text, R.string.enter_query, this::performSearch);
+            dialogFactory.showSearchDialog(R.string.search_text, R.string.enter_query, this::performSearch, activity);
         }
     }
 

@@ -66,4 +66,21 @@ public class Typhon extends Application {
         context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
     }
 
+    private static TyphonComponent typhonComponent;
+
+    public static TyphonComponent getComponent() {
+        if (typhonComponent == null) typhonComponent = getComponentSync();
+        return typhonComponent;
+    }
+
+    private static synchronized TyphonComponent getComponentSync() {
+       //if (typhonComponent == null)
+
+        return typhonComponent;
+    }
+
+    public static synchronized void reset(){
+        typhonComponent = null;
+    }
+
 }
