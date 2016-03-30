@@ -179,7 +179,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 		if (Build.VERSION.SDK_INT >= Configuration.TEXT_SELECTION_PLATFORM_VERSION ) {
 			childView.setTextIsSelectable(true);
 		}
-		
+
 		this.setSmoothScrollingEnabled(false);
 		this.tableHandler = new TableHandler();
         this.textLoader.registerTagNodeHandler("table", tableHandler);
@@ -205,8 +205,13 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 		if(definitionSpan != null){
 			spannable.removeSpan(definitionSpan);
 		}
-		definitionSpan = new BackgroundColorSpan(highlightColor);
-		spannable.setSpan(definitionSpan, startOffset, endOffset, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		if(endOffset - startOffset <= 0)
+			return;
+		if(endOffset >= text.length() || startOffset >= text.length())
+			return; // this can happen when clicking at the end of a chapter
+
+			definitionSpan = new BackgroundColorSpan(highlightColor);
+			spannable.setSpan(definitionSpan, startOffset, endOffset, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
 
 	public void setTextIsSelectable(boolean selectable){
@@ -243,7 +248,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 	/**
 	 * Returns if we're at the start of the book, i.e. displaying the title
 	 * page.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isAtStart() {
@@ -341,7 +346,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 		}
 	}
 
-	
+
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void setTextSelectionCallback(TextSelectionCallback callback) {
 		if (Build.VERSION.SDK_INT >= Configuration.TEXT_SELECTION_PLATFORM_VERSION) {
@@ -349,7 +354,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 					.setCustomSelectionActionModeCallback(new TextSelectionActions(
                             getContext(), callback, this));
 		}
-	}	
+	}
 
 	public int getLineSpacing() {
 		return lineSpacing;
@@ -598,7 +603,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 
 	/**
 	 * Returns the full word containing the character at the selected location.
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @return
@@ -739,8 +744,6 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 		}
 
 		while (right < text.length() && sentenceLength <  MAX_CONTEXT_SENTENCE_LENGTH) {
-			right++;
-			sentenceLength++;
 			if(isSentenceBoundaryCharacter(text.charAt(right))){
 				// Right is exclusive and we want to exclude the separator
 				// If it is a whitespace it is going to be filtered by String.trim()
@@ -748,6 +751,8 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 				right++;
 				break;
 			}
+			right++;
+			sentenceLength++;
 		}
 
 		contextSentence += text.subSequence(left, right).toString().trim();
@@ -855,9 +860,9 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 		if (spine == null) {
 			return;
 		}
-		
+
 		int index = 0;
-		
+
 		if ( percentage > 0 ) {
 
 			double targetPoint = (double) percentage / 100d;
@@ -866,7 +871,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 			if (percentages == null || percentages.isEmpty()) {
 				return;
 			}
-			
+
 			double total = 0;
 
 			for (; total < targetPoint && index < percentages.size(); index++) {
@@ -883,11 +888,11 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 			double partBefore = total - percentages.get(index);
 			double progressInPart = (targetPoint - partBefore)
 					/ percentages.get(index);
-			
+
 			this.strategy.setRelativePosition(progressInPart);
 		} else {
-			
-			//Simply jump to titlepage			
+
+			//Simply jump to titlepage
 			this.strategy.setPosition(0);
 		}
 
@@ -1029,7 +1034,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 
 	/**
 	 * Scrolls to a previously stored point.
-	 * 
+	 *
 	 * Call this after setPosition() to actually go there.
 	 */
 	private void restorePosition() {
@@ -1068,7 +1073,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 		private int end;
 
 		private String storedHref;
-		
+
 		private boolean fakeImages;
 
 		public ImageCallback(String href, SpannableStringBuilder builder,
@@ -1092,20 +1097,20 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 			}
 
 		}
-		
+
 		private void setFakeImage(InputStream input) {
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			options.inJustDecodeBounds = true;
 			BitmapFactory.decodeStream(input, null, options);
-			
+
 			Tuple2<Integer, Integer> sizes = calculateSize(options.outWidth, options.outHeight );
-			
+
 			ShapeDrawable draw = new ShapeDrawable( new RectShape() );
 			draw.setBounds(0, 0, sizes.a(), sizes.b());
-			
+
 			setImageSpan(builder, draw, start, end);
 		}
-		
+
 		private void setBitmapDrawable(InputStream input) {
 			Bitmap bitmap = null;
 			try {
@@ -1121,9 +1126,9 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 			}
 
 			if (bitmap != null) {
-				
+
 				FastBitmapDrawable drawable = new FastBitmapDrawable(bitmap);
-				
+
 				drawable.setBounds(0, 0, bitmap.getWidth() - 1,
 						bitmap.getHeight() - 1);
 				setImageSpan(builder, drawable, start, end);
@@ -1132,8 +1137,8 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 
                 textLoader.storeImageInChache(storedHref, drawable);
 			}
-		}		
-		
+		}
+
 
 		private Bitmap getBitmap(InputStream input) {
 			if(Configuration.IS_NOOK_TOUCH) {
@@ -1157,8 +1162,8 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 				Tuple2<Integer, Integer> targetSizes = calculateSize(originalWidth, originalHeight);
 				int targetWidth = targetSizes.a();
 				int targetHeight = targetSizes.b();
-				
-				if ( targetHeight != originalHeight || targetWidth != originalWidth ) {					
+
+				if ( targetHeight != originalHeight || targetWidth != originalWidth ) {
 					return Bitmap.createScaledBitmap(originalBitmap,
 							targetWidth, targetHeight, true);
 				}
@@ -1167,12 +1172,12 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 			return originalBitmap;
 		}
 	}
-	
+
 	private Tuple2<Integer,Integer> calculateSize(int originalWidth, int originalHeight ) {
 
 		int screenHeight = getHeight() - (verticalMargin * 2);
 		int screenWidth = getWidth() - (horizontalMargin * 2);
-		
+
 		// We scale to screen width for the cover or if the image is too
 		// wide.
 		if (originalWidth > screenWidth
@@ -1204,9 +1209,9 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 	private class ImageTagHandler extends TagNodeHandler {
 
 		private boolean fakeImages;
-		
+
 		public ImageTagHandler(boolean fakeImages) {
-			this.fakeImages = fakeImages;			
+			this.fakeImages = fakeImages;
 		}
 
 		@TargetApi(Build.VERSION_CODES.FROYO)
@@ -1229,7 +1234,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
             }
 
 			builder.append("\uFFFC");
-			
+
 			if (src.startsWith("data:image")) {
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
 
@@ -1239,7 +1244,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 
                         byte[] binData = Base64.decode(dataString,
 							Base64.DEFAULT);
-					
+
 					    setImageSpan(builder, new BitmapDrawable(
 							getContext().getResources(),
 							BitmapFactory.decodeByteArray(binData, 0, binData.length )),
@@ -1247,7 +1252,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
                     } catch ( OutOfMemoryError | IllegalArgumentException ia ) {
                         //Out of memory or invalid Base64, ignore
                     }
-					
+
 				}
 
 			} else if ( spine != null ) {
@@ -1265,7 +1270,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 				}
 			}
 		}
-		
+
 		protected void registerCallback(String resolvedHref, ImageCallback callback ) {
 			BookView.this.loader.registerCallback(resolvedHref, callback);
 		}
@@ -1294,7 +1299,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 
 		this.tableHandler.setTextColor(color);
 	}
-	
+
 	public Book getBook() {
 		return book;
 	}
@@ -1398,15 +1403,15 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
         }
 
         LOG.debug( "Looking for pageNumber for index=" + index + ", position=" + position );
-		
+
 		int pageNum = -1;
-		
+
 		List<List<Integer>> pageOffsets = spine.getPageOffsets();
-		
+
 		if ( pageOffsets == null || index >= pageOffsets.size() ) {
 			return -1;
 		}
-		
+
 		for ( int i=0; i < index; i++ ) {
 
             int pages = pageOffsets.get(i).size();
@@ -1701,7 +1706,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 			onProgressUpdate(BookReadPhase.DONE);
 
 			/**
-			 * This is a hack for scrolling not updating to the right position 
+			 * This is a hack for scrolling not updating to the right position
 			 * on Android 4+
 			 */
 			if ( strategy.isScrolling() ) {
