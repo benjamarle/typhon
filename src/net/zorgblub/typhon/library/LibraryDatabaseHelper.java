@@ -30,9 +30,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import roboguice.inject.ContextSingleton;
+import javax.inject.Singleton;
 
-@ContextSingleton
+@Singleton
 public class LibraryDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String LIB_BOOKS_TABLE = "lib_books";

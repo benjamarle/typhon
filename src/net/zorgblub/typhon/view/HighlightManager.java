@@ -3,8 +3,6 @@ package net.zorgblub.typhon.view;
 import android.graphics.Color;
 import android.util.Log;
 
-import com.google.inject.Inject;
-
 import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.dto.HighLight;
 
@@ -13,11 +11,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Manages highlights for a book.
  *
  * @author Alex Kuiper
  */
+
 public class HighlightManager {
 
     private List<HighLight> currentHighlights = new ArrayList<>();
@@ -26,9 +27,13 @@ public class HighlightManager {
     private static final HighlightComparator COMP = new HighlightComparator();
 
     @Inject
-    private Configuration config;
+    Configuration config;
 
-    private void updateBookFile( String fileName ) {
+    @Inject
+    public HighlightManager() {
+    }
+
+    private void updateBookFile(String fileName ) {
 
         if ( currentFileName != null && !currentFileName.equals(fileName) ) {
             saveHighLights();

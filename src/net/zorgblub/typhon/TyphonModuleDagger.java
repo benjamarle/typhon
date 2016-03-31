@@ -8,6 +8,7 @@ import android.telephony.TelephonyManager;
 
 import net.nightwhistler.htmlspanner.HtmlSpanner;
 import net.zorgblub.typhon.bookmark.BookmarkDatabaseHelper;
+import net.zorgblub.typhon.library.LibraryDatabaseHelper;
 import net.zorgblub.typhon.library.LibraryService;
 import net.zorgblub.typhon.library.SqlLiteLibraryService;
 import net.zorgblub.typhon.scheduling.TaskQueue;
@@ -15,7 +16,7 @@ import net.zorgblub.typhon.ssl.EasySSLSocketFactory;
 import net.zorgblub.typhon.sync.ProgressService;
 import net.zorgblub.typhon.sync.TyphonWebProgressService;
 import net.zorgblub.typhon.tts.TTSPlaybackQueue;
-import net.zorgblub.typhon.view.HighlightManager;
+import net.zorgblub.typhon.view.bookview.EpubFontResolver;
 import net.zorgblub.typhon.view.bookview.TextLoader;
 import net.zorgblub.ui.ActionModeBuilder;
 import net.zorgblub.ui.DialogFactory;
@@ -71,8 +72,14 @@ public class TyphonModuleDagger {
 
     @Provides
     @Singleton
-    LibraryService providesLibraryService() {
-        return new SqlLiteLibraryService();
+    LibraryService providesLibraryService(LibraryDatabaseHelper helper, Configuration config) {
+        return new SqlLiteLibraryService(helper, config);
+    }
+
+    @Provides
+    @Singleton
+    LibraryDatabaseHelper providesLibraryDatabaseHelper(Context context){
+        return new LibraryDatabaseHelper(context);
     }
 
     //bind( ProgressService.class ).to( TyphonWebProgressService.class ).in( Singleton.class );
@@ -96,18 +103,12 @@ public class TyphonModuleDagger {
 
     @Provides
     @Singleton
-    TextLoader providesTextLoader(HtmlSpanner spanner) {
-        return new TextLoader(spanner);
+    TextLoader providesTextLoader(HtmlSpanner spanner, Context context) {
+        return new TextLoader(spanner, context);
     }
 
     //bind(HighlightManager.class).in(Singleton.class);
 
-
-    @Provides
-    @Singleton
-    HighlightManager providesHighlightManager() {
-        return new HighlightManager();
-    }
 
     //bind(TaskQueue.class).in(ContextSingleton.class);
 
@@ -138,6 +139,12 @@ public class TyphonModuleDagger {
     @Provides
     DialogFactory providesDialogFactory(){
         return new DialogFactory();
+    }
+
+    @Provides
+    @Singleton
+    EpubFontResolver providesEpubFontResolver(){
+        return new EpubFontResolver();
     }
 
     // Android services

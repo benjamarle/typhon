@@ -25,15 +25,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-
 import net.zorgblub.nucular.atom.AtomConstants;
 import net.zorgblub.nucular.atom.Entry;
 import net.zorgblub.nucular.atom.Feed;
 import net.zorgblub.nucular.atom.Link;
 import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.CustomOPDSSite;
+import net.zorgblub.typhon.Typhon;
 import net.zorgblub.typhon.catalog.Catalog;
 import net.zorgblub.typhon.catalog.CatalogParent;
 import net.zorgblub.typhon.catalog.LoadFeedCallback;
@@ -46,9 +44,10 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 import jedi.option.Option;
-import roboguice.inject.InjectFragment;
 
 import static jedi.functional.FunctionalPrimitives.isEmpty;
 import static jedi.option.Options.none;
@@ -60,22 +59,23 @@ public class CatalogActivity extends TyphonActivity implements CatalogParent {
             .getLogger("CatalogActivity");
 
     @Nullable
-    @InjectFragment(net.zorgblub.typhon.R.id.fragment_book_details)
     private BookDetailsFragment detailsFragment;
 
-    @Inject
     private Provider<CatalogFragment> fragmentProvider;
 
-    @Inject
     private FragmentManager fragmentManager;
 
     @Inject
-    private Configuration config;
+    Configuration config;
 
     private String baseFeedTitle;
 
     @Override
     protected void onCreateTyphonActivity(Bundle savedInstanceState) {
+        Typhon.getComponent().inject(this);
+        fragmentManager = this.getSupportFragmentManager();
+        fragmentProvider = () -> {return new CatalogFragment();};
+        detailsFragment = (BookDetailsFragment) fragmentManager.findFragmentById(net.zorgblub.typhon.R.id.fragment_book_details);
         hideDetailsView();
 
         loadFeed( null, config.getBaseOPDSFeed(), null, false );

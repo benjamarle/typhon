@@ -74,8 +74,8 @@ public class Typhon extends Application {
     }
 
     private static synchronized TyphonComponent getComponentSync() {
-       //if (typhonComponent == null)
-
+       if (typhonComponent == null)
+            typhonComponent = DaggerTyphonComponent.builder().typhonModuleDagger(new TyphonModuleDagger(get())).build();
         return typhonComponent;
     }
 

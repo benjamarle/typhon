@@ -3,8 +3,6 @@ package net.zorgblub.typhon.view.bookview;
 import android.content.Context;
 import android.graphics.Typeface;
 
-import com.google.inject.Inject;
-
 import net.nightwhistler.htmlspanner.FontFamily;
 import net.nightwhistler.htmlspanner.SystemFontResolver;
 
@@ -31,17 +29,18 @@ import nl.siegmann.epublib.util.IOUtil;
 public class EpubFontResolver extends SystemFontResolver {
 
     private Map<String, FontFamily> loadedTypeFaces = new HashMap<String, FontFamily>();
+
     private TextLoader textLoader;
+
     private Context context;
 
     private static final Logger LOG = LoggerFactory.getLogger("EpubFontResolver");
 
-    @Inject
-    public EpubFontResolver(TextLoader loader, Context context) {
+    public EpubFontResolver(){
 
-        this.textLoader = loader;
-        loader.setFontResolver(this);
+    }
 
+    public EpubFontResolver(TextLoader textLoader,Context context) {
         this.context = context;
     }
 

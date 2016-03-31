@@ -19,6 +19,7 @@
 
 package net.zorgblub.typhon.view.bookview;
 
+import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
 
@@ -87,7 +88,8 @@ public class TextLoader implements LinkTagHandler.LinkCallBack {
     private LinkTagHandler.LinkCallBack linkCallBack;
 
     @Inject
-    public TextLoader(HtmlSpanner spanner){
+    public TextLoader(HtmlSpanner spanner, Context context){
+        this.fontResolver = new EpubFontResolver(this, context);
         setHtmlSpanner(spanner);
     }
 

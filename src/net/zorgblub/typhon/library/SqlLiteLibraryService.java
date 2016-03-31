@@ -23,8 +23,6 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
-import com.google.inject.Inject;
-
 import net.zorgblub.typhon.Configuration;
 
 import org.slf4j.Logger;
@@ -37,17 +35,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import jedi.option.Option;
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Metadata;
-import roboguice.inject.ContextSingleton;
 
 import static jedi.functional.FunctionalPrimitives.isEmpty;
 import static jedi.option.Options.none;
 import static jedi.option.Options.option;
 import static jedi.option.Options.some;
 
-@ContextSingleton
+@Singleton
 public class SqlLiteLibraryService implements LibraryService {
 	
 	private static final int THUMBNAIL_HEIGHT = 250;
@@ -55,13 +55,18 @@ public class SqlLiteLibraryService implements LibraryService {
 	private static final long MAX_COVER_SIZE = 1024 * 1024; //Max 1Mb
 
 	@Inject
-	private LibraryDatabaseHelper helper;	
+	LibraryDatabaseHelper helper;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(SqlLiteLibraryService.class);
 	
 	@Inject
-	private Configuration config;
-		
+	Configuration config;
+
+	public SqlLiteLibraryService(LibraryDatabaseHelper helper, Configuration config) {
+		this.helper = helper;
+		this.config = config;
+	}
+
 	@Override
 	public void updateReadingProgress(String fileName, int progress) {
 		helper.updateLastRead(new File(fileName).getName(), progress);

@@ -349,7 +349,7 @@ public class ReadingFragment extends RoboFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Typhon.getComponent().inject(this);
+         Typhon.getComponent().inject(this);
 
         // Restore preferences
         this.uiHandler = new Handler();
