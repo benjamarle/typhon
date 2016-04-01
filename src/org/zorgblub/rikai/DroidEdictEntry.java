@@ -1,6 +1,8 @@
 package org.zorgblub.rikai;
 
 import android.graphics.Color;
+import android.text.Html;
+import android.text.Spanned;
 
 import org.rikai.deinflector.DeinflectedWord;
 import org.rikai.dictionary.edict.EdictEntry;
@@ -10,7 +12,7 @@ import static org.zorgblub.rikai.HtmlEntryUtils.wrapColor;
 /**
  * Created by Benjamin on 16/09/2015.
  */
-public class DroidEdictEntry extends EdictEntry implements DroidEntity {
+public class DroidEdictEntry extends EdictEntry implements DroidEntry {
     // default value are set to the rikaichan style
     private int kanjiColor = -4724737;
 
@@ -87,5 +89,8 @@ public class DroidEdictEntry extends EdictEntry implements DroidEntity {
         return result.toString();
     }
 
-
+    @Override
+    public Spanned render() {
+        return Html.fromHtml(this.toStringCompact());
+    }
 }

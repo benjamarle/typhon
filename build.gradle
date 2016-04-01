@@ -66,7 +66,9 @@ dependencies {
         exclude group: 'net.sf.kxml'
     }
     compile 'org.roboguice:roboguice:3.0.1'
-    compile files('libs/JRikai.jar')
+    compile files('libs/JRikai-1.0.jar')
+    compile files('libs/eb4j-core-1.0.5.jar')
+    compile 'commons-lang:commons-lang:2.4'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.github.woxthebox:draglistview:1.2.1'
     //compile 'com.android.support:design:22.+'

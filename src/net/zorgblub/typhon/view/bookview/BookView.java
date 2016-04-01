@@ -470,7 +470,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
             taskQueue.executeTask( new OpenFileTask() );
             taskQueue.executeTask( new LoadTextTask() );
             taskQueue.executeTask( new PreLoadTask(spine, textLoader) );
-            taskQueue.executeTask( new CalculatePageNumbersTask() );
+            taskQueue.executeTask( new CalculatePageNumbersTask(), needsPageNumberCalculation());
         } else {
 
             if ( spine == null ) {
@@ -517,7 +517,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
         taskQueue.executeTask( new PreLoadTask(spine, textLoader) );
 
         if ( needsPageNumberCalculation() ) {
-            taskQueue.executeTask( new CalculatePageNumbersTask() );
+            taskQueue.executeTask( new CalculatePageNumbersTask(), true);
         }
     }
 
@@ -1502,7 +1502,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 
 		private BookView bookView;
 
-        private long blockUntil = 0l;
+        private long blockUntil = 0L;
 
 		public InnerView(Context context, AttributeSet attributes) {
 			super(context, attributes);
@@ -1716,7 +1716,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 	}
 
 	private class CalculatePageNumbersTask extends
-			QueueableAsyncTask<Object, Void, List<List<Integer>>> {
+			QueueableAsyncTask<Boolean, Void, List<List<Integer>>> {
 
         @Override
         public void doOnPreExecute() {
@@ -1726,9 +1726,9 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
         }
 
         @Override
-		public Option<List<List<Integer>>> doInBackground(Object... params) {
+		public Option<List<List<Integer>>> doInBackground(Boolean... params) {
 
-            if ( ! needsPageNumberCalculation() ) {
+            if ( ! params[0]) {
                 return none();
             }
 
