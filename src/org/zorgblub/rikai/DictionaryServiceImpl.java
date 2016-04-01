@@ -152,13 +152,15 @@ public class DictionaryServiceImpl implements DictionaryService {
     protected List<DictionarySettings> getDefaultDictionaries() {
         List<DictionarySettings> list = new ArrayList<>();
         for (DictionaryType type : DictionaryType.values()) {
-            list.add(type.getImplementation());
+            DictionarySettings implementation = type.getImplementation();
+            if(!implementation.isDownloadable())
+                continue;
+            list.add(implementation);
         }
         return list;
     }
 
     private void loadDictionaries(List<DictionarySettings> list, Context context) {
-
         try {
             for (DictionarySettings settings : list) {
                 dictionaries.add(settings.newInstance());

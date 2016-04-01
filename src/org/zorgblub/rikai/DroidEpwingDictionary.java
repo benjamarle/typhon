@@ -13,7 +13,6 @@ public class DroidEpwingDictionary extends EpwingDictionary {
 
     public DroidEpwingDictionary(String path) {
         super(path, new SpannableHook());
-        setMaxQueryLength(8);
     }
 
     @Override
