@@ -135,8 +135,14 @@ android {
             //minifyEnabled true
             pseudoLocalesEnabled false
         }
+        debug {
+            zipAlignEnabled false
+        }
     }
     productFlavors {
+    }
+    dexOptions {
+        incremental true
     }
 }
 

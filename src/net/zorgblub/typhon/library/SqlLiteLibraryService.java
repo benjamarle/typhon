@@ -61,7 +61,10 @@ public class SqlLiteLibraryService implements LibraryService {
 	
 	@Inject
 	private Configuration config;
-		
+
+	public SqlLiteLibraryService() {
+	}
+
 	@Override
 	public void updateReadingProgress(String fileName, int progress) {
 		helper.updateLastRead(new File(fileName).getName(), progress);

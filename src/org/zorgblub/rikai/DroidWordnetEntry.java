@@ -1,6 +1,8 @@
 package org.zorgblub.rikai;
 
 import android.graphics.Color;
+import android.text.Html;
+import android.text.Spanned;
 
 import org.rikai.deinflector.DeinflectedWord;
 import org.rikai.dictionary.wordnet.WordnetEntry;
@@ -13,7 +15,7 @@ import static org.zorgblub.rikai.HtmlEntryUtils.wrapColor;
 /**
  * Created by Benjamin on 21/03/2016.
  */
-public class DroidWordnetEntry extends WordnetEntry implements DroidEntity {
+public class DroidWordnetEntry extends WordnetEntry implements DroidEntry {
 
     // default value are set to the rikaichan style
     private int kanjiColor = -4724737;
@@ -85,6 +87,10 @@ public class DroidWordnetEntry extends WordnetEntry implements DroidEntity {
         return Color.BLACK;
     }
 
+    @Override
+    public Spanned render() {
+        return Html.fromHtml(toStringCompact());
+    }
 
     @Override
     public String toStringCompact() {
