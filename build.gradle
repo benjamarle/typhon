@@ -19,7 +19,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0-alpha4'
+        classpath 'com.android.tools.build:gradle:2.1.0-alpha5'
         classpath 'me.tatarka:gradle-retrolambda:3.3.0-beta4'
     }
 }
@@ -72,7 +72,6 @@ dependencies {
     compile 'commons-lang:commons-lang:2.4'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.github.woxthebox:draglistview:1.2.1'
-
     //compile 'com.android.support:design:22.+'
     provided(
             [group: 'com.google.android', name: 'annotations', version: '4.1.1.4'],
@@ -142,6 +141,13 @@ android {
         }
     }
     productFlavors {
+        prod {
+        }
+        dev {
+            minSdkVersion 22
+            applicationId 'net.zorgblub.typhon'
+            targetSdkVersion 22
+        }
     }
     dexOptions {
         incremental true

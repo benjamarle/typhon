@@ -1,15 +1,19 @@
 package org.zorgblub.rikai.download.settings.ui;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,6 +24,7 @@ import android.widget.Toast;
 import com.woxthebox.draglistview.DragItemAdapter;
 
 import net.zorgblub.typhon.R;
+import net.zorgblub.typhon.activity.FileBrowseActivity;
 
 import org.rikai.dictionary.wordnet.Lang;
 import org.zorgblub.rikai.download.settings.DictionarySettings;
@@ -34,6 +39,7 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
 
     private int mLayoutId;
     private int mGrabHandleId;
+
 
     public DictionaryConfigItemAdapter(ArrayList<Pair<Integer, DictionarySettings>> list, int layoutId, int grabHandleId, boolean dragOnIntegerPress) {
         super(dragOnIntegerPress);
@@ -73,6 +79,14 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
         this.addItem(itemCount, newEntry);
     }
 
+    private IntentCallBack intentCallBack;
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if ( this.intentCallBack != null ) {
+            this.intentCallBack.onResult(resultCode, data);
+        }
+    }
+
     public void editDictionary(DictionarySettings settings, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -80,7 +94,7 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View dialogView;
-        
+
         DictionaryType type = settings.getType();
 
         switch (type) {
@@ -96,11 +110,14 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
             case WORDNET:
                 dialogView = inflater.inflate(R.layout.dictionary_wordnet_settings, null);
                 break;
+            case EPWING:
+                dialogView = inflater.inflate(R.layout.dictionary_epwing_settings, null);
+                break;
             default:
                 dialogView = inflater.inflate(R.layout.dictionary_edict_settings, null);
                 break;
         }
-        
+
         builder.setView(dialogView);
 
 
@@ -110,7 +127,7 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
         TextView typeView = (TextView) dialogView.findViewById(R.id.dictionary_type);
         typeView.setText(settings.getType().getName());
 
-        switch(type){
+        switch (type) {
             case EDICT:
                 EdictSettings edictSettings = (EdictSettings) settings;
                 CheckBox deinflectEdict = (CheckBox) dialogView.findViewById(R.id.dictionary_edit_form_deinflect);
@@ -164,6 +181,26 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
                 deinflectWordnet.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     wordnetSettings.setDeinflect(isChecked);
                 });
+                break;
+            case EPWING:
+                EditText epwingFolder = (EditText) dialogView.findViewById(R.id.epwing_folder);
+                Button browseButton = (Button) dialogView.findViewById(R.id.browse_epwing_button);
+
+                this.intentCallBack = (resultCode, data) ->  {
+                    if ( resultCode == Activity.RESULT_OK && data != null ) {
+                        epwingFolder.setText(data.getData().getPath());
+                    }
+                };
+
+                browseButton.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, FileBrowseActivity.class);
+                    intent.setData(Uri.parse(epwingFolder.getText().toString()));
+                    Activity activity = (Activity) context;
+                    activity.startActivityForResult(intent, 0);
+                });
+
+
+                break;
         }
 
         AlertDialog dialog = builder.create();
@@ -221,5 +258,9 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
                     }).setNegativeButton(R.string.action_cancel, null);
             builder.show();
         }
+    }
+
+    public interface IntentCallBack {
+        void onResult(int resultCode, Intent data);
     }
 }

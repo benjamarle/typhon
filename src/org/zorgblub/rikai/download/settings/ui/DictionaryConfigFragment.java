@@ -3,6 +3,7 @@ package org.zorgblub.rikai.download.settings.ui;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -111,9 +112,15 @@ public class DictionaryConfigFragment extends Fragment {
         dictionaryListView.setCustomDragItem(new MyDragItem(getContext(), R.layout.dictionary_list_item));
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        DictionaryConfigItemAdapter adapter = (DictionaryConfigItemAdapter) this.dictionaryListView.getAdapter();
+        if(adapter  != null){
+            adapter.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
     private static class MyDragItem extends DragItem {
-
         public MyDragItem(Context context, int layoutId) {
             super(context, layoutId);
         }
