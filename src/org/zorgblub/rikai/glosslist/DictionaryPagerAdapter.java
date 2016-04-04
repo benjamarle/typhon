@@ -1,20 +1,20 @@
 package org.zorgblub.rikai.glosslist;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v4.view.PagerAdapter;
 import android.util.SparseArray;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ProgressBar;
 
+import net.zorgblub.typhon.R;
 import net.zorgblub.typhon.view.bookview.SelectedWord;
 
-import org.rikai.dictionary.Dictionary;
 import org.rikai.dictionary.Entries;
 import org.zorgblub.rikai.DictionaryService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Benjamin on 22/03/2016.
@@ -23,7 +23,7 @@ public class DictionaryPagerAdapter extends PagerAdapter {
 
     private Context context;
 
-    private SparseArray<DictionaryListView> viewList = new SparseArray<DictionaryListView>();
+    private SparseArray<ViewHolder> viewList = new SparseArray<ViewHolder>();
 
     private DictionaryService dictionaryService;
 
@@ -33,33 +33,108 @@ public class DictionaryPagerAdapter extends PagerAdapter {
 
     private AdapterView.OnItemClickListener clickListener;
 
-    public DictionaryPagerAdapter(Context context, DictionaryService dictionaryService){
+    public DictionaryPagerAdapter(Context context, DictionaryService dictionaryService) {
         this.context = context;
         this.dictionaryService = dictionaryService;
     }
 
+    public class ViewHolder {
+
+        public View parentView;
+
+        public DictionaryListView dictionaryListView;
+
+        public ProgressBar progressBar;
+
+        void startProgress(){
+            dictionaryListView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        void stopProgress(){
+            progressBar.setVisibility(View.GONE);
+            dictionaryListView.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        DictionaryListView dictionaryListView = new DictionaryListView(this.context);
+        LayoutInflater inflater = (LayoutInflater) container.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View view = inflater.inflate(R.layout.dictionary_loading, null);
+
+        DictionaryListView dictionaryListView = (DictionaryListView) view.findViewById(R.id.dictionary_list_view);
         dictionaryListView.setIndex(position);
         dictionaryListView.setOnItemClickListener(clickListener);
         dictionaryListView.setOnItemLongClickListener(longClickListener);
-        if(selectedWord != null){
-            updateView(position, dictionaryListView);
+
+        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.dictionary_loading_progress);
+
+        ViewHolder viewHolder = new ViewHolder();
+        viewHolder.dictionaryListView = dictionaryListView;
+        viewHolder.progressBar = progressBar;
+        viewHolder.parentView = view;
+
+        if (selectedWord != null) {
+            updateView(position, viewHolder);
         }
-        container.addView(dictionaryListView);
-        viewList.put(position, dictionaryListView);
-        return dictionaryListView;
+
+        container.addView(view);
+        viewList.put(position, viewHolder);
+        return viewHolder;
     }
 
-    private void updateView(int position, DictionaryListView dictionaryListView) {
-        Entries query = dictionaryService.query(position, selectedWord);
-        dictionaryListView.setResults(query);
+
+    private class QueryTask extends AsyncTask<ViewHolder, Void, Entries> {
+
+        private ViewHolder v;
+
+        private int position;
+
+        public QueryTask(ViewHolder v, int position) {
+            this.v = v;
+            this.position = position;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            v.startProgress();
+        }
+
+        @Override
+        protected void onPostExecute(Entries entries) {
+            super.onPostExecute(entries);
+
+            v.dictionaryListView.setResults(entries);
+            v.stopProgress();
+
+        }
+
+        @Override
+        protected void onCancelled(Entries entries) {
+            super.onCancelled(entries);
+        }
+
+
+
+        @Override
+        protected Entries doInBackground(ViewHolder... params) {
+            Entries query = dictionaryService.query(position, selectedWord);
+
+            return query;
+        }
+    }
+    private void updateView(int position, ViewHolder viewHolder) {
+        QueryTask queryTask = new QueryTask(viewHolder, position);
+        queryTask.execute();
+
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((View) object);
+        ViewHolder viewHolder = (ViewHolder) object;
+        container.removeView(viewHolder.parentView);
         viewList.remove(position);
     }
 
@@ -70,7 +145,8 @@ public class DictionaryPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view == object;
+        ViewHolder viewHolder = (ViewHolder) object;
+        return view == viewHolder.parentView;
     }
 
     @Override
@@ -85,16 +161,16 @@ public class DictionaryPagerAdapter extends PagerAdapter {
     public void setSelectedWord(SelectedWord selectedWord) {
         this.selectedWord = selectedWord;
 
-        for(int i = 0; i < viewList.size(); i++) {
+        for (int i = 0; i < viewList.size(); i++) {
             int key = viewList.keyAt(i);
             // get the object by the key.
-            DictionaryListView lv = viewList.get(key);
-            updateView(lv.getIndex(), lv);
+            ViewHolder lv = viewList.get(key);
+            updateView(key, lv);
         }
     }
 
     public DictionaryListView getView(int location) {
-        return viewList.get(location);
+        return viewList.get(location).dictionaryListView;
     }
 
     public void setLongClickListener(AdapterView.OnItemLongClickListener longClickListener) {
