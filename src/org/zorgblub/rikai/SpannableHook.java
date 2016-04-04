@@ -61,7 +61,7 @@ public class SpannableHook extends HookAdapter<Spannable> {
 
     @Override
     public void append(int code) {
-        // no gaiji for now
+
     }
 
     @Override
