@@ -1,9 +1,13 @@
 package org.zorgblub.rikai.download.settings;
 
+import android.content.Context;
+
 import org.rikai.deinflector.Deinflector;
 import org.rikai.dictionary.Dictionary;
 import org.zorgblub.rikai.DroidSqliteDatabase;
 import org.zorgblub.rikai.DroidWordEdictDictionary;
+import org.zorgblub.rikai.download.settings.ui.dialog.DictionaryConfigDialog;
+import org.zorgblub.rikai.download.settings.ui.dialog.EdictConfigDialog;
 
 import java.io.File;
 import java.io.IOException;
@@ -82,5 +86,10 @@ public class EdictSettings extends DownloadableSettings {
 
     public void setDeinflect(boolean deinflect) {
         this.deinflect = deinflect;
+    }
+
+    @Override
+    public DictionaryConfigDialog getConfigDialog(Context context) {
+        return new EdictConfigDialog(context, this);
     }
 }

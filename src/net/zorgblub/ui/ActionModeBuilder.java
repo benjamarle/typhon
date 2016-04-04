@@ -1,7 +1,7 @@
 package net.zorgblub.ui;
 
 
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -92,7 +92,7 @@ public class ActionModeBuilder {
         return this;
     }
 
-    public void build( ActionBarActivity sherlockActivity ) {
+    public void build( AppCompatActivity sherlockActivity ) {
         sherlockActivity.startSupportActionMode( new ActionMode.Callback() {
             @Override
             public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {

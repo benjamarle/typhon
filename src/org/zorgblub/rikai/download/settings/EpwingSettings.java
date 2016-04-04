@@ -1,10 +1,12 @@
 package org.zorgblub.rikai.download.settings;
 
+import android.content.Context;
 import android.text.Spannable;
 
 import org.rikai.dictionary.Dictionary;
-import org.rikai.dictionary.epwing.EpwingDictionary;
-import org.zorgblub.rikai.SpannableHook;
+import org.zorgblub.rikai.DroidEpwingDictionary;
+import org.zorgblub.rikai.download.settings.ui.dialog.DictionaryConfigDialog;
+import org.zorgblub.rikai.download.settings.ui.dialog.EpwingConfigDialog;
 
 import java.io.IOException;
 
@@ -23,8 +25,11 @@ public class EpwingSettings extends DictionarySettings {
 
     @Override
     public Dictionary newInstance() throws IOException {
-        EpwingDictionary<Spannable> spannableEpwingDictionary = new EpwingDictionary<>(this.getBasePath(), new SpannableHook());
+        if(this.basePath == null || this.basePath.length() ==0 )
+            return null;
+        DroidEpwingDictionary<Spannable> spannableEpwingDictionary = new DroidEpwingDictionary<Spannable>(this.getBasePath());
         spannableEpwingDictionary.setMaxQueryLength(this.getMaxQueryLength());
+        spannableEpwingDictionary.setName(this.getName());
         return spannableEpwingDictionary;
     }
 
@@ -62,5 +67,10 @@ public class EpwingSettings extends DictionarySettings {
 
     public void setMaxQueryLength(int maxQueryLength) {
         this.maxQueryLength = maxQueryLength;
+    }
+
+    @Override
+    public DictionaryConfigDialog getConfigDialog(Context context) {
+        return new EpwingConfigDialog(context, this);
     }
 }

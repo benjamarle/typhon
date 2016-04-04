@@ -6,6 +6,7 @@ import android.os.Environment;
 import net.zorgblub.typhon.Typhon;
 
 import org.rikai.dictionary.Dictionary;
+import org.zorgblub.rikai.download.settings.ui.dialog.DictionaryConfigDialog;
 
 import java.io.File;
 import java.io.IOException;
@@ -79,6 +80,8 @@ public abstract class DictionarySettings {
     public abstract String getName();
 
     public abstract void setName(String name);
+
+    public abstract DictionaryConfigDialog getConfigDialog(Context context);
 
     @Override
     public String toString() {

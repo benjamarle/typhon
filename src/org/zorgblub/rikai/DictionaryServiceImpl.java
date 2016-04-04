@@ -161,16 +161,20 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     private void loadDictionaries(List<DictionarySettings> list, Context context) {
-        try {
-            for (DictionarySettings settings : list) {
-                dictionaries.add(settings.newInstance());
+        for (DictionarySettings settings : list) {
+            try {
+                Dictionary dictionary = settings.newInstance();
+                if(dictionary == null) {
+                    continue;
+                }
+                dictionaries.add(dictionary);
+            } catch (FileNotFoundException e) {
+                LOG.error("Could not find dictionary data", e);
+            } catch (IOException e) {
+                LOG.error("Could not read dictionary data", e);
+            } catch (DatabaseException e) {
+                LOG.error("Could not load dictionary data", e);
             }
-        } catch (FileNotFoundException e) {
-            LOG.error("Could not find dictionary data", e);
-        } catch (IOException e) {
-            LOG.error("Could not read dictionary data", e);
-        } catch (DatabaseException e) {
-            LOG.error("Could not load dictionary data", e);
         }
 
         Runnable task = () -> {

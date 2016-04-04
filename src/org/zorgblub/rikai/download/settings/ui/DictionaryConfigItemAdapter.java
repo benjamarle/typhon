@@ -6,32 +6,21 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.woxthebox.draglistview.DragItemAdapter;
 
 import net.zorgblub.typhon.R;
-import net.zorgblub.typhon.activity.FileBrowseActivity;
 
-import org.rikai.dictionary.wordnet.Lang;
 import org.zorgblub.rikai.download.settings.DictionarySettings;
 import org.zorgblub.rikai.download.settings.DictionaryType;
-import org.zorgblub.rikai.download.settings.EdictSettings;
-import org.zorgblub.rikai.download.settings.KanjidicSettings;
-import org.zorgblub.rikai.download.settings.WordnetSettings;
+import org.zorgblub.rikai.download.settings.ui.dialog.DictionaryConfigDialog;
 
 import java.util.ArrayList;
 
@@ -39,12 +28,14 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
 
     private int mLayoutId;
     private int mGrabHandleId;
+    private Activity activity;
 
 
-    public DictionaryConfigItemAdapter(ArrayList<Pair<Integer, DictionarySettings>> list, int layoutId, int grabHandleId, boolean dragOnIntegerPress) {
+    public DictionaryConfigItemAdapter(ArrayList<Pair<Integer, DictionarySettings>> list, int layoutId, int grabHandleId, boolean dragOnIntegerPress, Activity activity) {
         super(dragOnIntegerPress);
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
+        this.activity = activity;
         setHasStableIds(true);
         setItemList(list);
     }
@@ -83,132 +74,22 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ( this.intentCallBack != null ) {
-            this.intentCallBack.onResult(resultCode, data);
+            this.intentCallBack.onResult(requestCode, resultCode, data);
         }
     }
 
     public void editDictionary(DictionarySettings settings, Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        DictionaryConfigDialog dialog = settings.getConfigDialog(context);
+        dialog.setOwnerActivity(this.activity);
 
-        builder.setTitle(R.string.dictionary_edit_title);
+        intentCallBack = (requestCode, resultCode, data) -> {
+            if(dialog.isShowing())
+                dialog.onActivityResult(requestCode, resultCode, data);
+        };
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View dialogView;
-
-        DictionaryType type = settings.getType();
-
-        switch (type) {
-            case EDICT:
-                dialogView = inflater.inflate(R.layout.dictionary_edict_settings, null);
-                break;
-            case KANJIDIC:
-                dialogView = inflater.inflate(R.layout.dictionary_kanjidic_settings, null);
-                break;
-            case ENAMDICT:
-                dialogView = inflater.inflate(R.layout.dictionary_enamdict_settings, null);
-                break;
-            case WORDNET:
-                dialogView = inflater.inflate(R.layout.dictionary_wordnet_settings, null);
-                break;
-            case EPWING:
-                dialogView = inflater.inflate(R.layout.dictionary_epwing_settings, null);
-                break;
-            default:
-                dialogView = inflater.inflate(R.layout.dictionary_edict_settings, null);
-                break;
-        }
-
-        builder.setView(dialogView);
-
-
-        EditText nameView = (EditText) dialogView.findViewById(R.id.dictionary_name);
-
-        nameView.setText(settings.getName());
-        TextView typeView = (TextView) dialogView.findViewById(R.id.dictionary_type);
-        typeView.setText(settings.getType().getName());
-
-        switch (type) {
-            case EDICT:
-                EdictSettings edictSettings = (EdictSettings) settings;
-                CheckBox deinflectEdict = (CheckBox) dialogView.findViewById(R.id.dictionary_edit_form_deinflect);
-                deinflectEdict.setChecked(edictSettings.isDeinflect());
-                deinflectEdict.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    edictSettings.setDeinflect(isChecked);
-                });
-                break;
-            case KANJIDIC:
-                KanjidicSettings kanjiDictionary = (KanjidicSettings) settings;
-                CheckBox heisig6 = (CheckBox) dialogView.findViewById(R.id.dictionary_edit_form_heisig6);
-                heisig6.setChecked(kanjiDictionary.isHeisig6());
-                heisig6.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    kanjiDictionary.setHeisig6(isChecked);
-                });
-                break;
-            case WORDNET:
-                WordnetSettings wordnetSettings = (WordnetSettings) settings;
-                Spinner lang = (Spinner) dialogView.findViewById(R.id.dictionary_lang);
-                ArrayAdapter<Lang> adapter = new ArrayAdapter<>(context, R.layout.dictionary_lang_item, Lang.values());
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                lang.setAdapter(adapter);
-                lang.setSelection(wordnetSettings.getLang().ordinal());
-
-                lang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        wordnetSettings.setLang(Lang.values()[position]);
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                        // not supposed to happen
-                    }
-                });
-
-                CheckBox synonyms = (CheckBox) dialogView.findViewById(R.id.dictionary_edit_form_synonyms);
-                synonyms.setChecked(wordnetSettings.isShowSynonyms());
-                synonyms.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    wordnetSettings.setShowSynonyms(isChecked);
-                });
-
-                CheckBox examples = (CheckBox) dialogView.findViewById(R.id.dictionary_edit_form_examples);
-                examples.setChecked(wordnetSettings.isShowExamples());
-                examples.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    wordnetSettings.setShowExamples(isChecked);
-                });
-
-                CheckBox deinflectWordnet = (CheckBox) dialogView.findViewById(R.id.dictionary_edit_form_deinflect);
-                deinflectWordnet.setChecked(wordnetSettings.isDeinflect());
-                deinflectWordnet.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    wordnetSettings.setDeinflect(isChecked);
-                });
-                break;
-            case EPWING:
-                EditText epwingFolder = (EditText) dialogView.findViewById(R.id.epwing_folder);
-                Button browseButton = (Button) dialogView.findViewById(R.id.browse_epwing_button);
-
-                this.intentCallBack = (resultCode, data) ->  {
-                    if ( resultCode == Activity.RESULT_OK && data != null ) {
-                        epwingFolder.setText(data.getData().getPath());
-                    }
-                };
-
-                browseButton.setOnClickListener(v -> {
-                    Intent intent = new Intent(context, FileBrowseActivity.class);
-                    intent.setData(Uri.parse(epwingFolder.getText().toString()));
-                    Activity activity = (Activity) context;
-                    activity.startActivityForResult(intent, 0);
-                });
-
-
-                break;
-        }
-
-        AlertDialog dialog = builder.create();
         dialog.setOnDismissListener(d -> {
-            settings.setName(nameView.getText().toString());
-
             DictionaryConfigItemAdapter.this.notifyDataSetChanged();
-
+            this.intentCallBack = null;
         });
 
         dialog.show();
@@ -232,7 +113,7 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
             int position = ViewHolder.this.getAdapterPosition();
             Pair<Integer, DictionarySettings> item = getItem(position);
 
-            editDictionary(item.second, view.getContext());
+            editDictionary(item.second, activity);
         }
 
         @Override
@@ -261,6 +142,6 @@ public class DictionaryConfigItemAdapter extends DragItemAdapter<Pair<Integer, D
     }
 
     public interface IntentCallBack {
-        void onResult(int resultCode, Intent data);
+        void onResult(int requestCode, int resultCode, Intent data);
     }
 }

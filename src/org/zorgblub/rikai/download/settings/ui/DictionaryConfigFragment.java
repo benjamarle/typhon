@@ -106,7 +106,7 @@ public class DictionaryConfigFragment extends Fragment {
             list.add(new Pair<>(i, s));
         }
         dictionaryListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        DictionaryConfigItemAdapter listAdapter = new DictionaryConfigItemAdapter(list, R.layout.dictionary_list_item, R.id.dictionay_item_image, false);
+        DictionaryConfigItemAdapter listAdapter = new DictionaryConfigItemAdapter(list, R.layout.dictionary_list_item, R.id.dictionay_item_image, false, getActivity());
         dictionaryListView.setAdapter(listAdapter, true);
         dictionaryListView.setCanDragHorizontally(false);
         dictionaryListView.setCustomDragItem(new MyDragItem(getContext(), R.layout.dictionary_list_item));

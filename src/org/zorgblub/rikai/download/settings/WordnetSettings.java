@@ -1,10 +1,14 @@
 package org.zorgblub.rikai.download.settings;
 
+import android.content.Context;
+
 import org.rikai.deinflector.Deinflector;
 import org.rikai.dictionary.Dictionary;
 import org.rikai.dictionary.wordnet.Lang;
 import org.zorgblub.rikai.DroidSqliteDatabase;
 import org.zorgblub.rikai.DroidWordnetDictionary;
+import org.zorgblub.rikai.download.settings.ui.dialog.DictionaryConfigDialog;
+import org.zorgblub.rikai.download.settings.ui.dialog.WordnetConfigDialog;
 
 import java.io.IOException;
 
@@ -97,5 +101,10 @@ public class WordnetSettings extends DownloadableSettings {
 
     public void setShowSynonyms(boolean showSynonyms) {
         this.showSynonyms = showSynonyms;
+    }
+
+    @Override
+    public DictionaryConfigDialog getConfigDialog(Context context) {
+        return new WordnetConfigDialog(context, this);
     }
 }

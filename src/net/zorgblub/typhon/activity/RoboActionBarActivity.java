@@ -3,7 +3,7 @@ package net.zorgblub.typhon.activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,7 +30,7 @@ import roboguice.inject.ContentViewListener;
 import roboguice.inject.RoboInjector;
 import roboguice.util.RoboContext;
 
-public class RoboActionBarActivity extends ActionBarActivity implements RoboContext {
+public class RoboActionBarActivity extends AppCompatActivity implements RoboContext {
 
     protected EventManager eventManager;
     protected HashMap<Key<?>, Object> scopedObjects = new HashMap<Key<?>, Object>();

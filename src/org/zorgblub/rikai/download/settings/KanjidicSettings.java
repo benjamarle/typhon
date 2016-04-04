@@ -1,7 +1,11 @@
 package org.zorgblub.rikai.download.settings;
 
+import android.content.Context;
+
 import org.rikai.dictionary.Dictionary;
 import org.zorgblub.rikai.DroidKanjiDictionary;
+import org.zorgblub.rikai.download.settings.ui.dialog.DictionaryConfigDialog;
+import org.zorgblub.rikai.download.settings.ui.dialog.KanjidicConfigDialog;
 
 import java.io.IOException;
 
@@ -74,5 +78,10 @@ public class KanjidicSettings extends DownloadableSettings {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public DictionaryConfigDialog getConfigDialog(Context context) {
+        return new KanjidicConfigDialog(context, this);
     }
 }

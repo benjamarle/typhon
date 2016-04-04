@@ -1,8 +1,12 @@
 package org.zorgblub.rikai.download.settings;
 
+import android.content.Context;
+
 import org.rikai.dictionary.Dictionary;
 import org.zorgblub.rikai.DroidNamesDictionary;
 import org.zorgblub.rikai.DroidSqliteDatabase;
+import org.zorgblub.rikai.download.settings.ui.dialog.DictionaryConfigDialog;
+import org.zorgblub.rikai.download.settings.ui.dialog.EnamdictConfigDialog;
 
 /**
  * Created by Benjamin on 25/03/2016.
@@ -43,5 +47,10 @@ public class EnamdictSettings extends DownloadableSettings{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public DictionaryConfigDialog getConfigDialog(Context context) {
+        return new EnamdictConfigDialog(context, this);
     }
 }
