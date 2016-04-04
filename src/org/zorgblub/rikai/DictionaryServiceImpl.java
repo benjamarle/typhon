@@ -24,6 +24,7 @@ import net.zorgblub.typhon.view.bookview.SelectedWord;
 
 import org.rikai.dictionary.AbstractEntry;
 import org.rikai.dictionary.Dictionary;
+import org.rikai.dictionary.DictionaryException;
 import org.rikai.dictionary.DictionaryNotLoadedException;
 import org.rikai.dictionary.Entries;
 import org.rikai.dictionary.db.DatabaseException;
@@ -153,7 +154,7 @@ public class DictionaryServiceImpl implements DictionaryService {
         List<DictionarySettings> list = new ArrayList<>();
         for (DictionaryType type : DictionaryType.values()) {
             DictionarySettings implementation = type.getImplementation();
-            if(!implementation.isDownloadable())
+            if (!implementation.isDownloadable())
                 continue;
             list.add(implementation);
         }
@@ -164,7 +165,7 @@ public class DictionaryServiceImpl implements DictionaryService {
         for (DictionarySettings settings : list) {
             try {
                 Dictionary dictionary = settings.newInstance();
-                if(dictionary == null) {
+                if (dictionary == null) {
                     continue;
                 }
                 dictionaries.add(dictionary);
@@ -178,7 +179,14 @@ public class DictionaryServiceImpl implements DictionaryService {
         }
 
         Runnable task = () -> {
-            forEach(dictionaries, (dictionary) -> dictionary.load());
+            forEach(dictionaries, (dictionary) -> {
+                        try {
+                            dictionary.load();
+                        } catch (DictionaryException e) {
+                            dictionaries.remove(dictionary);
+                        }
+                    }
+            );
             fireDictionaryLoaded();
             initialized = true;
         };
@@ -496,7 +504,7 @@ public class DictionaryServiceImpl implements DictionaryService {
         return instance;
     }
 
-    public static synchronized void reset(){
+    public static synchronized void reset() {
         instance = null;
     }
 

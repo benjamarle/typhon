@@ -639,4 +639,7 @@
     <string name="dictionary_edit_form_examples">Show examples</string>
     <string name="dictionary_edit_form_deinflect">Deinflect verbs</string>
     <string name="dictionary_edit_form_lang">Language</string>
+    <string name="dictionary_epwing_loading_error">The dictionary failed to load with the following error : %s</string>
+    <string name="dictionary_epwing_load_success">The dictionary was successfully loaded!</string>
+
 </resources>

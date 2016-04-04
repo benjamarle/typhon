@@ -7,10 +7,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import net.zorgblub.typhon.R;
 import net.zorgblub.typhon.activity.FileBrowseActivity;
 
+import org.rikai.dictionary.Dictionary;
 import org.zorgblub.rikai.download.settings.EpwingSettings;
 
 /**
@@ -35,6 +37,7 @@ public class EpwingConfigDialog extends DictionaryConfigDialog<EpwingSettings> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pathEditText = (EditText) findViewById(R.id.epwing_folder);
+        pathEditText.setText(settings.getBasePath());
         Button browseButton = (Button) findViewById(R.id.browse_epwing_button);
 
         browseButton.setOnClickListener(v -> {
@@ -56,6 +59,18 @@ public class EpwingConfigDialog extends DictionaryConfigDialog<EpwingSettings> {
     protected boolean saveSettings() {
         super.saveSettings();
         settings.setBasePath(pathEditText.getText().toString());
+        Context context = getContext();
+        try {
+            Dictionary dictionary = settings.newInstance();
+            dictionary.load();
+        } catch (Exception e){
+            Toast.makeText(context, context.getString(R.string.dictionary_epwing_loading_error, e.getMessage()), Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        // TODO integrate the real name of the dictionary in the settings and message
+        Toast.makeText(context, R.string.dictionary_epwing_load_success, Toast.LENGTH_LONG).show();
+
         return true;
     }
 
