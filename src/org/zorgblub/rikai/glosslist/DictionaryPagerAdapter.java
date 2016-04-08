@@ -2,6 +2,7 @@ package org.zorgblub.rikai.glosslist;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -13,8 +14,11 @@ import android.widget.ProgressBar;
 import net.zorgblub.typhon.R;
 import net.zorgblub.typhon.view.bookview.SelectedWord;
 
+import org.rikai.dictionary.Dictionary;
 import org.rikai.dictionary.Entries;
 import org.zorgblub.rikai.DictionaryService;
+import org.zorgblub.rikai.DroidEpwingDictionary;
+import org.zorgblub.rikai.SpannableHook;
 
 /**
  * Created by Benjamin on 22/03/2016.
@@ -68,6 +72,13 @@ public class DictionaryPagerAdapter extends PagerAdapter {
         dictionaryListView.setOnItemClickListener(clickListener);
         dictionaryListView.setOnItemLongClickListener(longClickListener);
 
+        Dictionary dictionary = dictionaryService.getDictionary(position);
+        if(dictionary instanceof DroidEpwingDictionary){
+            DroidEpwingDictionary epwingDictionary = (DroidEpwingDictionary) dictionary;
+            SpannableHook hook = (SpannableHook) epwingDictionary.getHook();
+            dictionaryListView.setSizeChangeListener(hook);
+        }
+
         ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.dictionary_loading_progress);
 
         ViewHolder viewHolder = new ViewHolder();
@@ -116,8 +127,6 @@ public class DictionaryPagerAdapter extends PagerAdapter {
             super.onCancelled(entries);
         }
 
-
-
         @Override
         protected Entries doInBackground(ViewHolder... params) {
             Entries query = dictionaryService.query(position, selectedWord);
@@ -125,9 +134,14 @@ public class DictionaryPagerAdapter extends PagerAdapter {
             return query;
         }
     }
+
     private void updateView(int position, ViewHolder viewHolder) {
         QueryTask queryTask = new QueryTask(viewHolder, position);
-        queryTask.execute();
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+            queryTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            queryTask.execute();
+        }
 
     }
 

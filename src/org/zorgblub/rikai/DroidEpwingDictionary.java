@@ -1,5 +1,7 @@
 package org.zorgblub.rikai;
 
+import net.zorgblub.typhon.Typhon;
+
 import org.rikai.dictionary.epwing.EpwingDictionary;
 import org.rikai.dictionary.epwing.EpwingEntry;
 
@@ -13,9 +15,20 @@ public class DroidEpwingDictionary<T> extends EpwingDictionary  {
 
     private String name;
 
+    private SpannableHook spannableHook;
 
     public DroidEpwingDictionary(String path) {
-        super(path, new SpannableHook());
+        super(path, null);
+        spannableHook = new SpannableHook();
+        spannableHook.setContext(Typhon.get().getApplicationContext());
+        setHook(spannableHook);
+    }
+
+    @Override
+    public void load() {
+        super.load();
+        SubBook subBook = this.getSubBook();
+        spannableHook.setSubBook(subBook);
     }
 
     @Override
