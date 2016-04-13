@@ -31,8 +31,11 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -52,8 +55,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-import com.google.inject.Inject;
-
 import net.nightwhistler.htmlspanner.HtmlSpanner;
 import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.Configuration.ColourProfile;
@@ -61,11 +62,11 @@ import net.zorgblub.typhon.Configuration.LibrarySelection;
 import net.zorgblub.typhon.Configuration.LibraryView;
 import net.zorgblub.typhon.PlatformUtil;
 import net.zorgblub.typhon.R;
+import net.zorgblub.typhon.Typhon;
 import net.zorgblub.typhon.activity.CatalogActivity;
 import net.zorgblub.typhon.activity.FileBrowseActivity;
 import net.zorgblub.typhon.activity.LibraryActivity;
 import net.zorgblub.typhon.activity.ReadingActivity;
-import net.zorgblub.typhon.activity.RoboActionBarActivity;
 import net.zorgblub.typhon.activity.TyphonActivity;
 import net.zorgblub.typhon.library.CleanFilesTask;
 import net.zorgblub.typhon.library.ImportCallback;
@@ -93,10 +94,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import jedi.option.Option;
-import roboguice.fragment.RoboFragment;
 
 import static java.lang.Character.toUpperCase;
 import static jedi.functional.FunctionalPrimitives.isEmpty;
@@ -107,15 +109,15 @@ import static net.zorgblub.typhon.PlatformUtil.isIntentAvailable;
 import static net.zorgblub.ui.UiUtils.onCollapse;
 import static net.zorgblub.ui.UiUtils.onMenuPress;
 
-public class LibraryFragment extends RoboFragment implements ImportCallback {
+public class LibraryFragment extends Fragment implements ImportCallback {
 
     protected static final int REQUEST_CODE_GET_CONTENT = 2;
 
     @Inject
-    private LibraryService libraryService;
+    LibraryService libraryService;
 
     @Inject
-    private DialogFactory dialogFactory;
+    DialogFactory dialogFactory;
 
     @Bind(R.id.libraryList)
     ListView listView;
@@ -134,14 +136,13 @@ public class LibraryFragment extends RoboFragment implements ImportCallback {
     @Bind(R.id.libHolder)
     ViewSwitcher switcher;
 
-    @Inject
-    private Context context;
+    private FragmentActivity context;
 
     @Inject
-    private Configuration config;
+    Configuration config;
 
     @Inject
-    private TaskQueue taskQueue;
+    TaskQueue taskQueue;
 
     private Drawable backupCover;
     private Handler handler;
@@ -174,6 +175,7 @@ public class LibraryFragment extends RoboFragment implements ImportCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Typhon.getComponent().inject(this);
 
         LOG.debug("onCreate()");
 
@@ -216,6 +218,8 @@ public class LibraryFragment extends RoboFragment implements ImportCallback {
             this.listView.setAdapter(bookAdapter);
         }
 
+        context = getActivity();
+
         this.waitDialog = new ProgressDialog(context);
         this.waitDialog.setOwnerActivity(getActivity());
 
@@ -235,7 +239,8 @@ public class LibraryFragment extends RoboFragment implements ImportCallback {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ActionBar actionBar = ((RoboActionBarActivity) getActivity()).getSupportActionBar();
+
+        ActionBar actionBar = ((AppCompatActivity) context).getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(actionBar.getThemedContext(),
@@ -251,7 +256,7 @@ public class LibraryFragment extends RoboFragment implements ImportCallback {
 
         libraryFolder.match(folder -> {
             executeTask(new CleanFilesTask(libraryService, this::booksDeleted));
-            executeTask(new ImportTask(getActivity(), libraryService, this, config, config.getCopyToLibraryOnScan(),
+            executeTask(new ImportTask(context, libraryService, this, config, config.getCopyToLibraryOnScan(),
                     true), folder);
         }, () -> {
             LOG.error("No library folder present!");
@@ -635,7 +640,8 @@ public class LibraryFragment extends RoboFragment implements ImportCallback {
 
         LibrarySelection lastSelection = config.getLastLibraryQuery();
 
-        ActionBar actionBar = ((RoboActionBarActivity) getActivity()).getSupportActionBar();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        ActionBar actionBar = activity.getSupportActionBar();
 
         if (actionBar.getSelectedNavigationIndex() != lastSelection.ordinal()) {
             actionBar.setSelectedNavigationItem(lastSelection.ordinal());
@@ -657,7 +663,7 @@ public class LibraryFragment extends RoboFragment implements ImportCallback {
     }
 
     private ActionBar getActionBar() {
-        return ((RoboActionBarActivity) getActivity()).getSupportActionBar();
+        return ((AppCompatActivity) getActivity()).getSupportActionBar();
     }
 
     private void afterImport(int booksImported, List<String> errors, boolean emptyLibrary, boolean silent,
@@ -1040,7 +1046,7 @@ public class LibraryFragment extends RoboFragment implements ImportCallback {
     }
 
     private void setSupportProgressBarIndeterminateVisibility(boolean enable) {
-        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
 
         if (activity != null) {
             LOG.debug("Setting progress bar to " + enable);

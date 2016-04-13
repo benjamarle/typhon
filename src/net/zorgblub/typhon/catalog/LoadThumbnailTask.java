@@ -22,8 +22,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.google.inject.Inject;
-
 import net.zorgblub.nucular.atom.Link;
 import net.zorgblub.typhon.scheduling.QueueableAsyncTask;
 import net.zorgblub.typhon.view.FastBitmapDrawable;
@@ -33,6 +31,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 
 import java.net.URL;
+
+import javax.inject.Inject;
 
 import jedi.option.Option;
 

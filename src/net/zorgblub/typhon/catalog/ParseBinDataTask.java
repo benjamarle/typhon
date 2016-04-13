@@ -28,6 +28,8 @@ import net.zorgblub.nucular.atom.Link;
 import net.zorgblub.typhon.scheduling.QueueableAsyncTask;
 import net.zorgblub.typhon.view.FastBitmapDrawable;
 
+import javax.inject.Inject;
+
 import jedi.option.Option;
 
 import static jedi.option.Options.some;
@@ -42,7 +44,11 @@ public class ParseBinDataTask extends QueueableAsyncTask<Link, Void, FastBitmapD
 
     private Link imageLink;
 
-    public void setLoadFeedCallback( LoadFeedCallback callBack ) {
+    @Inject
+    public ParseBinDataTask() {
+    }
+
+    public void setLoadFeedCallback(LoadFeedCallback callBack ) {
         this.callBack = callBack;
     }
 

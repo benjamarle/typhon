@@ -62,6 +62,7 @@ public class SqlLiteLibraryService implements LibraryService {
 	@Inject
 	Configuration config;
 
+	@Inject
 	public SqlLiteLibraryService(LibraryDatabaseHelper helper, Configuration config) {
 		this.helper = helper;
 		this.config = config;

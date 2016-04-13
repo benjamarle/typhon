@@ -5,6 +5,7 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.os.PowerManager;
 import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
 
 import net.nightwhistler.htmlspanner.HtmlSpanner;
 import net.zorgblub.typhon.bookmark.BookmarkDatabaseHelper;
@@ -169,6 +170,10 @@ public class TyphonModuleDagger {
         return (AudioManager) context.getSystemService(Typhon.AUDIO_SERVICE);
     }
 
+    @Provides
+    DisplayMetrics providesDisplayMetrics(){
+        return new DisplayMetrics();
+    }
 
 
 

@@ -28,7 +28,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,16 +40,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-
 import net.zorgblub.nucular.atom.Entry;
 import net.zorgblub.nucular.atom.Feed;
 import net.zorgblub.nucular.atom.Link;
 import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.R;
+import net.zorgblub.typhon.Typhon;
 import net.zorgblub.typhon.activity.ReadingActivity;
-import net.zorgblub.typhon.activity.RoboActionBarActivity;
 import net.zorgblub.typhon.catalog.Catalog;
 import net.zorgblub.typhon.catalog.DownloadFileTask;
 import net.zorgblub.typhon.catalog.LoadFeedCallback;
@@ -59,28 +58,29 @@ import java.net.URL;
 import java.util.Random;
 
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import jedi.option.Option;
-import roboguice.fragment.RoboFragment;
 
 import static jedi.functional.FunctionalPrimitives.isEmpty;
 
 /**
  * Fragment which shows the details of the book to be downloaded.
  */
-public class BookDetailsFragment extends RoboFragment implements LoadFeedCallback {
+public class BookDetailsFragment extends Fragment implements LoadFeedCallback {
 
 
     @Inject
-    private Provider<LoadThumbnailTask> loadThumbnailTaskProvider;
+    Provider<LoadThumbnailTask> loadThumbnailTaskProvider;
 
     @Inject
-    private Provider<DownloadFileTask> downloadFileTaskProvider;
+    Provider<DownloadFileTask> downloadFileTaskProvider;
 
     @Inject
-    private Provider<DisplayMetrics> metricsProvider;
+    Provider<DisplayMetrics> metricsProvider;
 
     @Bind(R.id.mainLayout)
     View mainLayout;
@@ -105,14 +105,18 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
     Button addToLibraryButton;
 
     @Inject
-    private Configuration config;
+    Configuration config;
 
     @Inject
-    private NotificationManager notificationManager;
+    NotificationManager notificationManager;
 
     private Feed feed;
 
-
+    @Override
+    public void onCreate(@android.support.annotation.Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Typhon.getComponent().inject(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -124,6 +128,7 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         DisplayMetrics metrics = metricsProvider.get();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
     }
@@ -220,7 +225,7 @@ public class BookDetailsFragment extends RoboFragment implements LoadFeedCallbac
 
     private void setSupportProgressBarIndeterminateVisibility(boolean enable) {
 
-        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
 
         if (activity != null) {
             activity.setSupportProgressBarIndeterminateVisibility(enable);

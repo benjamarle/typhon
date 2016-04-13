@@ -49,9 +49,11 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.PowerManager;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.telephony.TelephonyManager;
 import android.text.Spannable;
@@ -96,7 +98,6 @@ import net.zorgblub.typhon.Typhon;
 import net.zorgblub.typhon.activity.LibraryActivity;
 import net.zorgblub.typhon.activity.MediaButtonReceiver;
 import net.zorgblub.typhon.activity.ReadingActivity;
-import net.zorgblub.typhon.activity.RoboActionBarActivity;
 import net.zorgblub.typhon.animation.Animations;
 import net.zorgblub.typhon.animation.Animator;
 import net.zorgblub.typhon.animation.PageCurlAnimator;
@@ -155,7 +156,6 @@ import jedi.option.None;
 import jedi.option.Option;
 import nl.siegmann.epublib.domain.Author;
 import nl.siegmann.epublib.domain.Book;
-import roboguice.fragment.RoboFragment;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 import static jedi.functional.FunctionalPrimitives.firstOption;
@@ -166,7 +166,7 @@ import static jedi.option.Options.option;
 import static net.zorgblub.typhon.PlatformUtil.executeTask;
 import static net.zorgblub.ui.UiUtils.onMenuPress;
 
-public class ReadingFragment extends RoboFragment implements
+public class ReadingFragment extends Fragment implements
         BookViewListener, TextSelectionCallback, DictionaryPane.BookReader {
 
     private static final String POS_KEY = "offset:";
@@ -509,7 +509,7 @@ public class ReadingFragment extends RoboFragment implements
         super.onActivityCreated(savedInstanceState);
 
         DisplayMetrics metrics = new DisplayMetrics();
-        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
         this.context = activity;
 
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -602,9 +602,6 @@ public class ReadingFragment extends RoboFragment implements
 
     }
 
-    /*
-     * @see roboguice.activity.RoboActivity#onPause()
-     */
     @Override
     public void onPause() {
         LOG.debug("onPause() called.");
@@ -1188,7 +1185,7 @@ public class ReadingFragment extends RoboFragment implements
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void updateFromPrefs() {
 
-        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
 
         if (activity == null) {
             return;
@@ -1334,7 +1331,7 @@ public class ReadingFragment extends RoboFragment implements
     @Override
     public void bookOpened(final Book book) {
 
-        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
 
         if (activity == null) {
             return;
@@ -1517,7 +1514,7 @@ public class ReadingFragment extends RoboFragment implements
 
                     return result;
                 })
-                .build((RoboActionBarActivity) getActivity());
+                .build((AppCompatActivity) getActivity());
     }
 
     @Override
@@ -1551,7 +1548,7 @@ public class ReadingFragment extends RoboFragment implements
                     return false;
 
                 })
-                .build((RoboActionBarActivity) getActivity());
+                .build((AppCompatActivity) getActivity());
     }
 
     private void deleteHightlight(final HighLight highLight) {
@@ -2319,7 +2316,7 @@ public class ReadingFragment extends RoboFragment implements
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
 
-        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
 
         if (activity == null) {
             return;
@@ -2607,7 +2604,7 @@ public class ReadingFragment extends RoboFragment implements
     }
 
     private void toggleTitleBar() {
-        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
 
         if (activity == null) {
             return;
@@ -2930,7 +2927,7 @@ public class ReadingFragment extends RoboFragment implements
     }
 
     private void setSupportProgressBarIndeterminateVisibility(boolean enable) {
-        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
 
         if (activity != null) {
             LOG.debug("Setting progress bar to " + enable);
@@ -2951,7 +2948,7 @@ public class ReadingFragment extends RoboFragment implements
     }
 
     public void onSearchRequested() {
-        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
 
         if (this.searchMenuItem != null && MenuItemCompat.getActionView(searchMenuItem) != null && activity != null) {
             activity.getSupportActionBar().show();

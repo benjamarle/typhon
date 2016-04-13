@@ -30,8 +30,6 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 
-import com.google.inject.Inject;
-
 import net.nightwhistler.htmlspanner.FontFamily;
 import net.zorgblub.typhon.activity.ReadingActivity;
 import net.zorgblub.typhon.activity.TyphonActivity;
@@ -52,7 +50,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import jedi.option.Option;
-import roboguice.inject.ContextSingleton;
 
 import static java.util.Arrays.asList;
 import static jedi.functional.FunctionalPrimitives.firstOption;
@@ -68,7 +65,6 @@ import static net.zorgblub.typhon.CustomOPDSSite.fromJSON;
  *
  * @author Alex Kuiper
  */
-@ContextSingleton
 public class Configuration {
 
     private static final String KEY_DICTIONARY_SETTINGS = "dictionary_settings";
@@ -229,7 +225,7 @@ public class Configuration {
     private String defaultSerifFont;
     private String defaultSansFont;
 
-    @Inject
+
     public Configuration(Context context) {
         this.settings = PreferenceManager.getDefaultSharedPreferences(context);
         this.context = context;

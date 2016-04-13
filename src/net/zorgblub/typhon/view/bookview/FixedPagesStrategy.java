@@ -27,8 +27,6 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.widget.TextView;
 
-import com.google.inject.Inject;
-
 import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.dto.HighLight;
 import net.zorgblub.typhon.epub.TyphonSpine;
@@ -40,6 +38,8 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import jedi.option.Option;
 
 import static java.util.Collections.emptyList;
@@ -50,11 +50,16 @@ import static jedi.option.Options.some;
 
 public class FixedPagesStrategy implements PageChangeStrategy {
 
-    private Configuration config;
+	@Inject
+    Configuration config;
 
-    private StaticLayoutFactory layoutFactory;
+	@Inject
+    StaticLayoutFactory layoutFactory;
 
-    private HighlightManager highlightManager;
+	@Inject
+    HighlightManager highlightManager;
+
+
 
     private static final Logger LOG = LoggerFactory.getLogger("FixedPagesStrategy");
 
@@ -69,24 +74,26 @@ public class FixedPagesStrategy implements PageChangeStrategy {
 
 	private int storedPosition = -1;
 
-    @Override
+	@Inject
+	public FixedPagesStrategy() {
+
+	}
+
+	@Override
     public void setBookView(BookView bookView) {
         this.bookView = bookView;
         this.childView = bookView.getInnerView();
 
     }
 
-    @Inject
     public void setHighlightManager( HighlightManager highlightManager ) {
         this.highlightManager = highlightManager;
     }
 
-    @Inject
     public void setLayoutFactory(StaticLayoutFactory layoutFactory) {
         this.layoutFactory = layoutFactory;
     }
 
-    @Inject
     public void setConfig( Configuration config ) {
         this.config = config;
     }

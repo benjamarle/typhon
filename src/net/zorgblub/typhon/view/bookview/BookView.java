@@ -46,9 +46,6 @@ import android.view.MotionEvent;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-
 import net.nightwhistler.htmlspanner.FontFamily;
 import net.nightwhistler.htmlspanner.HtmlSpanner;
 import net.nightwhistler.htmlspanner.SpanStack;
@@ -56,6 +53,7 @@ import net.nightwhistler.htmlspanner.TagNodeHandler;
 import net.nightwhistler.htmlspanner.handlers.TableHandler;
 import net.nightwhistler.htmlspanner.spans.CenterSpan;
 import net.zorgblub.typhon.Configuration;
+import net.zorgblub.typhon.Typhon;
 import net.zorgblub.typhon.dto.HighLight;
 import net.zorgblub.typhon.dto.SearchResult;
 import net.zorgblub.typhon.dto.TocEntry;
@@ -85,6 +83,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 import jedi.option.None;
 import jedi.option.Option;
@@ -95,7 +95,6 @@ import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.domain.TOCReference;
 import nl.siegmann.epublib.util.IOUtil;
 import nl.siegmann.epublib.util.StringUtil;
-import roboguice.RoboGuice;
 
 import static java.util.Arrays.asList;
 import static jedi.functional.FunctionalPrimitives.forEach;
@@ -138,29 +137,29 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 	private Handler scrollHandler;
 
     @Inject
-    private Configuration configuration;
+    Configuration configuration;
 
-    @Inject
-    private TextLoader textLoader;
+	@Inject
+    TextLoader textLoader;
 
-    @Inject
-    private EpubFontResolver fontResolver;
+	@Inject
+    EpubFontResolver fontResolver;
 
-    @Inject
-    private TaskQueue taskQueue;
+	@Inject
+    TaskQueue taskQueue;
 
-    @Inject
-    private Provider<FixedPagesStrategy> fixedPagesStrategyProvider;
+	@Inject
+	Provider<FixedPagesStrategy> fixedPagesStrategyProvider;
 
-    @Inject
-    private Provider<ScrollingStrategy> scrollingStrategyProvider;
+	@Inject
+    Provider<ScrollingStrategy> scrollingStrategyProvider;
 
 	private BackgroundColorSpan definitionSpan = null;
 
 	public BookView(Context context, AttributeSet attributes) {
 		super(context, attributes);
 		this.scrollHandler = new Handler();
-        RoboGuice.injectMembers(context, this);
+		Typhon.getComponent().inject(this);
 	}
 
     @TargetApi(Configuration.TEXT_SELECTION_PLATFORM_VERSION)

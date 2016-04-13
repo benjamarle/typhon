@@ -18,13 +18,14 @@
  */
 package net.zorgblub.typhon.activity;
 
-import net.zorgblub.typhon.fragment.LibraryFragment;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 
-import roboguice.inject.InjectFragment;
+import net.zorgblub.typhon.R;
+import net.zorgblub.typhon.fragment.LibraryFragment;
 
 public class LibraryActivity extends TyphonActivity {
 
-    @InjectFragment(net.zorgblub.typhon.R.id.fragment_library)
     private LibraryFragment libraryFragment;
 
     @Override
@@ -32,7 +33,14 @@ public class LibraryActivity extends TyphonActivity {
         return net.zorgblub.typhon.R.layout.activity_library;
     }
 
-	@Override
+    @Override
+    protected void onCreateTyphonActivity(Bundle savedInstanceState) {
+        super.onCreateTyphonActivity(savedInstanceState);
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        libraryFragment = (LibraryFragment) fragmentManager.findFragmentById(R.id.fragment_library);
+    }
+
+    @Override
 	public void onBackPressed() {
 		libraryFragment.onBackPressed();
 	}

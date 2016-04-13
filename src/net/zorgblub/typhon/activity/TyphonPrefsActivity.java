@@ -24,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
@@ -32,14 +33,16 @@ import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.R;
 import net.zorgblub.typhon.Typhon;
 
-import roboguice.RoboGuice;
-import roboguice.activity.RoboPreferenceActivity;
+import javax.inject.Inject;
 
-public class TyphonPrefsActivity extends RoboPreferenceActivity {
+public class TyphonPrefsActivity extends PreferenceActivity {
+
+	@Inject
+	Configuration config;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Configuration config = RoboGuice.getInjector(this).getInstance(Configuration.class);
+		Typhon.getComponent().inject(this);
 		Typhon.changeLanguageSetting(this, config);
 		setTheme( config.getTheme() );
 		

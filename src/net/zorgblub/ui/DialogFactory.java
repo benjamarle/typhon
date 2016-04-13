@@ -27,10 +27,16 @@ import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
+import javax.inject.Inject;
+
 public class DialogFactory {
 
     public interface SearchCallBack {
         void performSearch(String query);
+    }
+
+    @Inject
+    public DialogFactory() {
     }
 
     public void showSearchDialog(int titleId, int questionId, final SearchCallBack callBack, Context context ) {

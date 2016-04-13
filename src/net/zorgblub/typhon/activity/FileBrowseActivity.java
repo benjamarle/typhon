@@ -19,18 +19,23 @@
 package net.zorgblub.typhon.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.R;
 import net.zorgblub.typhon.Typhon;
 
-import roboguice.RoboGuice;
+import javax.inject.Inject;
 
-public class FileBrowseActivity extends RoboActionBarActivity {
+public class FileBrowseActivity extends AppCompatActivity {
+
+	@Inject
+	Configuration config;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Configuration config = RoboGuice.getInjector(this).getInstance(Configuration.class);
+		Typhon.getComponent().inject(this);
+
 		Typhon.changeLanguageSetting(this, config);
 		setTheme( config.getTheme() );
 		

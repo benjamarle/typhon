@@ -31,13 +31,13 @@ import android.text.style.ImageSpan;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.inject.Inject;
-
 import net.zorgblub.typhon.dto.HighLight;
 import net.zorgblub.typhon.epub.TyphonSpine;
 import net.zorgblub.typhon.view.HighlightManager;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import jedi.option.Option;
 
@@ -47,11 +47,11 @@ import static jedi.option.Options.option;
 
 public class ScrollingStrategy implements PageChangeStrategy {
 
-    @Inject
-    private Context context;
 
     @Inject
-    private HighlightManager highlightManager;
+    HighlightManager highlightManager;
+
+	private Context context;
 
 	private BookView bookView;
 	
@@ -61,7 +61,12 @@ public class ScrollingStrategy implements PageChangeStrategy {
 	
 	private Spannable text;
 
-    @Override
+	@Inject
+	public ScrollingStrategy(Context context) {
+		this.context = context;
+	}
+
+	@Override
     public void setBookView(BookView bookView) {
 		this.bookView = bookView;
 		this.childView = bookView.getInnerView();

@@ -23,7 +23,6 @@ import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
 
-import com.google.inject.Inject;
 import com.osbcp.cssparser.CSSParser;
 import com.osbcp.cssparser.PropertyValue;
 import com.osbcp.cssparser.Rule;
@@ -46,6 +45,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 import jedi.option.Option;
 import nl.siegmann.epublib.domain.Book;

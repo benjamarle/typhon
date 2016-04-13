@@ -19,7 +19,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0-alpha4'
+        classpath 'com.android.tools.build:gradle:2.1.0-alpha5'
         classpath 'me.tatarka:gradle-retrolambda:3.3.0-beta4'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
@@ -67,7 +67,6 @@ dependencies {
         exclude group: 'org.slf4j'
         exclude group: 'net.sf.kxml'
     }
-    compile 'org.roboguice:roboguice:3.0.1'
     compile files('libs/JRikai.jar')
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.github.woxthebox:draglistview:1.2.1'
@@ -136,8 +135,10 @@ android {
             jniDebuggable false
             signingConfig signingConfigs.release
             renderscriptDebuggable false
-            //minifyEnabled true
+            minifyEnabled true
             pseudoLocalesEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro'
         }
     }
     productFlavors {
@@ -146,8 +147,4 @@ android {
 
 retrolambda {
     javaVersion JavaVersion.VERSION_1_7
-}
-
-project.dependencies {
-    provided 'org.roboguice:roboblender:3.0.1'
 }

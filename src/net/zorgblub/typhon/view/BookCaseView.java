@@ -29,34 +29,36 @@ import android.view.KeyEvent;
 import android.widget.GridView;
 
 import net.zorgblub.typhon.Configuration;
+import net.zorgblub.typhon.Typhon;
 import net.zorgblub.typhon.library.LibraryBook;
 import net.zorgblub.typhon.library.QueryResult;
 
-import roboguice.RoboGuice;
+import javax.inject.Inject;
 
 public class BookCaseView extends GridView {
-	
+
 	private Bitmap background;
-		
+
 	private int mShelfWidth;
-	private int mShelfHeight;	
-	
+	private int mShelfHeight;
+
 	private QueryResult<LibraryBook> result;
-	
-	private LibraryBook selectedBook;	
-	
-	private Configuration config;
-	
+
+	private LibraryBook selectedBook;
+
+	@Inject
+	Configuration config;
+
 	public BookCaseView(Context context, AttributeSet attributes) {
 		super(context, attributes);
-				
+
+		Typhon.getComponent().inject(this);
 		this.setFocusableInTouchMode(true);
 		this.setClickable(false);
-		
+
 		final Bitmap shelfBackground;
-		
-		this.config = RoboGuice.getInjector(context).getInstance(Configuration.class);
-		
+
+
 		if(!Configuration.IS_EINK_DEVICE) {
 			if (config.getColourProfile() == Configuration.ColourProfile.DAY ) {
 				shelfBackground = BitmapFactory.decodeResource(context.getResources(),

@@ -19,6 +19,7 @@
 package net.zorgblub.typhon.activity;
 
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -35,8 +36,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.inject.Inject;
-
 import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.CustomOPDSSite;
 import net.zorgblub.typhon.PlatformUtil;
@@ -46,10 +45,9 @@ import net.zorgblub.typhon.Typhon;
 import java.util.ArrayList;
 import java.util.List;
 
-import roboguice.RoboGuice;
-import roboguice.activity.RoboListActivity;
+import javax.inject.Inject;
 
-public class ManageSitesActivity extends RoboListActivity {
+public class ManageSitesActivity extends ListActivity {
 
 	@Inject
 	Configuration config;
@@ -60,7 +58,7 @@ public class ManageSitesActivity extends RoboListActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Configuration config = RoboGuice.getInjector(this).getInstance(Configuration.class); 
+		Typhon.getComponent().inject(this);
 		Typhon.changeLanguageSetting(this, config);
 		setTheme( config.getTheme() );
 		

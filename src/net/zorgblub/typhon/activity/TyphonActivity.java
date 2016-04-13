@@ -5,14 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ExpandableListView;
-
-import com.google.inject.Inject;
 
 import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.R;
@@ -26,15 +25,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import jedi.option.Option;
-import roboguice.RoboGuice;
 
 /**
  * Superclass for all Typhon activity classes.
  */
-public abstract class TyphonActivity extends RoboActionBarActivity {
+public abstract class TyphonActivity extends AppCompatActivity {
 
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawer;
@@ -51,14 +51,13 @@ public abstract class TyphonActivity extends RoboActionBarActivity {
     private boolean drawerIsOpen;
 
     @Inject
-    private Configuration config;
+    Configuration config;
 
     private static Logger LOG = LoggerFactory.getLogger("TyphonActivity");
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
-
-        Configuration config = RoboGuice.getInjector(this).getInstance(Configuration.class);
+        Typhon.getComponent().inject(this);
         Typhon.changeLanguageSetting(this, config);
 
         setTheme( getTheme(config) );

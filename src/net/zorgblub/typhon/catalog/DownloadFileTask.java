@@ -18,10 +18,6 @@
  */
 package net.zorgblub.typhon.catalog;
 
-import android.content.Context;
-
-import com.google.inject.Inject;
-
 import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.library.LibraryService;
 import net.zorgblub.typhon.scheduling.QueueableAsyncTask;
@@ -38,6 +34,8 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
+
+import javax.inject.Inject;
 
 import jedi.option.None;
 import jedi.option.Option;
@@ -56,16 +54,13 @@ public class DownloadFileTask extends QueueableAsyncTask<String, Long, Void> {
 	private DownloadFileCallback callBack;
 	
 	@Inject
-	private Context context;
+	Configuration config;
 	
 	@Inject
-	private Configuration config;
+	LibraryService libraryService;
 	
 	@Inject
-	private LibraryService libraryService;
-	
-	@Inject
-	private HttpClient httpClient;
+	HttpClient httpClient;
 	
 	private static final Logger LOG = LoggerFactory.getLogger("DownloadFileTask");
 	
@@ -78,8 +73,9 @@ public class DownloadFileTask extends QueueableAsyncTask<String, Long, Void> {
 		
 		void progressUpdate( long progress, long total, int percentage );
 	}
-	
-	DownloadFileTask(){}
+
+	@Inject
+	public DownloadFileTask(){}
 	
 	public void setCallBack(DownloadFileCallback callBack) {
 		this.callBack = callBack;

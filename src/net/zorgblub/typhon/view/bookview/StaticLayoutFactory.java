@@ -23,6 +23,8 @@ import android.text.Layout.Alignment;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 
+import javax.inject.Inject;
+
 /**
  * Simple factory to create StaticLayout objects.
  * 
@@ -34,6 +36,10 @@ import android.text.TextPaint;
  *
  */
 public class StaticLayoutFactory {
+
+	@Inject
+	public StaticLayoutFactory() {
+	}
 
 	/**
 	 * Creates a new StaticLayout object

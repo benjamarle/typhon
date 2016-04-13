@@ -31,11 +31,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.zorgblub.typhon.Configuration;
+import net.zorgblub.typhon.Typhon;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import roboguice.RoboGuice;
+import javax.inject.Inject;
 
 
 public class AlphabetBar extends LinearLayout
@@ -46,6 +47,9 @@ public class AlphabetBar extends LinearLayout
     
     private AlphabetCallback callback;
 
+    @Inject
+    Configuration config;
+
     public AlphabetBar(Context context)
     {
         super(context);
@@ -55,10 +59,11 @@ public class AlphabetBar extends LinearLayout
     public AlphabetBar(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        
-        Configuration.ColourProfile profile = RoboGuice.getInjector(context).getInstance(Configuration.class)
-        	.getColourProfile();
-        
+
+        Typhon.getComponent().inject(this);
+
+        Configuration.ColourProfile profile = config.getColourProfile();
+
         if ( profile == Configuration.ColourProfile.DAY ) {
         	setBackgroundResource(net.zorgblub.typhon.R.drawable.alphabet_bar_bg);
         } else {

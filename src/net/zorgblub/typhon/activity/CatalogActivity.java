@@ -61,9 +61,10 @@ public class CatalogActivity extends TyphonActivity implements CatalogParent {
     @Nullable
     private BookDetailsFragment detailsFragment;
 
-    private Provider<CatalogFragment> fragmentProvider;
-
     private FragmentManager fragmentManager;
+
+    @Inject
+    Provider<CatalogFragment> fragmentProvider;
 
     @Inject
     Configuration config;
@@ -74,7 +75,6 @@ public class CatalogActivity extends TyphonActivity implements CatalogParent {
     protected void onCreateTyphonActivity(Bundle savedInstanceState) {
         Typhon.getComponent().inject(this);
         fragmentManager = this.getSupportFragmentManager();
-        fragmentProvider = () -> {return new CatalogFragment();};
         detailsFragment = (BookDetailsFragment) fragmentManager.findFragmentById(net.zorgblub.typhon.R.id.fragment_book_details);
         hideDetailsView();
 

@@ -20,8 +20,6 @@ package net.zorgblub.typhon.catalog;
 
 import android.content.Context;
 
-import com.google.inject.Inject;
-
 import net.zorgblub.nucular.atom.AtomConstants;
 import net.zorgblub.nucular.atom.Entry;
 import net.zorgblub.nucular.atom.Feed;
@@ -30,6 +28,7 @@ import net.zorgblub.nucular.parser.Nucular;
 import net.zorgblub.nucular.parser.opensearch.SearchDescription;
 import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.R;
+import net.zorgblub.typhon.Typhon;
 import net.zorgblub.typhon.scheduling.QueueableAsyncTask;
 
 import org.apache.http.HttpResponse;
@@ -40,6 +39,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.net.URL;
+
+import javax.inject.Inject;
 
 import jedi.option.Option;
 
@@ -65,8 +66,8 @@ public class LoadOPDSTask extends QueueableAsyncTask<String, Object, Feed> {
     private LoadFeedCallback.ResultType resultType;
 
 	@Inject
-	LoadOPDSTask(Context context, Configuration config, HttpClient httpClient) {
-		this.context = context;
+	LoadOPDSTask(Configuration config, HttpClient httpClient) {
+		this.context = Typhon.get().getApplicationContext();
 		this.config = config;
 		this.httpClient = httpClient;
 	}

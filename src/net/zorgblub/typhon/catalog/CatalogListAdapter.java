@@ -27,8 +27,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.google.inject.Inject;
-
 import net.zorgblub.nucular.atom.Entry;
 import net.zorgblub.nucular.atom.Feed;
 import net.zorgblub.nucular.atom.Link;
@@ -53,7 +51,6 @@ public class CatalogListAdapter extends BaseAdapter {
         Option<Drawable> getThumbnailFor( String baseURL, Link link );
     }
 
-	@Inject
 	public CatalogListAdapter(Context context) {
 		this.context = context;
 	}

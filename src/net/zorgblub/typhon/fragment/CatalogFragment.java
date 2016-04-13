@@ -25,7 +25,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -38,15 +40,12 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-
 import net.zorgblub.nucular.atom.AtomConstants;
 import net.zorgblub.nucular.atom.Entry;
 import net.zorgblub.nucular.atom.Feed;
 import net.zorgblub.nucular.atom.Link;
 import net.zorgblub.typhon.R;
-import net.zorgblub.typhon.activity.RoboActionBarActivity;
+import net.zorgblub.typhon.Typhon;
 import net.zorgblub.typhon.catalog.Catalog;
 import net.zorgblub.typhon.catalog.CatalogListAdapter;
 import net.zorgblub.typhon.catalog.CatalogParent;
@@ -69,16 +68,17 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import jedi.option.Option;
-import roboguice.fragment.RoboFragment;
 
 import static jedi.functional.FunctionalPrimitives.isEmpty;
 import static jedi.option.Options.option;
 
-public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
+public class CatalogFragment extends Fragment implements LoadFeedCallback {
 
     private static final Logger LOG = LoggerFactory
             .getLogger("CatalogFragment");
@@ -88,27 +88,27 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
     ListView catalogList;
 
     @Inject
-    private Provider<LoadOPDSTask> loadOPDSTaskProvider;
+    Provider<LoadOPDSTask> loadOPDSTaskProvider;
 
     @Inject
-    private Provider<ParseBinDataTask> parseBinDataTaskProvider;
+    Provider<ParseBinDataTask> parseBinDataTaskProvider;
 
     @Inject
-    private Provider<LoadThumbnailTask> loadThumbnailTaskProvider;
+    Provider<LoadThumbnailTask> loadThumbnailTaskProvider;
 
     @Inject
-    private DialogFactory dialogFactory;
+    DialogFactory dialogFactory;
+
 
     @Inject
-    private CatalogListAdapter adapter;
+    Provider<DisplayMetrics> metricsProvider;
 
     @Inject
-    private Provider<DisplayMetrics> metricsProvider;
-
-    @Inject
-    private TaskQueue taskQueue;
+    TaskQueue taskQueue;
 
     private Map<String, Drawable> thumbnailCache = new ConcurrentHashMap<>();
+
+    private CatalogListAdapter adapter;
 
     private MenuItem searchMenuItem;
 
@@ -116,14 +116,20 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
 
     private Feed staticFeed;
 
+    @Inject
+    public CatalogFragment() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Typhon.getComponent().inject(this);
         super.onCreate(savedInstanceState);
 
         DisplayMetrics metrics = metricsProvider.get();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         this.taskQueue.setTaskQueueListener(this::onLoadingDone);
+        this.adapter = new CatalogListAdapter(this.getContext());
     }
 
     public void setBaseURL(String baseURL) {
@@ -132,6 +138,7 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_catalog, container, false);
 
         ButterKnife.bind(this, view);
@@ -301,7 +308,7 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
 
         if (activity == null) {
             return;
@@ -459,7 +466,7 @@ public class CatalogFragment extends RoboFragment implements LoadFeedCallback {
 
     private void setSupportProgressBarIndeterminateVisibility(boolean enable) {
 
-        RoboActionBarActivity activity = (RoboActionBarActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
 
         if (activity != null) {
             LOG.debug("Setting progress bar to " + enable);

@@ -22,14 +22,15 @@ package net.zorgblub.typhon.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ExpandableListView;
 
-import com.google.inject.Inject;
-
 import net.zorgblub.typhon.Configuration;
+import net.zorgblub.typhon.R;
+import net.zorgblub.typhon.Typhon;
 import net.zorgblub.typhon.fragment.ReadingFragment;
 import net.zorgblub.typhon.view.NavigationCallback;
 
@@ -39,17 +40,16 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import roboguice.inject.InjectFragment;
+import javax.inject.Inject;
 
 import static jedi.functional.FunctionalPrimitives.forEach;
 
 public class ReadingActivity extends TyphonActivity {
 
-    @InjectFragment(net.zorgblub.typhon.R.id.fragment_reading)
     private ReadingFragment readingFragment;
 
     @Inject
-    private Configuration config;
+    Configuration config;
 
     private static final Logger LOG = LoggerFactory
             .getLogger("ReadingActivity");
@@ -170,7 +170,10 @@ public class ReadingActivity extends TyphonActivity {
 
     @Override
     protected void onCreateTyphonActivity(Bundle savedInstanceState) {
+        Typhon.getComponent().inject(this);
 
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        this.readingFragment = (ReadingFragment)  supportFragmentManager.findFragmentById(R.id.fragment_reading);
         Class<? extends TyphonActivity> lastActivityClass = config.getLastActivity();
 
         if (!config.isAlwaysOpenLastBook() && lastActivityClass != null

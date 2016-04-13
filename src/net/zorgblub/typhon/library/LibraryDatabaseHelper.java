@@ -24,12 +24,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.google.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
@@ -75,7 +74,7 @@ public class LibraryDatabaseHelper extends SQLiteOpenHelper {
 	
 	@Inject
 	public LibraryDatabaseHelper(Context context) {
-		super(context, DB_NAME, null, VERSION);		
+		super(context, DB_NAME, null, VERSION);
 	}
 	
 	private synchronized SQLiteDatabase getDataBase() {

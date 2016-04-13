@@ -20,8 +20,6 @@ package net.zorgblub.typhon.sync;
 
 import android.content.Context;
 
-import com.google.inject.Inject;
-
 import net.zorgblub.typhon.Configuration;
 
 import org.apache.http.HttpResponse;
@@ -48,14 +46,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import jedi.option.Option;
-import roboguice.inject.ContextSingleton;
 
 import static jedi.option.Options.none;
 import static jedi.option.Options.some;
 
 
-@ContextSingleton
 public class TyphonWebProgressService implements ProgressService {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(TyphonWebProgressService.class);
