@@ -212,7 +212,9 @@ public class DictionaryPane extends DraggablePane implements DictionaryServiceIm
 
     @Override
     public void onCurrentMatchChanged(SelectedWord word, Entries match) {
-        bookReader.setMatch(word, match.getMaxLen());
+        post(() -> {
+            bookReader.setMatch(word, match.getMaxLen());
+        });
     }
 
     public void showPane() {

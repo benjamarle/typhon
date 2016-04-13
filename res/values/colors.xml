@@ -12,6 +12,7 @@
     <color name="example">#AAAAAA</color>
     <color name="synonym">#C0FFC0</color>
     <color name="reason">#FFE0A0</color>
+    <color name="partOfSpeech">#AAE5A5</color>
     <color name="index">#FFE0A0</color>
 
     <color name="transparent">#00000000</color>

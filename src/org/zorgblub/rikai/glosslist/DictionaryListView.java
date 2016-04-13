@@ -3,31 +3,14 @@ package org.zorgblub.rikai.glosslist;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
-import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListAdapter;
-import android.widget.Toast;
-
-import com.ichi2.anki.api.AddContentApi;
 
 import net.zorgblub.typhon.R;
 
-import org.rikai.dictionary.AbstractEntry;
-import org.rikai.dictionary.Dictionary;
-import org.rikai.dictionary.DictionaryNotLoadedException;
 import org.rikai.dictionary.Entries;
-import org.rikai.dictionary.edict.EdictEntry;
-import org.rikai.dictionary.kanji.KanjiEntry;
-import org.zorgblub.anki.AnkiDroidConfig;
-import org.zorgblub.rikai.DroidEdictEntry;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.zorgblub.rikai.DroidEntry;
 
 /**
  * Created by Benjamin on 22/03/2016.
@@ -99,8 +82,8 @@ public class DictionaryListView extends PinchableListView {
     }
 
     public void setResults(Entries entries){
-        DictionaryEntryAdapter<AbstractEntry> adapter
-                = new DictionaryEntryAdapter<AbstractEntry>(this.getContext(), R.layout.definition_row, entries);
+        DictionaryEntryAdapter<DroidEntry> adapter
+                = new DictionaryEntryAdapter<>(this.getContext(), R.layout.definition_row, entries);
         this.setAdapter(adapter);
     }
 

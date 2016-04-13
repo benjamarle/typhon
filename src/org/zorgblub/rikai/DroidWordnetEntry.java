@@ -1,6 +1,8 @@
 package org.zorgblub.rikai;
 
 import android.graphics.Color;
+import android.text.Html;
+import android.text.Spanned;
 
 import org.rikai.deinflector.DeinflectedWord;
 import org.rikai.dictionary.wordnet.WordnetEntry;
@@ -13,7 +15,7 @@ import static org.zorgblub.rikai.HtmlEntryUtils.wrapColor;
 /**
  * Created by Benjamin on 21/03/2016.
  */
-public class DroidWordnetEntry extends WordnetEntry implements DroidEntity {
+public class DroidWordnetEntry extends WordnetEntry implements DroidEntry {
 
     // default value are set to the rikaichan style
     private int kanjiColor = -4724737;
@@ -23,6 +25,8 @@ public class DroidWordnetEntry extends WordnetEntry implements DroidEntity {
     private int exampleColor =  -4128832;
 
     private int reasonColor = -8032;
+
+    private int posColor = -8032;
 
     private int definitionColor = -1;
 
@@ -70,11 +74,23 @@ public class DroidWordnetEntry extends WordnetEntry implements DroidEntity {
         this.exampleColor = exampleColor;
     }
 
+    public int getPosColor() {
+        return posColor;
+    }
+
+    public void setPosColor(int posColor) {
+        this.posColor = posColor;
+    }
+
     @Override
     public int getBackgroundColor() {
         return Color.BLACK;
     }
 
+    @Override
+    public Spanned render() {
+        return Html.fromHtml(toStringCompact());
+    }
 
     @Override
     public String toStringCompact() {
@@ -82,6 +98,9 @@ public class DroidWordnetEntry extends WordnetEntry implements DroidEntity {
         StringBuilder result = new StringBuilder(this.getLength());
 
         result.append(wrapColor(kanjiColor, this.getWord()));
+        if (this.getPartOfSpeech().length() != 0) {
+            result.append(" {").append(wrapColor(posColor, this.getPartOfSpeech())).append("}");
+        }
         if (this.getReason().length() != 0) {
             result.append(" (").append(wrapColor(reasonColor, this.getReason())).append(")");
         }

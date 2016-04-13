@@ -58,10 +58,6 @@ public class PinchableListView extends ListView {
 
 	private void init() {
 		mScaleDetector = new ScaleGestureDetector(this.getContext(), new ScaleListener());
-
-
-
-
 	}
 
 	@Override

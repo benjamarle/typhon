@@ -24,6 +24,7 @@ import net.zorgblub.typhon.view.bookview.SelectedWord;
 
 import org.rikai.dictionary.AbstractEntry;
 import org.rikai.dictionary.Dictionary;
+import org.rikai.dictionary.DictionaryException;
 import org.rikai.dictionary.DictionaryNotLoadedException;
 import org.rikai.dictionary.Entries;
 import org.rikai.dictionary.db.DatabaseException;
@@ -152,27 +153,40 @@ public class DictionaryServiceImpl implements DictionaryService {
     protected List<DictionarySettings> getDefaultDictionaries() {
         List<DictionarySettings> list = new ArrayList<>();
         for (DictionaryType type : DictionaryType.values()) {
-            list.add(type.getImplementation());
+            DictionarySettings implementation = type.getImplementation();
+            if (!implementation.isDownloadable())
+                continue;
+            list.add(implementation);
         }
         return list;
     }
 
     private void loadDictionaries(List<DictionarySettings> list, Context context) {
-
-        try {
-            for (DictionarySettings settings : list) {
-                dictionaries.add(settings.newInstance());
+        for (DictionarySettings settings : list) {
+            try {
+                Dictionary dictionary = settings.newInstance();
+                if (dictionary == null) {
+                    continue;
+                }
+                dictionaries.add(dictionary);
+            } catch (FileNotFoundException e) {
+                LOG.error("Could not find dictionary data", e);
+            } catch (IOException e) {
+                LOG.error("Could not read dictionary data", e);
+            } catch (DatabaseException e) {
+                LOG.error("Could not load dictionary data", e);
             }
-        } catch (FileNotFoundException e) {
-            LOG.error("Could not find dictionary data", e);
-        } catch (IOException e) {
-            LOG.error("Could not read dictionary data", e);
-        } catch (DatabaseException e) {
-            LOG.error("Could not load dictionary data", e);
         }
 
         Runnable task = () -> {
-            forEach(dictionaries, (dictionary) -> dictionary.load());
+            forEach(dictionaries, (dictionary) -> {
+                        try {
+                            dictionary.load();
+                        } catch (DictionaryException e) {
+                            dictionaries.remove(dictionary);
+                        }
+                    }
+            );
             fireDictionaryLoaded();
             initialized = true;
         };
@@ -490,7 +504,7 @@ public class DictionaryServiceImpl implements DictionaryService {
         return instance;
     }
 
-    public static synchronized void reset(){
+    public static synchronized void reset() {
         instance = null;
     }
 

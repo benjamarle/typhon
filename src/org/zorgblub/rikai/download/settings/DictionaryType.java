@@ -7,7 +7,8 @@ public enum DictionaryType {
     EDICT(EdictSettings.class, "Edict"),
     KANJIDIC(KanjidicSettings.class, "Kanjidic"),
     ENAMDICT(EnamdictSettings.class, "Enamdict"),
-    WORDNET(WordnetSettings.class, "Wordnet");
+    WORDNET(WordnetSettings.class, "Wordnet"),
+    EPWING(EpwingSettings.class, "Epwing");
 
     private Class<? extends DictionarySettings> clazz;
 
@@ -28,6 +29,8 @@ public enum DictionaryType {
                 return new EnamdictSettings();
             case WORDNET:
                 return new WordnetSettings();
+            case EPWING:
+                return new EpwingSettings();
         }
         return null;
     }

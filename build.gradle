@@ -68,6 +68,8 @@ dependencies {
         exclude group: 'net.sf.kxml'
     }
     compile files('libs/JRikai.jar')
+    compile files('libs/eb4j-core-1.0.5.jar')
+    compile 'commons-lang:commons-lang:2.4'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.github.woxthebox:draglistview:1.2.1'
     compile 'com.jakewharton:butterknife:7.0.1'
@@ -140,8 +142,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                     'proguard-rules.pro'
         }
+        debug {
+            zipAlignEnabled false
+        }
     }
     productFlavors {
+        prod {
+        }
+        dev {
+            minSdkVersion 22
+            applicationId 'net.zorgblub.typhon'
+            targetSdkVersion 22
+        }
+    }
+    dexOptions {
+        incremental true
+        preDexLibraries true
+        javaMaxHeapSize "2g" // Use gig increments depending on needs
     }
 }
 

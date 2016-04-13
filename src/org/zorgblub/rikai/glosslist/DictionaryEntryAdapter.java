@@ -22,20 +22,18 @@ Date: 2013 07 31
 package org.zorgblub.rikai.glosslist;
 
 import android.content.Context;
-import android.text.Html;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import org.rikai.dictionary.AbstractEntry;
-import org.zorgblub.rikai.DroidEntity;
+import org.zorgblub.rikai.DroidEntry;
 
 import java.util.List;
 
 
-public class DictionaryEntryAdapter<T extends AbstractEntry> extends ArrayAdapter<T> {
+public class DictionaryEntryAdapter<T extends DroidEntry> extends ArrayAdapter<T> {
 
     private int mColor = -1;
     private boolean mColorSet = false;
@@ -54,20 +52,17 @@ public class DictionaryEntryAdapter<T extends AbstractEntry> extends ArrayAdapte
         if (v instanceof TextView) {
             TextView textView = (TextView) v;
             T item = getItem(position);
-            textView.setText(Html.fromHtml(item.toStringCompact()));
+
+            textView.setText(item.render(), TextView.BufferType.SPANNABLE);
+            textView.setBackgroundColor(item.getBackgroundColor());
+
             if (mColorSet) {
                 textView.setTextColor(mColor);
             }
             if (mTextPixelSize > 0) {
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextPixelSize);
             }
-
-            if (item instanceof DroidEntity) {
-                DroidEntity entity = (DroidEntity) item;
-                textView.setBackgroundColor(entity.getBackgroundColor());
-            }
         }
-
         return v;
     }
 
