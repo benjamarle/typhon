@@ -22,6 +22,7 @@ Date: 2013 07 31
 package org.zorgblub.rikai.glosslist;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class DictionaryEntryAdapter<T extends DroidEntry> extends ArrayAdapter<T
 
     private int mColor = -1;
     private boolean mColorSet = false;
+    private Typeface typeface;
     private int mTextPixelSize = -1;
 
 
@@ -55,6 +57,8 @@ public class DictionaryEntryAdapter<T extends DroidEntry> extends ArrayAdapter<T
 
             textView.setText(item.render(), TextView.BufferType.SPANNABLE);
             textView.setBackgroundColor(item.getBackgroundColor());
+            if(typeface != null)
+                textView.setTypeface(typeface);
 
             if (mColorSet) {
                 textView.setTextColor(mColor);
@@ -78,4 +82,11 @@ public class DictionaryEntryAdapter<T extends DroidEntry> extends ArrayAdapter<T
         notifyDataSetChanged();
     }
 
+    public Typeface getTypeface() {
+        return typeface;
+    }
+
+    public void setTypeface(Typeface typeface) {
+        this.typeface = typeface;
+    }
 }

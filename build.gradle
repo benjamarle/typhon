@@ -19,7 +19,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0-alpha5'
+        classpath 'com.android.tools.build:gradle:2.1.0'
         classpath 'me.tatarka:gradle-retrolambda:3.3.0-beta4'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
@@ -67,7 +67,7 @@ dependencies {
         exclude group: 'org.slf4j'
         exclude group: 'net.sf.kxml'
     }
-    compile files('libs/JRikai.jar')
+    compile files('libs/JRikai-1.0.jar')
     compile files('libs/eb4j-core-1.0.5.jar')
     compile 'commons-lang:commons-lang:2.4'
     compile 'com.google.code.gson:gson:2.6.2'

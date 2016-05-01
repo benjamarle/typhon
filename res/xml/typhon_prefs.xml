@@ -142,7 +142,7 @@
 
 
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="full_screen"
             android:summary="@string/pref_full_screen_summary"
             android:title="@string/pref_full_screen" />
@@ -214,7 +214,7 @@
             android:title="@string/pref_use_publisher_style" />
 
         <ListPreference
-            android:defaultValue="gen_book_bas"
+            android:defaultValue="boku2r"
             android:entries="@array/fontLabels"
             android:entryValues="@array/fonts"
             android:key="font_face"
@@ -222,7 +222,7 @@
             android:title="@string/pref_font_face" />
 
         <ListPreference
-            android:defaultValue="gen_book_bas"
+            android:defaultValue="kokoro"
             android:entries="@array/fontLabels"
             android:entryValues="@array/fonts"
             android:key="serif_font"
@@ -230,7 +230,7 @@
             android:title="@string/pref_serif_font" />
 
         <ListPreference
-            android:defaultValue="sans"
+            android:defaultValue="boku2r"
             android:entries="@array/fontLabels"
             android:entryValues="@array/fonts"
             android:key="sans_serif_font"

@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.ListAdapter;
 
+import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.R;
 
 import org.rikai.dictionary.Entries;
@@ -22,6 +23,8 @@ public class DictionaryListView extends PinchableListView {
     private int mBackgroundColor;
 
     private int index;
+
+    private Configuration config;
 
 
     public DictionaryListView(Context context) {
@@ -41,6 +44,7 @@ public class DictionaryListView extends PinchableListView {
 
     public void init(){
         // prevent the ListView from changing its background colour when scrolling
+        this.config = new Configuration(this.getContext());
         this.setCacheColorHint(Color.TRANSPARENT);
         this.setOnPinchListener(new PinchableListView.OnPinchListener() {
             @Override
@@ -77,6 +81,7 @@ public class DictionaryListView extends PinchableListView {
             DictionaryEntryAdapter dictionaryEntryAdapter = (DictionaryEntryAdapter) adapter;
             dictionaryEntryAdapter.setTextPixelSize(getTextSize());
             dictionaryEntryAdapter.setColor(mTextColor);
+            dictionaryEntryAdapter.setTypeface(config.getDefaultFontFamily().getDefaultTypeface());
         }
         super.setAdapter(adapter);
     }

@@ -695,15 +695,21 @@ public class Configuration {
         updateValue(settings, key, value);
     }
 
-    private FontFamily loadFamilyFromAssets(String key, String baseName) {
+    private FontFamily loadFamilyFromAssets(String key, String baseName, boolean skipVariants) {
         Typeface basic = Typeface.createFromAsset(context.getAssets(), baseName
                 + ".otf");
-        Typeface boldFace = Typeface.createFromAsset(context.getAssets(),
-                baseName + "-Bold.otf");
-        Typeface italicFace = Typeface.createFromAsset(context.getAssets(),
-                baseName + "-Italic.otf");
-        Typeface biFace = Typeface.createFromAsset(context.getAssets(),
-                baseName + "-BoldItalic.otf");
+        Typeface boldFace = basic;
+        Typeface italicFace = basic;
+        Typeface biFace = basic;
+
+        if(!skipVariants) {
+            boldFace = Typeface.createFromAsset(context.getAssets(),
+                    baseName + "-Bold.otf");
+            italicFace = Typeface.createFromAsset(context.getAssets(),
+                    baseName + "-Italic.otf");
+            biFace = Typeface.createFromAsset(context.getAssets(),
+                    baseName + "-BoldItalic.otf");
+        }
 
         FontFamily fam = new FontFamily(key, basic);
         fam.setBoldTypeface(boldFace);
@@ -719,15 +725,24 @@ public class Configuration {
 
         if (!fontCache.containsKey(fontFace)) {
 
-            if ("gen_book_bas".equals(fontFace)) {
+            if ("mamelon".equals(fontFace)) {
                 fontCache.put(fontFace,
-                        loadFamilyFromAssets(fontFace, "GentiumBookBasic"));
+                        loadFamilyFromAssets(fontFace, "Mamelon", true));
+            } else if ("boku2r".equals(fontFace)) {
+                fontCache.put(fontFace,
+                        loadFamilyFromAssets(fontFace, "Boku2", true));
+            } else if ("kokoro".equalsIgnoreCase(fontFace)) {
+                fontCache.put(fontFace,
+                        loadFamilyFromAssets(fontFace, "Kokoro", true));
+            }else if ("gen_book_bas".equals(fontFace)) {
+                fontCache.put(fontFace,
+                        loadFamilyFromAssets(fontFace, "GentiumBookBasic", false));
             } else if ("gen_bas".equals(fontFace)) {
                 fontCache.put(fontFace,
-                        loadFamilyFromAssets(fontFace, "GentiumBasic"));
+                        loadFamilyFromAssets(fontFace, "GentiumBasic", false));
             } else if ("frankruehl".equalsIgnoreCase(fontFace)) {
                 fontCache.put(fontFace,
-                        loadFamilyFromAssets(fontFace, "FrankRuehl"));
+                        loadFamilyFromAssets(fontFace, "FrankRuehl", false));
             } else {
 
                 Typeface face = Typeface.SANS_SERIF;

@@ -2,18 +2,18 @@
 <resources>
 
     <string name="pref_key">TyphonState</string>
-    
+
     <string-array name="v_anim">
         <item>slide</item>
         <item>none</item>
     </string-array>
-    
+
     <string-array name="h_anim">
         <item>curl</item>
         <item>slide</item>
         <item>none</item>
     </string-array>
-    
+
     <string-array name="orientation">
         <item>no_lock</item>
         <item>portrait</item>
@@ -22,17 +22,20 @@
         <item>reverse_landscape</item>
     </string-array>
 
-   <string-array name="autoscroll">
+    <string-array name="autoscroll">
         <item>rolling_blind</item>
         <item>timer</item>
     </string-array>
 
-   <string-array name="nook_touch_directions">
+    <string-array name="nook_touch_directions">
         <item>forward</item>
         <item>backward</item>
     </string-array>
- 
-   <string-array name="fonts">
+
+    <string-array name="fonts">
+        <item>mamelon</item>
+        <item>boku2r</item>
+        <item>kokoro</item>
         <item>gen_book_bas</item>
         <item>gen_bas</item>
         <item>frankruehl</item>
@@ -41,8 +44,11 @@
         <item>mono</item>
         <item>default</item>
     </string-array>
-    
+
     <string-array name="fontLabels">
+        <item>Mamelon Maru</item>
+        <item>Boku2r Gothic</item>
+        <item>Kokoro Mincho</item>
         <item>Gentium Book Basic</item>
         <item>Gentium Basic</item>
         <item>FrankRuehl</item>
@@ -63,29 +69,29 @@
         <item>System Default</item>
         <item>Droid Serif</item>
         <item>Droid Sans</item>
-        <item>Droid Sans Mono</item>        
+        <item>Droid Sans Mono</item>
     </string-array>
 
     <string-array name="reading_directions">
         <item>left_to_right</item>
         <item>right_to_left</item>
-    </string-array> 
-     
- 	<string-array name="supported_languages">
- 	    <item>default</item>
- 	    <item>en</item>
- 	    <item>nl</item>
- 	    <item>de</item>
- 	    <item>es</item>
- 	    <item>it</item>
- 	    <item>ar</item> 	    
- 	    <item>iw</item>
- 	    <item>fa</item> 	    
- 	</string-array>
+    </string-array>
+
+    <string-array name="supported_languages">
+        <item>default</item>
+        <item>en</item>
+        <item>nl</item>
+        <item>de</item>
+        <item>es</item>
+        <item>it</item>
+        <item>ar</item>
+        <item>iw</item>
+        <item>fa</item>
+    </string-array>
 
     <string-array name="long_short">
         <item>normal</item>
         <item>reversed</item>
     </string-array>
-    
+
 </resources>
