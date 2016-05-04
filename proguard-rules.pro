@@ -30,3 +30,6 @@
 -keep class org.htmlcleaner.** {*;}
 
 -keep class org.zorgblub.** {*;}
+
+-dontwarn java.awt.**, org.apache.crimson.**, oracle.xml.parser.**, org.apache.xerces.**
+-dontnote android.support.**
