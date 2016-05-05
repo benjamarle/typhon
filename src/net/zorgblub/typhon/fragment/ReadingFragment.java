@@ -1798,16 +1798,32 @@ public class ReadingFragment extends Fragment implements
         }
 
         if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP) {
-            if (invert) {
-                pageDown(Orientation.HORIZONTAL);
-            } else {
-                pageUp(Orientation.HORIZONTAL);
+            if(config.isVolumeKeyNavChaptersEnabled()){
+                if(invert){
+                    bookView.navigateForward();
+                }else{
+                    bookView.navigateBack();
+                }
+            }else {
+                if (invert) {
+                    pageDown(Orientation.HORIZONTAL);
+                } else {
+                    pageUp(Orientation.HORIZONTAL);
+                }
             }
         } else if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            if (invert) {
-                pageUp(Orientation.HORIZONTAL);
-            } else {
-                pageDown(Orientation.HORIZONTAL);
+            if(config.isVolumeKeyNavChaptersEnabled()){
+                if(invert){
+                    bookView.navigateBack();
+                }else{
+                    bookView.navigateForward();
+                }
+            }else {
+                if (invert) {
+                    pageUp(Orientation.HORIZONTAL);
+                } else {
+                    pageDown(Orientation.HORIZONTAL);
+                }
             }
         }
 
@@ -2630,29 +2646,34 @@ public class ReadingFragment extends Fragment implements
     public boolean onSwipeLeft() {
 
         if (config.isHorizontalSwipeEnabled()) {
+            navigateForward();
+            return true;
+        }
 
+        return false;
+    }
+
+    private void navigateForward() {
+        if(config.isScrollingEnabled()){
+            if (config.getReadingDirection() == ReadingDirection.LEFT_TO_RIGHT) {
+                bookView.navigateForward();
+            } else {
+                bookView.navigateBack();
+            }
+        }else {
             if (config.getReadingDirection() == ReadingDirection.LEFT_TO_RIGHT) {
                 pageDown(Orientation.HORIZONTAL);
             } else {
                 pageUp(Orientation.HORIZONTAL);
             }
-
-            return true;
         }
-
-        return false;
     }
 
     @Override
     public boolean onSwipeRight() {
 
         if (config.isHorizontalSwipeEnabled()) {
-
-            if (config.getReadingDirection() == ReadingDirection.LEFT_TO_RIGHT) {
-                pageUp(Orientation.HORIZONTAL);
-            } else {
-                pageDown(Orientation.HORIZONTAL);
-            }
+            navigateBack();
 
             return true;
         }
@@ -2660,14 +2681,27 @@ public class ReadingFragment extends Fragment implements
         return false;
     }
 
-    @Override
-    public boolean onTapLeftEdge() {
-        if (config.isHorizontalTappingEnabled()) {
+    private void navigateBack() {
+        if(config.isScrollingEnabled()){
+            if (config.getReadingDirection() == ReadingDirection.LEFT_TO_RIGHT) {
+                bookView.navigateBack();
+            } else {
+                bookView.navigateForward();
+            }
+        }else{
             if (config.getReadingDirection() == ReadingDirection.LEFT_TO_RIGHT) {
                 pageUp(Orientation.HORIZONTAL);
             } else {
                 pageDown(Orientation.HORIZONTAL);
             }
+        }
+    }
+
+    @Override
+    public boolean onTapLeftEdge() {
+        if (config.isHorizontalTappingEnabled()) {
+
+            navigateBack();
 
             return true;
         }
@@ -2679,11 +2713,7 @@ public class ReadingFragment extends Fragment implements
     public boolean onTapRightEdge() {
         if (config.isHorizontalTappingEnabled()) {
 
-            if (config.getReadingDirection() == ReadingDirection.LEFT_TO_RIGHT) {
-                pageDown(Orientation.HORIZONTAL);
-            } else {
-                pageUp(Orientation.HORIZONTAL);
-            }
+            navigateForward();
 
             return true;
         }
@@ -2694,7 +2724,11 @@ public class ReadingFragment extends Fragment implements
     @Override
     public boolean onTapTopEdge() {
         if (config.isVerticalTappingEnabled()) {
-            pageUp(Orientation.VERTICAL);
+            if(config.isScrollingEnabled()){
+                bookView.navigateBack();
+            }else{
+                pageUp(Orientation.VERTICAL);
+            }
             return true;
         }
 
@@ -2704,7 +2738,11 @@ public class ReadingFragment extends Fragment implements
     @Override
     public boolean onTapBottomEdge() {
         if (config.isVerticalTappingEnabled()) {
-            pageDown(Orientation.VERTICAL);
+            if(config.isScrollingEnabled()){
+                bookView.navigateForward();
+            }else{
+                pageDown(Orientation.VERTICAL);
+            }
             return true;
         }
 
@@ -2714,7 +2752,11 @@ public class ReadingFragment extends Fragment implements
     @Override
     public boolean onLeftEdgeSlide(int value) {
 
-        if (config.isBrightnessControlEnabled() && value != 0) {
+        if (config.isBrightnessControlEnabled() &&
+                !config.isScrollingEnabled() && /*
+               TODO Add this feature as a pref but I don't think this is desirable when on scrolling strategy
+               */
+                value != 0) {
             int baseBrightness = config.getBrightNess();
 
             int brightnessLevel = Math.min(99, value + baseBrightness);

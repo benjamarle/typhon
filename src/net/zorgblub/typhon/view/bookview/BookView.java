@@ -438,6 +438,14 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 			this.prevPos = -1;
 
 			loadText();
+			/**
+			 * This is a hack for scrolling not updating to the right position
+			 * on Android 4+
+			 * TODO fix this hack
+			 */
+			if ( strategy.isScrolling() ) {
+				scrollHandler.postDelayed( BookView.this::restorePosition, 500 );
+			}
 		}
 	}
 
@@ -937,6 +945,28 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 		this.strategy.setPosition(position);
 
 		doNavigation(index);
+	}
+
+	public void navigateForward(){
+		this.prevPos = this.getProgressPosition();
+		this.prevIndex = this.getIndex();
+
+		this.strategy.clearText();
+		this.spine.navigateForward();
+		this.storedIndex = this.spine.getPosition();
+
+		loadText();
+	}
+
+	public void navigateBack(){
+		this.prevPos = this.getProgressPosition();
+		this.prevIndex = this.getIndex();
+
+		this.strategy.clearText();
+		this.spine.navigateBack();
+		this.storedIndex = this.spine.getPosition();
+
+		loadText();
 	}
 
 	public Option<List<TocEntry>> getTableOfContents() {
@@ -1707,6 +1737,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 			/**
 			 * This is a hack for scrolling not updating to the right position
 			 * on Android 4+
+			 * TODO fix this hack
 			 */
 			if ( strategy.isScrolling() ) {
 				scrollHandler.postDelayed( BookView.this::restorePosition, 500 );

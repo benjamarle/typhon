@@ -388,15 +388,20 @@
             android:title="@string/pref_scrolling" />
 
         <CheckBoxPreference
-            android:defaultValue="false"
-            android:dependency="scrolling"
+            android:defaultValue="true"
             android:key="nav_vol"
+            android:disableDependentsState="false"
             android:summary="@string/pref_nav_vol_summary"
             android:title="@string/pref_nav_vol" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:dependency="nav_vol"
+            android:key="nav_vol_chapters"
+            android:summary="@string/pref_nav_vol_chapters_summary"
+            android:title="@string/pref_nav_vol_chapters" />
 
         <CheckBoxPreference
             android:defaultValue="true"
-            android:dependency="scrolling"
             android:key="nav_swipe_h"
             android:summary="@string/pref_nav_swipe_h_summary"
             android:title="@string/pref_nav_swipe_h" />
@@ -409,15 +414,15 @@
             android:title="@string/pref_nav_swipe_v" />
 
         <CheckBoxPreference
-            android:defaultValue="true"
-            android:dependency="scrolling"
+            android:defaultValue="false"
+            android:dependency="rikai"
             android:key="nav_tap_h"
             android:summary="@string/pref_nav_tap_h_summary"
             android:title="@string/pref_nav_tap_h" />
 
         <CheckBoxPreference
-            android:defaultValue="true"
-            android:dependency="scrolling"
+            android:defaultValue="false"
+            android:dependency="rikai"
             android:key="nav_tap_v"
             android:summary="@string/pref_nav_tap_v_summary"
             android:title="@string/pref_nav_tap_v" />

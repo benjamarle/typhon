@@ -281,6 +281,8 @@
     <string name="pref_rikai_font_size_summary">Size of the font of the dictionary lookup</string>
     <string name="pref_nav_vol">Enable volume buttons</string>
     <string name="pref_nav_vol_summary">Press volume up/down to change pages.</string>
+    <string name="pref_nav_vol_chapters">Switch chapters with volume</string>
+    <string name="pref_nav_vol_chapters_summary">Press volume up/down to change chapters instead of pages.</string>
     <string name="pref_nav_swipe_h">Enable horizontal swiping</string>
     <string name="pref_nav_swipe_h_summary">Swipe left/right to change pages.</string>
     <string name="pref_nav_swipe_v">Enable vertical swiping</string>

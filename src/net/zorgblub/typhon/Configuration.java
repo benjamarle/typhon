@@ -121,6 +121,8 @@ public class Configuration {
     public static final String KEY_NAV_SWIPE_H = "nav_swipe_h";
     public static final String KEY_NAV_SWIPE_V = "nav_swipe_v";
     public static final String KEY_NAV_VOL = "nav_vol";
+    public static final String KEY_NAV_VOL_CHAPTERS = "nav_vol_chapters";
+
 
     public static final String KEY_EMAIL = "email";
     public static final String KEY_FULL_SCREEN = "full_screen";
@@ -316,18 +318,15 @@ public class Configuration {
     }
 
     public boolean isVerticalTappingEnabled() {
-        return !isScrollingEnabled()
-                && settings.getBoolean(KEY_NAV_TAP_V, true);
+        return !isRikaiEnabled() && settings.getBoolean(KEY_NAV_TAP_V, true);
     }
 
     public boolean isHorizontalTappingEnabled() {
-        return !isScrollingEnabled()
-                && settings.getBoolean(KEY_NAV_TAP_H, true);
+        return !isRikaiEnabled() && settings.getBoolean(KEY_NAV_TAP_H, true);
     }
 
     public boolean isHorizontalSwipeEnabled() {
-        return !isScrollingEnabled()
-                && settings.getBoolean(KEY_NAV_SWIPE_H, true);
+        return settings.getBoolean(KEY_NAV_SWIPE_H, true);
     }
 
     public boolean isVerticalSwipeEnabled() {
@@ -529,7 +528,11 @@ public class Configuration {
     }
 
     public boolean isVolumeKeyNavEnabled() {
-        return !isScrollingEnabled() && settings.getBoolean(KEY_NAV_VOL, false);
+        return settings.getBoolean(KEY_NAV_VOL, false);
+    }
+
+    public boolean isVolumeKeyNavChaptersEnabled() {
+        return settings.getBoolean(KEY_NAV_VOL_CHAPTERS, false);
     }
 
     public boolean isNookUpButtonForward() {
