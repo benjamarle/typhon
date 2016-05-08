@@ -1,8 +1,6 @@
 package org.zorgblub.anki;
 
 public final class AnkiDroidConfig {
-    // Name of deck which will be created in AnkiDroid
-    public static final String DECK_NAME = "Typhon vocabulary";
     // Name of model which will be created in AnkiDroid
     public static final String MODEL_NAME = "org.org.zorgblub.Typhon";
     // Optional space separated list of tags to add to every note

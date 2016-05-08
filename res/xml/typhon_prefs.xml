@@ -14,6 +14,15 @@
             <intent
                 android:action="org.zorgblub.rikai.download.settings.ui.DictionaryConfigActivity"/>
         </Preference>
+        <EditTextPreference
+            android:dialogMessage="@string/pref_anki_deck_name_message"
+            android:dialogTitle="@string/pref_anki_deck_name"
+            android:inputType="text"
+            android:key="anki_deck_name"
+            android:summary="@string/pref_anki_deck_name_summary"
+            android:title="@string/pref_anki_deck_name"
+            android:defaultValue="@string/pref_anki_deck_name_default"/>
+
     </PreferenceCategory>
 
 

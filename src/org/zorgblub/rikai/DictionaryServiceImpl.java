@@ -442,9 +442,10 @@ public class DictionaryServiceImpl implements DictionaryService {
         // Get api instance
         final AddContentApi api = new AddContentApi(context);
         // Look for our deck, add a new one if it doesn't exist
-        Long did = api.findDeckIdByName(AnkiDroidConfig.DECK_NAME);
+        String ankiDeckName = config.getAnkiDeckName();
+        Long did = api.findDeckIdByName(ankiDeckName);
         if (did == null) {
-            did = api.addNewDeck(AnkiDroidConfig.DECK_NAME);
+            did = api.addNewDeck(ankiDeckName);
         }
         // Look for our model, add a new one if it doesn't exist
         Long mid = api.findModelIdByName(AnkiDroidConfig.MODEL_NAME, AnkiDroidConfig.FIELDS.length);

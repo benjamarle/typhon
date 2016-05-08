@@ -67,7 +67,6 @@ import static net.zorgblub.typhon.CustomOPDSSite.fromJSON;
  */
 public class Configuration {
 
-    private static final String KEY_DICTIONARY_SETTINGS = "dictionary_settings";
     private SharedPreferences settings;
     private Context context;
 
@@ -133,6 +132,8 @@ public class Configuration {
     // Rikai
     public static final String KEY_RIKAI = "rikai";
     public static final String KEY_DICTIONARY_VERSION = "dictionary version";
+    private static final String KEY_DICTIONARY_SETTINGS = "dictionary_settings";
+    private static final String KEY_ANKI_DECK_NAME = "anki_deck_name";
 
     public static final String KEY_LAST_FILE = "last_file";
     public static final String KEY_DEVICE_NAME = "device_name";
@@ -575,6 +576,10 @@ public class Configuration {
         return settings.getBoolean(KEY_RIKAI, true);
     }
 
+    public String getAnkiDeckName(){
+        return settings.getString(KEY_ANKI_DECK_NAME, context.getString(R.string.pref_anki_deck_name_default));
+    }
+
     public boolean isScrollingEnabled() {
         return isRikaiEnabled() || settings.getBoolean(KEY_SCROLLING, false);
     }
@@ -705,7 +710,7 @@ public class Configuration {
         Typeface italicFace = basic;
         Typeface biFace = basic;
 
-        if(!skipVariants) {
+        if (!skipVariants) {
             boldFace = Typeface.createFromAsset(context.getAssets(),
                     baseName + "-Bold.otf");
             italicFace = Typeface.createFromAsset(context.getAssets(),
@@ -737,7 +742,7 @@ public class Configuration {
             } else if ("kokoro".equalsIgnoreCase(fontFace)) {
                 fontCache.put(fontFace,
                         loadFamilyFromAssets(fontFace, "Kokoro", true));
-            }else if ("gen_book_bas".equals(fontFace)) {
+            } else if ("gen_book_bas".equals(fontFace)) {
                 fontCache.put(fontFace,
                         loadFamilyFromAssets(fontFace, "GentiumBookBasic", false));
             } else if ("gen_bas".equals(fontFace)) {
