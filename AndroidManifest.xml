@@ -3,7 +3,7 @@
     package="net.zorgblub.typhon"
     android:installLocation="auto"
     android:versionCode="10"
-    android:versionName="1.4.2">
+    android:versionName="1.4.3">
 
     <uses-sdk
         android:minSdkVersion="7"
