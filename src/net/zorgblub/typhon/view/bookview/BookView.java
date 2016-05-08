@@ -58,6 +58,7 @@ import net.zorgblub.typhon.dto.HighLight;
 import net.zorgblub.typhon.dto.SearchResult;
 import net.zorgblub.typhon.dto.TocEntry;
 import net.zorgblub.typhon.epub.ResourceLoader;
+import net.zorgblub.typhon.epub.TyphonHtmlSpanner;
 import net.zorgblub.typhon.epub.TyphonSpine;
 import net.zorgblub.typhon.scheduling.QueueableAsyncTask;
 import net.zorgblub.typhon.scheduling.TaskQueue;
@@ -1806,7 +1807,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
             };
 
             //Private spanner
-            final HtmlSpanner mySpanner = new HtmlSpanner();
+            final HtmlSpanner mySpanner = new TyphonHtmlSpanner();
 
             mySpanner.setAllowStyling( configuration.isAllowStyling() );
             mySpanner.setFontResolver( fontResolver );

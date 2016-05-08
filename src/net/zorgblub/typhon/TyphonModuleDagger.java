@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 
 import net.nightwhistler.htmlspanner.HtmlSpanner;
 import net.zorgblub.typhon.bookmark.BookmarkDatabaseHelper;
+import net.zorgblub.typhon.epub.TyphonHtmlSpanner;
 import net.zorgblub.typhon.library.LibraryDatabaseHelper;
 import net.zorgblub.typhon.library.LibraryService;
 import net.zorgblub.typhon.library.SqlLiteLibraryService;
@@ -128,7 +129,7 @@ public class TyphonModuleDagger {
 
     @Provides
     HtmlSpanner providesHtmlSpanner() {
-        return new HtmlSpanner();
+        return new TyphonHtmlSpanner();
     }
 
     @Provides
