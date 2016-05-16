@@ -3160,6 +3160,11 @@ public class ReadingFragment extends Fragment implements
     }
 
     @Override
+    public void removeMatch() {
+        bookView.setDefinitionHighlight(0, 0);
+    }
+
+    @Override
     public int getHeight() {
         return bookView.getHeight();
     }

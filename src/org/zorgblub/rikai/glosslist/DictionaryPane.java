@@ -37,6 +37,8 @@ public class DictionaryPane extends DraggablePane implements DictionaryServiceIm
 
         void setMatch(SelectedWord word, int length);
 
+        void removeMatch();
+
         int getHeight();
     }
 
@@ -224,5 +226,10 @@ public class DictionaryPane extends DraggablePane implements DictionaryServiceIm
         }
     }
 
-
+    @Override
+    public void conceal() {
+        super.conceal();
+        if(this.bookReader != null)
+            this.bookReader.removeMatch();
+    }
 }
