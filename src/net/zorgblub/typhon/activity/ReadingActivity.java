@@ -26,6 +26,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.ExpandableListView;
 
 import net.zorgblub.typhon.Configuration;
@@ -40,16 +41,11 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import static jedi.functional.FunctionalPrimitives.forEach;
 
 public class ReadingActivity extends TyphonActivity {
 
     private ReadingFragment readingFragment;
-
-    @Inject
-    Configuration config;
 
     private static final Logger LOG = LoggerFactory
             .getLogger("ReadingActivity");
@@ -184,7 +180,13 @@ public class ReadingActivity extends TyphonActivity {
             startActivity(intent);
             finish();
         }
+    }
 
+    @Override
+    protected void requestFeatures() {
+        super.requestFeatures();
+        if(config.isFullScreenEnabled())
+            supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
     }
 
     @Override

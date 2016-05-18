@@ -129,7 +129,6 @@ import net.zorgblub.typhon.view.bookview.TextSelectionCallback;
 import net.zorgblub.ui.ActionModeBuilder;
 import net.zorgblub.ui.DialogFactory;
 
-import org.rikai.dictionary.Dictionary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zorgblub.rikai.DictionaryService;
@@ -308,9 +307,6 @@ public class ReadingFragment extends Fragment implements
     private String language = "en";
 
     private int currentPageNumber = -1;
-
-    private List<Dictionary> dictionaries = new ArrayList<Dictionary>();
-
 
     private enum Orientation {
         HORIZONTAL, VERTICAL
@@ -1232,11 +1228,10 @@ public class ReadingFragment extends Fragment implements
                 activity.getWindow().getDecorView().setSystemUiVisibility(
                         View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                               // | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
             }
             if (config.isDimSystemUI()) {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
@@ -1739,7 +1734,7 @@ public class ReadingFragment extends Fragment implements
 
 
         this.viewSwitcher.clearAnimation();
-        this.viewSwitcher.setBackgroundDrawable(null);
+        this.viewSwitcher.setBackground(null);
         restoreColorProfile();
         displayPageNumber(-1); //Clear page number
 
@@ -2528,7 +2523,6 @@ public class ReadingFragment extends Fragment implements
 
         // Handle item selection
         switch (item.getItemId()) {
-
             case R.id.profile_night:
                 config.setColourProfile(ColourProfile.NIGHT);
                 this.restartActivity();
@@ -2639,10 +2633,15 @@ public class ReadingFragment extends Fragment implements
         } else {
             titleBarLayout.setVisibility(View.VISIBLE);
 
+            View decorView = activity.getWindow().getDecorView();
+            int uiOptions = decorView.getSystemUiVisibility();
+            int newUiOptions = uiOptions;
+
+            newUiOptions &= ~View.SYSTEM_UI_FLAG_FULLSCREEN;
+            //newUiOptions &= ~View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(newUiOptions);
             activity.getSupportActionBar().show();
-            activity.getWindow().addFlags(
-                    WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            dictionaryPane.conceal();
         }
     }
 

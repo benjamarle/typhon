@@ -2,9 +2,9 @@ package net.zorgblub.typhon.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -64,7 +64,8 @@ public abstract class TyphonActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        requestFeatures();
+
         setContentView(getMainLayoutResource());
         ButterKnife.bind(this);
 
@@ -78,7 +79,7 @@ public abstract class TyphonActivity extends AppCompatActivity {
 
         initDrawerItems(mDrawerOptions);
 
-        mToggle = new ActionBarDrawerToggle(this, mDrawer, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+        mToggle = new ActionBarDrawerToggle(this, mDrawer, R.string.drawer_open, R.string.drawer_close) {
             public void onDrawerClosed(View view) {
                 TyphonActivity.this.onDrawerClosed(view);
             }
@@ -92,6 +93,10 @@ public abstract class TyphonActivity extends AppCompatActivity {
         mDrawer.setDrawerListener(mToggle);
 
         onCreateTyphonActivity(savedInstanceState);
+    }
+
+    protected void requestFeatures(){
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
     }
 
     @Override
