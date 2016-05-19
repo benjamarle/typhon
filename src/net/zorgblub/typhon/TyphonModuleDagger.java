@@ -70,10 +70,7 @@ public class TyphonModuleDagger {
         return new Configuration(context);
     }
 
-    //bind( LibraryService.class ).to( SqlLiteLibraryService.class );
-
     @Provides
-    @Singleton
     LibraryService providesLibraryService(LibraryDatabaseHelper helper, Configuration config) {
         return new SqlLiteLibraryService(helper, config);
     }
