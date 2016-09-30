@@ -58,10 +58,10 @@ dependencies {
             [group: 'org.slf4j', name: 'slf4j-android', version: '1.6.1-RC1'],
             [group: 'org.codehaus.jedi', name: 'jedi-core', version: '3.0.5']
     )
-    compile('net.nightwhistler.htmlspanner:htmlspanner:0.5-SNAPSHOT') {
-        exclude module: 'ant'
-        exclude module: 'commons-io'
-    }
+    compile 'net.sourceforge.htmlcleaner:htmlcleaner:2.16'
+    compile 'com.osbcp.cssparser:cssparser:1.5'
+    compile files('libs/htmlspanner-0.5-SNAPSHOT.jar')
+
     compile('nl.siegmann.epublib:epublib-core:3.1') {
         exclude group: 'xmlpull'
         exclude group: 'org.slf4j'

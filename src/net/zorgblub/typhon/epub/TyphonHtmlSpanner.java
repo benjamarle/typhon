@@ -6,6 +6,7 @@ import net.nightwhistler.htmlspanner.FontResolver;
 import net.nightwhistler.htmlspanner.HtmlSpanner;
 import net.nightwhistler.htmlspanner.SpanStack;
 import net.nightwhistler.htmlspanner.TagNodeHandler;
+import net.zorgblub.ui.FuriganaSpan;
 
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
@@ -15,13 +16,11 @@ import org.htmlcleaner.TagNode;
  */
 public class TyphonHtmlSpanner extends HtmlSpanner {
 
-    private boolean skipFurigana = true;
+    private boolean skipFurigana = false;
 
     private boolean addParenthesis = false;
 
     private int furiganaColor = -1;
-
-
 
     public TyphonHtmlSpanner() {
         super();
@@ -35,10 +34,9 @@ public class TyphonHtmlSpanner extends HtmlSpanner {
 
     private void init() {
         registerHandler("rp", new DeleteNodeHandler());
-        if(skipFurigana) {
-            registerHandler("rt", new DeleteNodeHandler());
-        }else{
-            registerHandler("rt", new FuriganaHandler());
+        registerHandler("rt", new DeleteNodeHandler());
+        if(!skipFurigana) {
+            registerHandler("ruby", new FuriganaHandler());
         }
     }
 
@@ -54,11 +52,14 @@ public class TyphonHtmlSpanner extends HtmlSpanner {
         }
     }
 
-    private class FuriganaHandler extends TagNodeHandler{
+    private static class FuriganaHandler extends TagNodeHandler {
 
         @Override
         public void handleTagNode(TagNode node, SpannableStringBuilder builder, int start, int end, SpanStack spanStack) {
-            //TODO
+            TagNode rt = node.findElementByName("rt", false);
+            if(rt != null) {
+                spanStack.pushSpan(new FuriganaSpan(rt.getText().toString()), start, end);
+            }
         }
     }
 

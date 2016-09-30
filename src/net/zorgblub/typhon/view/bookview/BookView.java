@@ -51,6 +51,7 @@ import net.nightwhistler.htmlspanner.HtmlSpanner;
 import net.nightwhistler.htmlspanner.SpanStack;
 import net.nightwhistler.htmlspanner.TagNodeHandler;
 import net.nightwhistler.htmlspanner.handlers.TableHandler;
+import net.nightwhistler.htmlspanner.spans.BackgroundColorMetricAffectingSpan;
 import net.nightwhistler.htmlspanner.spans.CenterSpan;
 import net.zorgblub.typhon.Configuration;
 import net.zorgblub.typhon.Typhon;
@@ -155,7 +156,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 	@Inject
     Provider<ScrollingStrategy> scrollingStrategyProvider;
 
-	private BackgroundColorSpan definitionSpan = null;
+	private BackgroundColorMetricAffectingSpan definitionSpan = null;
 
 	public BookView(Context context, AttributeSet attributes) {
 		super(context, attributes);
@@ -210,7 +211,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 		if(endOffset >= text.length() || startOffset >= text.length())
 			return; // this can happen when clicking at the end of a chapter
 
-			definitionSpan = new BackgroundColorSpan(highlightColor);
+			definitionSpan = new BackgroundColorMetricAffectingSpan(highlightColor);
 			spannable.setSpan(definitionSpan, startOffset, endOffset, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
 
@@ -1536,6 +1537,7 @@ public class BookView extends ScrollView implements TextSelectionActions.Selecte
 
 		public InnerView(Context context, AttributeSet attributes) {
 			super(context, attributes);
+			//setLineSpacing(0, 1.50f);
 		}
 
 		protected void onSizeChanged(int w, int h, int oldw, int oldh) {

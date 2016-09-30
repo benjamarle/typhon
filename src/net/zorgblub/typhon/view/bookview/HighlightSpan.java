@@ -1,8 +1,8 @@
 package net.zorgblub.typhon.view.bookview;
 
 import android.text.TextPaint;
-import android.text.style.BackgroundColorSpan;
 
+import net.nightwhistler.htmlspanner.spans.BackgroundColorMetricAffectingSpan;
 import net.zorgblub.typhon.dto.HighLight;
 
 /**
@@ -12,7 +12,7 @@ import net.zorgblub.typhon.dto.HighLight;
  * Time: 8:46 AM
  * To change this template use File | Settings | File Templates.
  */
-public class HighlightSpan extends BackgroundColorSpan {
+public class HighlightSpan extends BackgroundColorMetricAffectingSpan {
 
     private HighLight highLight;
 
