@@ -25,11 +25,19 @@
 
 -keep class net.nightwhistler.htmlspanner.** {*;}
 -dontwarn net.nightwhistler.htmlspanner.**
-
 -dontwarn android.support.**
 -keep class org.htmlcleaner.** {*;}
+-dontwarn org.jdom2.**
 
 -keep class org.zorgblub.** {*;}
+-keep class net.zorgblub.** {*;}
+-keep class org.rikai.** {*;}
+-keep class fuku.** {*;}
+-keep class com.google.gson.** {*;}
+-keep class com.woxthebox.** {*;}
+-keep class javax.inject.** { *; }
+-keep class javax.annotation.** { *; }
+-keep class jedi.** {*;}
 
 -dontwarn java.awt.**, org.apache.crimson.**, oracle.xml.parser.**, org.apache.xerces.**
 -dontnote android.support.**

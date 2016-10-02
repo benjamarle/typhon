@@ -648,5 +648,7 @@
     <string name="pref_anki_deck_name_message">Please enter the name of the deck you want to use to create vocabulary cards. If it does not exist, the deck will be created.</string>
 
     <string name="pref_anki_deck_name_default">Typhon vocabulary</string>
+    <string name="pref_furigana_summary">Display furigana (experimental)</string>
+    <string name="pref_furigana">Furigana</string>
 
 </resources>

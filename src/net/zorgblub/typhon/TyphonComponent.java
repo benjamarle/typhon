@@ -6,6 +6,7 @@ import net.zorgblub.typhon.activity.ManageSitesActivity;
 import net.zorgblub.typhon.activity.ReadingActivity;
 import net.zorgblub.typhon.activity.TyphonActivity;
 import net.zorgblub.typhon.activity.TyphonPrefsActivity;
+import net.zorgblub.typhon.epub.TyphonHtmlSpanner;
 import net.zorgblub.typhon.fragment.BookDetailsFragment;
 import net.zorgblub.typhon.fragment.CatalogFragment;
 import net.zorgblub.typhon.fragment.FileBrowseFragment;
@@ -60,6 +61,7 @@ public interface TyphonComponent {
 
     void inject(CatalogFragment catalogFragment);
 
+    void inject(TyphonHtmlSpanner typhonHtmlSpanner);
 
     // add inject methos for all target
 }

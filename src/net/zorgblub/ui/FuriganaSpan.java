@@ -36,32 +36,37 @@ public class FuriganaSpan extends ReplacementSpan implements LineHeightSpan.With
 
     private float furiganaDivider = 2f;
     private String furigana;
+    private String kanji;
 
     private int spanLength;
 
-    private float textSize;
-    private float furiganaSize;
+    private float textFontSize;
+    private float furiganaFontSize;
+
+    private int renderedSize = 0;
 
     private float furiganaLetterSpacing;
 
+    private int furiganaColor = Color.BLACK;
+
     private static final boolean DEBUG = false;
 
-    public FuriganaSpan(String furigana) {
+    public FuriganaSpan(String furigana, String kanji) {
         this.furigana = furigana;
+        this.kanji = kanji;
     }
 
     @Override
     public int getSize(Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
-        TextPaint textPaint = null;
-        if(paint instanceof TextPaint){
-            textPaint = (TextPaint) paint;
-        }
+        int spanSize = end - start;
+        if(spanLength > 0)
+            return spanLength * spanSize / this.kanji.length();
 
         float textLength = paint.measureText(text, start, end);
 
-        this.textSize = paint.getTextSize();
-        this.furiganaSize = textSize / furiganaDivider;
-        paint.setTextSize(furiganaSize);
+        this.textFontSize = paint.getTextSize();
+        this.furiganaFontSize = textFontSize / furiganaDivider;
+        paint.setTextSize(furiganaFontSize);
 
         float furiganaLength = paint.measureText(this.furigana);
 
@@ -80,17 +85,32 @@ public class FuriganaSpan extends ReplacementSpan implements LineHeightSpan.With
                 furiganaLetterSpacing = Math.max(MIN_LETTER_SPACING, furiganaLetterSpacing);
             }
 
+            paint.setLetterSpacing(furiganaLetterSpacing);
+            furiganaLength = paint.measureText(this.furigana);
             paint.setLetterSpacing(letterSpacing);
         }
-        paint.setTextSize(textSize);
+        paint.setTextSize(textFontSize);
 
         this.spanLength = (int) Math.max(furiganaLength, textLength);
 
-        return this.spanLength;
+        return spanLength * spanSize / this.kanji.length();
     }
+
+    private float furiganaX;
+    private float furiganaY;
+
+    private int lastStart = -1;
 
     @Override
     public void draw(Canvas canvas, CharSequence text, int start, int end, float x, int top, int y, int bottom, Paint paint) {
+        int startDelta = start - lastStart;
+        if(lastStart > 0 && (startDelta < 0 || renderedSize + startDelta > kanji.length())){
+            lastStart = -1;
+            renderedSize = 0;
+        }
+
+        lastStart = start;
+
         Paint.FontMetrics fontMetrics = paint.getFontMetrics();
 
         if(paint instanceof TextPaint){
@@ -100,7 +120,8 @@ public class FuriganaSpan extends ReplacementSpan implements LineHeightSpan.With
             int color = paint.getColor();
             paint.setColor(textPaint.bgColor);
             paint.setStyle(Paint.Style.FILL);
-            canvas.drawRect(x, top, x + spanLength, bottom, paint);
+            float renderedWidth = paint.measureText(text, start, end);
+            canvas.drawRect(x, top, x + renderedWidth, bottom, paint);
             paint.setStyle(style);
             paint.setColor(color);
         }
@@ -109,20 +130,41 @@ public class FuriganaSpan extends ReplacementSpan implements LineHeightSpan.With
             drawDebug(canvas, x, top, y, bottom, paint);
 
         canvas.drawText(text, start, end, x, y, paint);
+        if(renderedSize == 0){
+            furiganaX = x;
+            furiganaY = y;
+        }
 
-        float textSize = paint.getTextSize();
-        paint.setTextSize(textSize / furiganaDivider);
+
+        renderedSize += end - start;
+
+
+        // Furigana rendering
+        if(renderedSize < kanji.length())
+            return;
+        else
+            renderedSize = 0;
+
+        renderFurigana(canvas, paint, fontMetrics);
+    }
+
+    private void renderFurigana(Canvas canvas, Paint paint, Paint.FontMetrics fontMetrics) {
+        float originalTextSize = paint.getTextSize();
+        int originalColor = paint.getColor();
         float originalLetterSpacing = 0f;
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP){
             originalLetterSpacing = paint.getLetterSpacing();
             paint.setLetterSpacing(furiganaLetterSpacing);
         }
-        canvas.drawText(this.furigana, x, y + fontMetrics.ascent, paint);
+        paint.setTextSize(originalTextSize / furiganaDivider);
+        paint.setColor(furiganaColor);
+        canvas.drawText(this.furigana, furiganaX, furiganaY + fontMetrics.ascent, paint);
+        paint.setColor(originalColor);
+        paint.setTextSize(originalTextSize);
         if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP){
             paint.setLetterSpacing(originalLetterSpacing);
         }
-        paint.setTextSize(textSize);
     }
 
     @NonNull
@@ -158,8 +200,8 @@ public class FuriganaSpan extends ReplacementSpan implements LineHeightSpan.With
     public void chooseHeight(CharSequence text, int start, int end, int spanstartv, int v, Paint.FontMetricsInt fm, TextPaint paint) {
         int ht = fm.descent - fm.ascent;
 
-        int iFuriganaSize = (int) Math.ceil(furiganaSize);
-        int iTextSize = (int) Math.ceil(textSize);
+        int iFuriganaSize = (int) Math.ceil(furiganaFontSize);
+        int iTextSize = (int) Math.ceil(textFontSize);
 
         if(ht > iTextSize + iFuriganaSize) {
             return;
