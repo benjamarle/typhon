@@ -27,7 +27,7 @@ import android.text.style.LineHeightSpan;
 import android.text.style.ReplacementSpan;
 
 /**
- * Created by Benjamin Marlé.
+ *
  */
 public class FuriganaSpan extends ReplacementSpan implements LineHeightSpan.WithDensity {
 
@@ -46,6 +46,11 @@ public class FuriganaSpan extends ReplacementSpan implements LineHeightSpan.With
     private int renderedSize = 0;
 
     private float furiganaLetterSpacing;
+
+    private float furiganaX;
+    private float furiganaY;
+
+    private int lastStart = -1;
 
     private int furiganaColor = Color.BLACK;
 
@@ -95,11 +100,6 @@ public class FuriganaSpan extends ReplacementSpan implements LineHeightSpan.With
 
         return spanLength * spanSize / this.kanji.length();
     }
-
-    private float furiganaX;
-    private float furiganaY;
-
-    private int lastStart = -1;
 
     @Override
     public void draw(Canvas canvas, CharSequence text, int start, int end, float x, int top, int y, int bottom, Paint paint) {
