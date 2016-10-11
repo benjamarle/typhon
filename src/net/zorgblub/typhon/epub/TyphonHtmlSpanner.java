@@ -73,7 +73,7 @@ public class TyphonHtmlSpanner extends HtmlSpanner implements SharedPreferences.
         }
     }
 
-    private static class FuriganaHandler extends TagNodeHandler {
+    private class FuriganaHandler extends TagNodeHandler {
 
         @Override
         public void handleTagNode(TagNode node, SpannableStringBuilder builder, int start, int end, SpanStack spanStack) {
@@ -90,7 +90,7 @@ public class TyphonHtmlSpanner extends HtmlSpanner implements SharedPreferences.
                     if(tagNode.getName().equals("rt")){
                         String furigana = tagNode.getText().toString();
                         int len = kanji.length();
-                        spanStack.pushSpan(new FuriganaSpan(furigana, kanji), start, start += len);
+                        spanStack.pushSpan(new FuriganaSpan(furigana, kanji, configuration.getTextColor()), start, start += len);
                         kanji = null;
                     }
                 }

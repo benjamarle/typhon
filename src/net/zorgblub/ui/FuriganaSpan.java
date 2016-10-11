@@ -61,6 +61,12 @@ public class FuriganaSpan extends ReplacementSpan implements LineHeightSpan.With
         this.kanji = kanji;
     }
 
+    public FuriganaSpan(String furigana, String kanji, int furiganaColor) {
+        this.furigana = furigana;
+        this.kanji = kanji;
+        this.furiganaColor = furiganaColor;
+    }
+
     @Override
     public int getSize(Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
         int spanSize = end - start;
