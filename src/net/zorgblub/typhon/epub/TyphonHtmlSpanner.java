@@ -12,6 +12,7 @@ import net.zorgblub.typhon.Typhon;
 import net.zorgblub.ui.FuriganaSpan;
 
 import org.htmlcleaner.BaseToken;
+import org.htmlcleaner.ContentNode;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 
@@ -77,14 +78,22 @@ public class TyphonHtmlSpanner extends HtmlSpanner implements SharedPreferences.
         @Override
         public void handleTagNode(TagNode node, SpannableStringBuilder builder, int start, int end, SpanStack spanStack) {
             List<? extends BaseToken> allChildren = node.getAllChildren();
-            if (allChildren.isEmpty()) {
-                return;
-            }
-            String text = allChildren.get(0).toString();
 
-            TagNode rt = node.findElementByName("rt", false);
-            if (rt != null) {
-                spanStack.pushSpan(new FuriganaSpan(rt.getText().toString(), text), start, end);
+            String kanji = null;
+            for (BaseToken token:
+                 allChildren) {
+                if(token instanceof ContentNode){
+                    ContentNode contentNode =(ContentNode) token;
+                    kanji = contentNode.getContent();
+                }else if(kanji != null && token instanceof TagNode){
+                    TagNode tagNode = (TagNode) token;
+                    if(tagNode.getName().equals("rt")){
+                        String furigana = tagNode.getText().toString();
+                        int len = kanji.length();
+                        spanStack.pushSpan(new FuriganaSpan(furigana, kanji), start, start += len);
+                        kanji = null;
+                    }
+                }
             }
         }
     }
