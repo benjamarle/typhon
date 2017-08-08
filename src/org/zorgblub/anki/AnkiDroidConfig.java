@@ -2,11 +2,11 @@ package org.zorgblub.anki;
 
 public final class AnkiDroidConfig {
     // Name of model which will be created in AnkiDroid
-    public static final String MODEL_NAME = "org.org.zorgblub.Typhon";
+    public static final String MODEL_NAME = "Typhon";
     // Optional space separated list of tags to add to every note
     public static final String TAGS = "Typhon";
     // List of field names that will be used in AnkiDroid model
-    public static final String[] FIELDS = {"Expression","Reading","Meaning","Sentence", "Reason", "Deinflected"};
+    public static final String[] FIELDS = {"Expression","Reading","Meaning","Sentence", "Reason", "Deinflected", "Pitch"};
     // List of card names that will be used in AnkiDroid (one for each direction of learning)
     public static final String[] CARD_NAMES = {"Japanese>English"};
     // CSS to share between all the cards (optional). User will need to install the NotoSans font by themselves
