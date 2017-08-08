@@ -34,7 +34,10 @@ public class EdictSettings extends DownloadableSettings {
         Deinflector deinflector = null;
         if(deinflect)
             deinflector = new Deinflector(deinflectorSettings.getFile().getAbsolutePath());
+        //getFile() just gives you the absolute path based on the string up above called basePath, the code is public File getFile() {return makePath(this.getBasePath());
+
         DroidWordEdictDictionary droidWordEdictDictionary = new DroidWordEdictDictionary(this.getFile().getAbsolutePath(), deinflector, new DroidSqliteDatabase(), context.getResources());
+        droidWordEdictDictionary.setPitchPath(this.makePath("pitch_accents.sqlite").getAbsolutePath());
         droidWordEdictDictionary.setName(this.getName());
         return droidWordEdictDictionary;
     }
