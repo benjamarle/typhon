@@ -22,16 +22,18 @@ public class DroidEdictEntry extends EdictEntry implements DroidEntry {
 
     private int reasonColor = -8032;
 
+    private int pitchColor = -1;
+
 
     public DroidEdictEntry() {
     }
 
-    public DroidEdictEntry(DeinflectedWord variant, String word, String reading, String gloss, String reason) {
-        super(variant, word, reading, gloss, reason);
+    public DroidEdictEntry(DeinflectedWord variant, String word, String reading, String gloss, String reason, String pitch) {
+        super(variant, word, reading, gloss, reason, pitch);
     }
 
     public DroidEdictEntry(String msg){
-        super(new DeinflectedWord(msg), msg, "", "", "");
+        super(new DeinflectedWord(msg), msg, "", "", "", "");
     }
 
     public int getKanjiColor() {
@@ -54,6 +56,8 @@ public class DroidEdictEntry extends EdictEntry implements DroidEntry {
         return definitionColor;
     }
 
+    public int getPitchColor() { return pitchColor; }
+
     public void setDefinitionColor(int definitionColor) {
         this.definitionColor = definitionColor;
     }
@@ -65,6 +69,8 @@ public class DroidEdictEntry extends EdictEntry implements DroidEntry {
     public void setReasonColor(int reasonColor) {
         this.reasonColor = reasonColor;
     }
+
+    public void setPitchColor(int pitchColor) { this.pitchColor = pitchColor; }
 
     @Override
     public int getBackgroundColor() {
@@ -80,6 +86,11 @@ public class DroidEdictEntry extends EdictEntry implements DroidEntry {
         if (this.getReading().length() != 0) {
             result.append(" [").append(wrapColor(kanaColor, this.getReading())).append("]");
         }
+
+        if(this.getPitch().length() != 0) {
+            result.append("「").append(wrapColor(pitchColor, this.getPitch())).append("」");
+        }
+
         if (this.getReason().length() != 0) {
             result.append(" (").append(wrapColor(reasonColor, this.getReason())).append(")");
         }

@@ -54,13 +54,13 @@ public abstract class DictionarySettings {
         return appendToFile(parentDir, filename);
     }
 
-    private static File appendToFile(String baseName, String fileName) {
-        return new File(baseName.endsWith("/") ? baseName + fileName : baseName + "/" + fileName);
-    }
-
     public static File getDataPath() {
         String dataPath = context.getExternalFilesDir(null).getAbsolutePath();
         return appendToFile(dataPath, DATA_PATH);
+    }
+
+    private static File appendToFile(String baseName, String fileName) {
+        return new File(baseName.endsWith("/") ? baseName + fileName : baseName + "/" + fileName);
     }
 
     public boolean isDownloadable(){
