@@ -468,7 +468,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
         sentence = sentence.replace(originalWord, "<span class=\"emph\">" + originalWord + "</span>");
 
-        String flds[] = {originalWord, entry.getReading(), entry.getGloss(), sentence, entry.getReason(), entry.getWord()};
+        String flds[] = {originalWord, entry.getReading(), entry.getGloss(), sentence, entry.getReason(), entry.getWord(), entry.getPitch()};
 
 
         // Add a new note using the current field map

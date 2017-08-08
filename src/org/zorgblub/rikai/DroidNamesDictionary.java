@@ -36,8 +36,8 @@ public class DroidNamesDictionary extends NamesDictionary {
     }
 
     @Override
-    protected EdictEntry makeEntry(DeinflectedWord variant, String kanji, String kana, String entry, String reason) {
-        DroidEdictEntry droidEdictEntry = new DroidEdictEntry(variant, kanji, kana, entry, reason);
+    protected EdictEntry makeEntry(DeinflectedWord variant, String kanji, String kana, String entry, String reason, String pitch) {
+        DroidEdictEntry droidEdictEntry = new DroidEdictEntry(variant, kanji, kana, entry, reason, pitch);
         droidEdictEntry.setKanjiColor(kanjiColor);
         droidEdictEntry.setKanaColor(kanaColor);
         droidEdictEntry.setDefinitionColor(definitionColor);
