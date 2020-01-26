@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="net.zorgblub.typhonkai"
+    android:installLocation="auto">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name="net.zorgblub.typhonkai.Typhon"
+        android:description="@string/app_desc"
+        android:icon="@drawable/page_turner"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+
+        <uses-library android:name="org.apache.http.legacy" android:required="true"/>
+
+        <receiver android:name="net.zorgblub.typhonkai.activity.MediaButtonReceiver">
+            <intent-filter android:priority="10000">
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="net.zorgblub.typhonkai.activity.ReadingActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:mimeType="application/epub+zip" />
+                <data android:pathPattern=".*\\.epub" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="net.zorgblub.typhonkai.activity.TyphonPrefsActivity"
+            android:label="@string/prefs" />
+        <activity
+            android:name="net.zorgblub.typhonkai.activity.LibraryActivity"
+            android:label="@string/library" />
+        <activity
+            android:name="net.zorgblub.typhonkai.activity.FileBrowseActivity"
+            android:label="@string/browse" />
+
+        <activity
+            android:name="net.zorgblub.typhonkai.activity.CatalogBookDetailsActivity"
+            android:label="@string/book_details">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="epub" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="net.zorgblub.typhonkai.activity.CatalogActivity"
+            android:label="@string/download" />
+
+        <activity
+            android:name="net.zorgblub.typhonkai.activity.ManageSitesActivity"
+            android:label="@string/pref_manage_sites">
+
+            <intent-filter>
+                <action android:name="net.zorgblub.typhon.activity.ManageSitesActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="org.acra.CrashReportDialog"
+            android:excludeFromRecents="true"
+            android:finishOnTaskLaunch="true"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.Dialog" />
+
+        <activity android:name="org.zorgblub.rikai.download.settings.ui.DictionaryConfigActivity">
+            <intent-filter>
+                <action android:name="org.zorgblub.rikai.download.settings.ui.DictionaryConfigActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
