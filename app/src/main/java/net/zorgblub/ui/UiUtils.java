@@ -1,7 +1,7 @@
 package net.zorgblub.ui;
 
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
+import androidx.appcompat.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;

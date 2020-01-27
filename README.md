@@ -15,7 +15,7 @@ Benjamin Marlé benjamarle@gmail.com
 
 Typhon改
 -------------------
-This fork revises the code base to android 28, fixing some UI bugs (Notably fixes unused space at the bottom of tall displays)
+Revise code base to androidx api29, fixing some UI bugs (Notably fixes unused space at the bottom of tall displays)
 
 Update anki integration so it doesn't crash on android 26+
 
@@ -35,7 +35,7 @@ Typhon uses Java 8 lambda's through usage of the RetroLambda library.
 
 # Install the Android SDK 
 
-This fork was created and tested with Android Studio 4.0
+Typhon改 was created and tested with Android Studio 4.0
 
 1.   Download at http://developer.android.com/sdk/index.html
 2.   Unzip

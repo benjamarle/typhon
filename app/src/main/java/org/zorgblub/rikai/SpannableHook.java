@@ -10,7 +10,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;

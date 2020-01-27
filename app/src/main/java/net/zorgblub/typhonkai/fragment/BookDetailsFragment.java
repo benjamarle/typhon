@@ -28,9 +28,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.core.app.NotificationCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -114,7 +114,7 @@ public class BookDetailsFragment extends Fragment implements LoadFeedCallback {
     private Feed feed;
 
     @Override
-    public void onCreate(@android.support.annotation.Nullable Bundle savedInstanceState) {
+    public void onCreate(@androidx.annotation.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Typhon.getComponent().inject(this);
     }

@@ -3,7 +3,7 @@ package org.zorgblub.rikai.glosslist;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.v4.view.PagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;

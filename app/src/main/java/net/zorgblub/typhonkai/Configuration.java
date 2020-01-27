@@ -28,7 +28,7 @@ import android.os.Build;
 import android.os.Debug;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 
 import net.nightwhistler.htmlspanner.FontFamily;
 import net.zorgblub.typhonkai.activity.ReadingActivity;
@@ -51,7 +51,7 @@ import java.util.Map;
 
 import jedi.option.Option;
 
-import static java.util.Arrays.asList;
+import static jedi.functional.Coercions.asList;
 import static jedi.functional.FunctionalPrimitives.firstOption;
 import static jedi.functional.FunctionalPrimitives.isEmpty;
 import static jedi.functional.FunctionalPrimitives.select;

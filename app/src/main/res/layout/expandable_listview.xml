@@ -25,13 +25,13 @@ Date: 2013 04 26
         android:layout_height="wrap_content"
         >
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/control_background"
         >
-        <android.support.v4.view.PagerTabStrip
+        <androidx.viewpager.widget.PagerTabStrip
             android:id="@+id/pager_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@ Date: 2013 04 26
             android:paddingTop="4dp"
             android:textColor="#aaffffff"
             android:background="@color/opaque_black"/>
-    </android.support.v4.view.ViewPager>
+    </androidx.viewpager.widget.ViewPager>
     <!--  android:fadeScrollbars="false" always shows scrollbar -->
 
     <Button android:id="@+id/gloss_close"

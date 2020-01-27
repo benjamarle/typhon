@@ -19,7 +19,7 @@
 package net.zorgblub.typhonkai.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import net.zorgblub.typhonkai.Configuration;
 import net.zorgblub.typhonkai.R;

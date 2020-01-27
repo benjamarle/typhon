@@ -5,7 +5,7 @@
           android:icon="@drawable/zoom"
           android:title="@string/search_books"
           android:orderInCategory="0"
-          android:actionViewClass="android.support.v7.widget.SearchView"
+          android:actionViewClass="androidx.appcompat.widget.SearchView"
           app:showAsAction="ifRoom|collapseActionView" />
     
 </menu>
