@@ -422,53 +422,53 @@ public class DictionaryServiceImpl implements DictionaryService {
         if (!(abstractEntry instanceof EdictEntry))
             return false;
 
-        if (AddContentApi.getAnkiDroidPackageName(context) == null) {
+        if (!AnkiDroidHelper.isApiAvailable(context)) {
             // AnkiDroid not installed
             fireOnMessage(R.string.anki_not_installed);
             return false;
         }
 
-
         EdictEntry entry = (EdictEntry) abstractEntry;
 
-        // Get api instance
-        final AnkiDroidHelper ankiHelper = new AnkiDroidHelper(context);
-        final AddContentApi api = ankiHelper.getApi();
-
-        // Look for our deck, add a new one if it doesn't exist
-        String ankiDeckName = config.getAnkiDeckName();
-        Long did = ankiHelper.findDeckIdByName(ankiDeckName);
-        if (did == null) {
-            did = api.addNewDeck(ankiDeckName);
-            ankiHelper.storeDeckReference(ankiDeckName, did);
-        }
-        // Look for our model, add a new one if it doesn't exist
-        Long mid = ankiHelper.findModelIdByName(AnkiDroidConfig.MODEL_NAME, AnkiDroidConfig.FIELDS.length);
-        if (mid == null) {
-            mid = api.addNewCustomModel(AnkiDroidConfig.MODEL_NAME, AnkiDroidConfig.FIELDS,
-                    AnkiDroidConfig.CARD_NAMES, AnkiDroidConfig.QFMT, AnkiDroidConfig.AFMT,
-                    AnkiDroidConfig.CSS, did, null);
-            ankiHelper.storeModelReference(AnkiDroidConfig.MODEL_NAME, mid);
-        }
-
-        // Double-check that everything was added correctly
-        String[] fieldNames = api.getFieldList(mid);
-        if (mid == null || did == null || fieldNames == null) {
-            fireOnMessage(R.string.anki_card_add_fail);
-            return false;
-        }
-
-
-        String sentence = selectedWord.getContextSentence().toString();
-        String originalWord = entry.getOriginalWord();
-
-        sentence = sentence.replace(originalWord, "<span class=\"emph\">" + originalWord + "</span>");
-
-        String[] flds = {originalWord, entry.getReading(), entry.getGloss(), sentence, entry.getReason(), entry.getWord()};
-
-
-        // Add a new note using the current field map
         try {
+            // Get api instance
+            final AnkiDroidHelper ankiHelper = new AnkiDroidHelper(context);
+            final AddContentApi api = ankiHelper.getApi();
+
+            // Look for our deck, add a new one if it doesn't exist
+            String ankiDeckName = config.getAnkiDeckName();
+            Long did = ankiHelper.findDeckIdByName(ankiDeckName);
+            if (did == null) {
+                did = api.addNewDeck(ankiDeckName);
+                ankiHelper.storeDeckReference(ankiDeckName, did);
+            }
+            // Look for our model, add a new one if it doesn't exist
+            Long mid = ankiHelper.findModelIdByName(AnkiDroidConfig.MODEL_NAME, AnkiDroidConfig.FIELDS.length);
+            if (mid == null) {
+                mid = api.addNewCustomModel(AnkiDroidConfig.MODEL_NAME, AnkiDroidConfig.FIELDS,
+                        AnkiDroidConfig.CARD_NAMES, AnkiDroidConfig.QFMT, AnkiDroidConfig.AFMT,
+                        AnkiDroidConfig.CSS, did, null);
+                ankiHelper.storeModelReference(AnkiDroidConfig.MODEL_NAME, mid);
+            }
+
+            // Double-check that everything was added correctly
+            String[] fieldNames = api.getFieldList(mid);
+            if (mid == null || did == null || fieldNames == null) {
+                fireOnMessage(R.string.anki_card_add_fail);
+                return false;
+            }
+
+
+            String sentence = selectedWord.getContextSentence().toString();
+            String originalWord = entry.getOriginalWord();
+
+            sentence = sentence.replace(originalWord, "<span class=\"emph\">" + originalWord + "</span>");
+
+            String[] flds = {originalWord, entry.getReading(), entry.getGloss(), sentence, entry.getReason(), entry.getWord()};
+
+
+            // Add a new note using the current field map
+
             // Only add item if there aren't any duplicates
 
             Set<String> tags = new HashSet<>();
