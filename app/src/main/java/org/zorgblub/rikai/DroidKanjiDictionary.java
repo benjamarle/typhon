@@ -2,7 +2,7 @@ package org.zorgblub.rikai;
 
 import android.content.res.Resources;
 
-import net.zorgblub.typhonkai.R;
+import net.zorgblub.typhon.R;
 
 import org.rikai.dictionary.kanji.KanjiDictionary;
 import org.rikai.dictionary.kanji.KanjiEntry;

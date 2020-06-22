@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import net.zorgblub.typhonkai.R;
-import net.zorgblub.typhonkai.activity.FileBrowseActivity;
+import net.zorgblub.typhon.R;
+import net.zorgblub.typhon.activity.FileBrowseActivity;
 
 import org.rikai.dictionary.Dictionary;
 import org.zorgblub.rikai.download.settings.EpwingSettings;

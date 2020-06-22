@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.CheckBox;
 
-import net.zorgblub.typhonkai.R;
+import net.zorgblub.typhon.R;
 
 import org.zorgblub.rikai.download.settings.EdictSettings;
 

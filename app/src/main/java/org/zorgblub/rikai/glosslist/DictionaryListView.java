@@ -7,8 +7,8 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.ListAdapter;
 
-import net.zorgblub.typhonkai.Configuration;
-import net.zorgblub.typhonkai.R;
+import net.zorgblub.typhon.Configuration;
+import net.zorgblub.typhon.R;
 
 import org.rikai.dictionary.Entries;
 import org.zorgblub.rikai.DroidEntry;

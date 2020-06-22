@@ -83,8 +83,8 @@ public class DialogFactory {
 	public AlertDialog buildAboutDialog(Context context) {
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setTitle(net.zorgblub.typhonkai.R.string.about);
-		builder.setIcon(net.zorgblub.typhonkai.R.drawable.page_turner);
+		builder.setTitle(net.zorgblub.typhon.R.string.about);
+		builder.setIcon(net.zorgblub.typhon.R.drawable.page_turner);
 
 		String version = "";
 		try {
@@ -94,8 +94,8 @@ public class DialogFactory {
 			// Huh? Really?
 		}
 
-		String html = "<h2>" + context.getString(net.zorgblub.typhonkai.R.string.app_name) + " " +  version + "</h2>";
-		html += context.getString(net.zorgblub.typhonkai.R.string.about_gpl);
+		String html = "<h2>" + context.getString(net.zorgblub.typhon.R.string.app_name) + " " +  version + "</h2>";
+		html += context.getString(net.zorgblub.typhon.R.string.about_gpl);
 		html += "<br/><a href='http://pageturner-reader.org'>http://pageturner-reader.org</a>";
 
 		builder.setMessage( Html.fromHtml(html));

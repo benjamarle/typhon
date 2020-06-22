@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 
-import net.zorgblub.typhonkai.R;
+import net.zorgblub.typhon.R;
 
 import org.rikai.dictionary.wordnet.Lang;
 import org.zorgblub.rikai.download.settings.WordnetSettings;

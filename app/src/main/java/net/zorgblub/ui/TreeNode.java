@@ -7,7 +7,7 @@ import jedi.option.Option;
 
 import static java.util.Collections.unmodifiableList;
 import static jedi.functional.FunctionalPrimitives.forEach;
-import static net.zorgblub.typhonkai.CollectionUtil.listElement;
+import static net.zorgblub.typhon.CollectionUtil.listElement;
 
 /**
  * Created by alex on 11/9/14.

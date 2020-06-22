@@ -26,7 +26,7 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import net.zorgblub.typhonkai.R;
+import net.zorgblub.typhon.R;
 
 import java.io.IOException;
 import java.util.Set;

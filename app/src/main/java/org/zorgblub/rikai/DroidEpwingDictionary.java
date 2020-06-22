@@ -1,6 +1,6 @@
 package org.zorgblub.rikai;
 
-import net.zorgblub.typhonkai.Typhon;
+import net.zorgblub.typhon.Typhon;
 
 import org.rikai.dictionary.epwing.EpwingDictionary;
 import org.rikai.dictionary.epwing.EpwingEntry;

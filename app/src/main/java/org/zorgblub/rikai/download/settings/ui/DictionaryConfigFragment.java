@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.woxthebox.draglistview.DragItem;
 import com.woxthebox.draglistview.DragListView;
 
-import net.zorgblub.typhonkai.R;
+import net.zorgblub.typhon.R;
 
 import org.zorgblub.rikai.DictionaryService;
 import org.zorgblub.rikai.DictionaryServiceImpl;

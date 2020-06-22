@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
 
-import net.zorgblub.typhonkai.R;
-import net.zorgblub.typhonkai.view.bookview.SelectedWord;
+import net.zorgblub.typhon.R;
+import net.zorgblub.typhon.view.bookview.SelectedWord;
 
 import org.rikai.dictionary.Dictionary;
 import org.rikai.dictionary.Entries;

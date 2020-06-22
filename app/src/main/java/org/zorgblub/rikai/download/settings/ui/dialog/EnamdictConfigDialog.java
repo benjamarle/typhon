@@ -2,7 +2,7 @@ package org.zorgblub.rikai.download.settings.ui.dialog;
 
 import android.content.Context;
 
-import net.zorgblub.typhonkai.R;
+import net.zorgblub.typhon.R;
 
 import org.zorgblub.rikai.download.settings.EnamdictSettings;
 

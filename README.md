@@ -13,7 +13,7 @@ Typhon is licensed under the GPL-V3 license.
 
 Benjamin Marlé benjamarle@gmail.com
 
-Typhon改
+Typhon
 -------------------
 Revise code base to androidx api29, fixing some UI bugs (Notably fixes unused space at the bottom of tall displays)
 
@@ -35,7 +35,7 @@ Typhon uses Java 8 lambda's through usage of the RetroLambda library.
 
 # Install the Android SDK 
 
-Typhon改 was created and tested with Android Studio 4.0
+Typhon was created and tested with Android Studio 4.0
 
 1.   Download at http://developer.android.com/sdk/index.html
 2.   Unzip

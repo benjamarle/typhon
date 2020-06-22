@@ -3,8 +3,8 @@ package org.zorgblub.rikai.download.settings.ui;
 import android.content.Intent;
 import android.os.Bundle;
 
-import net.zorgblub.typhonkai.R;
-import net.zorgblub.typhonkai.activity.TyphonActivity;
+import net.zorgblub.typhon.R;
+import net.zorgblub.typhon.activity.TyphonActivity;
 
 /**
  * Created by Benjamin on 26/03/2016.

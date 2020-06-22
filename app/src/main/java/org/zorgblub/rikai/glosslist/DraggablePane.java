@@ -32,7 +32,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import net.zorgblub.typhonkai.R;
+import net.zorgblub.typhon.R;
 
 public class DraggablePane extends RelativeLayout implements View.OnTouchListener {
 

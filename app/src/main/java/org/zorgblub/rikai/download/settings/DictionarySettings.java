@@ -3,7 +3,7 @@ package org.zorgblub.rikai.download.settings;
 import android.content.Context;
 import android.os.Environment;
 
-import net.zorgblub.typhonkai.Typhon;
+import net.zorgblub.typhon.Typhon;
 
 import org.rikai.dictionary.Dictionary;
 import org.zorgblub.rikai.download.settings.ui.dialog.DictionaryConfigDialog;

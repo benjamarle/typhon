@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
 
-        <net.zorgblub.typhonkai.view.bookview.BookView
+        <net.zorgblub.typhon.view.bookview.BookView
             android:id="@+id/bookView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
@@ -21,12 +21,12 @@
 
             <view
                 android:id="@+id/innerView"
-                class="net.zorgblub.typhonkai.view.bookview.BookView$InnerView"
+                class="net.zorgblub.typhon.view.bookview.BookView$InnerView"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1" />
-        </net.zorgblub.typhonkai.view.bookview.BookView>
-        <net.zorgblub.typhonkai.view.AnimatedImageView
+        </net.zorgblub.typhon.view.bookview.BookView>
+        <net.zorgblub.typhon.view.AnimatedImageView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/dummyView" />

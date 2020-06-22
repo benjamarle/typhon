@@ -13,7 +13,7 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import net.zorgblub.typhonkai.R;
+import net.zorgblub.typhon.R;
 
 public class AmbilWarnaDialog {
 	public interface OnAmbilWarnaListener {

@@ -16,11 +16,11 @@ import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.ichi2.anki.api.AddContentApi;
 
-import net.zorgblub.typhonkai.AnkiDroidHelper;
-import net.zorgblub.typhonkai.Configuration;
-import net.zorgblub.typhonkai.R;
-import net.zorgblub.typhonkai.Typhon;
-import net.zorgblub.typhonkai.view.bookview.SelectedWord;
+import net.zorgblub.typhon.AnkiDroidHelper;
+import net.zorgblub.typhon.Configuration;
+import net.zorgblub.typhon.R;
+import net.zorgblub.typhon.Typhon;
+import net.zorgblub.typhon.view.bookview.SelectedWord;
 
 import org.rikai.dictionary.AbstractEntry;
 import org.rikai.dictionary.Dictionary;

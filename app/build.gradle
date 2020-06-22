@@ -6,7 +6,7 @@ android {
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
-        applicationId "net.zorgblub.typhonkai"
+        applicationId "net.zorgblub.typhon"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 13

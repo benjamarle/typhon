@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import net.zorgblub.typhonkai.R;
-import net.zorgblub.typhonkai.view.bookview.SelectedWord;
+import net.zorgblub.typhon.R;
+import net.zorgblub.typhon.view.bookview.SelectedWord;
 
 import org.rikai.dictionary.AbstractEntry;
 import org.rikai.dictionary.Dictionary;

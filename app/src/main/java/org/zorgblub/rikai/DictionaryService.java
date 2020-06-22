@@ -3,7 +3,7 @@ package org.zorgblub.rikai;
 import android.content.Context;
 import android.util.Pair;
 
-import net.zorgblub.typhonkai.view.bookview.SelectedWord;
+import net.zorgblub.typhon.view.bookview.SelectedWord;
 
 import org.rikai.dictionary.AbstractEntry;
 import org.rikai.dictionary.Dictionary;

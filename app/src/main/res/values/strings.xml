@@ -2,7 +2,7 @@
 <resources>
 
     
-    <string name="app_name" translatable="false">Typhon改</string>
+    <string name="app_name" translatable="false">Typhon</string>
     
     <string name="title">Title</string>
     <string name="app_desc">TypHon is an e-book reader that allows you to use a Rikai-like dictionary lookup for Japanese.</string>

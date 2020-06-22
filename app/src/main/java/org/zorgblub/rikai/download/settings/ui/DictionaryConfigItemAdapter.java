@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.woxthebox.draglistview.DragItemAdapter;
 
-import net.zorgblub.typhonkai.R;
+import net.zorgblub.typhon.R;
 
 import org.zorgblub.rikai.download.settings.DictionarySettings;
 import org.zorgblub.rikai.download.settings.DictionaryType;

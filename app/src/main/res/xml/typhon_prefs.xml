@@ -141,7 +141,7 @@
         android:key="visual_prefs"
         android:title="@string/pref_visual_settings">
 
-        <net.zorgblub.typhonkai.prefs.LanguageSwitchPreference
+        <net.zorgblub.typhon.prefs.LanguageSwitchPreference
             android:defaultValue="default"
             android:entries="@array/supported_languagesLabels"
             android:entryValues="@array/supported_languages"
@@ -296,50 +296,50 @@
 
     <PreferenceCategory android:title="@string/pref_colour_settings">
 
-        <net.zorgblub.typhonkai.prefs.ColourChooserPref
+        <net.zorgblub.typhon.prefs.ColourChooserPref
             android:defaultValue="-16777216"
             android:key="day_text"
             android:summary="@string/pref_day_text_summary"
             android:title="@string/pref_day_text" />
 
-        <net.zorgblub.typhonkai.prefs.ColourChooserPref
+        <net.zorgblub.typhon.prefs.ColourChooserPref
             android:defaultValue="-256"
             android:key="day_highlight"
             android:summary="@string/pref_day_highlight_summary"
             android:title="@string/pref_day_highlight" />
 
-        <net.zorgblub.typhonkai.prefs.ColourChooserPref
+        <net.zorgblub.typhon.prefs.ColourChooserPref
             android:defaultValue="-1"
             android:key="day_bg"
             android:summary="@string/pref_day_bg_summary"
             android:title="@string/pref_day_bg" />
 
-        <net.zorgblub.typhonkai.prefs.ColourChooserPref
+        <net.zorgblub.typhon.prefs.ColourChooserPref
             android:defaultValue="-16776961"
             android:key="day_link"
             android:summary="@string/pref_day_link_summary"
             android:title="@string/pref_day_link" />
 
 
-        <net.zorgblub.typhonkai.prefs.ColourChooserPref
+        <net.zorgblub.typhon.prefs.ColourChooserPref
             android:defaultValue="-7829368"
             android:key="night_text"
             android:summary="@string/pref_night_text_summary"
             android:title="@string/pref_night_text" />
 
-        <net.zorgblub.typhonkai.prefs.ColourChooserPref
+        <net.zorgblub.typhon.prefs.ColourChooserPref
             android:defaultValue="-256"
             android:key="night_highlight"
             android:summary="@string/pref_night_highlight_summary"
             android:title="@string/pref_night_highlight" />
 
-        <net.zorgblub.typhonkai.prefs.ColourChooserPref
+        <net.zorgblub.typhon.prefs.ColourChooserPref
             android:defaultValue="-16777216"
             android:key="night_bg"
             android:summary="@string/pref_night_bg_summary"
             android:title="@string/pref_night_bg" />
 
-        <net.zorgblub.typhonkai.prefs.ColourChooserPref
+        <net.zorgblub.typhon.prefs.ColourChooserPref
             android:defaultValue="-23296"
             android:key="night_link"
             android:summary="@string/pref_night_link_summary"
