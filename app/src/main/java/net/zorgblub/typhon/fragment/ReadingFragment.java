@@ -2552,9 +2552,9 @@ public class ReadingFragment extends Fragment implements
                 launchFileManager();
                 return true;
 
-            case R.id.rolling_blind:
+            /*case R.id.rolling_blind:
                 startAutoScroll();
-                return true;
+                return true;*/
 
             case R.id.text_to_speech:
                 startTextToSpeech();
