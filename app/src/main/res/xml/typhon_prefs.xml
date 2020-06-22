@@ -9,6 +9,11 @@
             android:key="rikai"
             android:summary="@string/pref_rikai_summary"
             android:title="@string/pref_rikai" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="furigana"
+            android:summary="@string/pref_furigana_summary"
+            android:title="@string/pref_furigana" />
         <Preference android:title="@string/dictionary_settings"
             android:summary="@string/dictionary_settings_summary">
             <intent

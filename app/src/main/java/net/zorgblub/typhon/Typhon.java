@@ -22,8 +22,6 @@ package net.zorgblub.typhon;
 import android.app.Application;
 import android.content.Context;
 
-import org.acra.ACRA;
-
 //@ReportsCrashes(formKey = "", // will not be used
 //        formUri = "http://acra.pageturner-reader.org/crash",
 //        customReportContent = { REPORT_ID, APP_VERSION_CODE, APP_VERSION_NAME, ANDROID_VERSION, BRAND, PHONE_MODEL, BUILD, PRODUCT, STACK_TRACE, LOGCAT, PACKAGE_NAME }
@@ -46,11 +44,11 @@ public class Typhon extends Application {
         if (Configuration.IS_EINK_DEVICE) { // e-ink looks better with dark-on-light (esp. Nook Touch where theming breaks light-on-dark
             setTheme(R.style.Theme_AppCompat_Light);
 
-            //This is a work-around because unit-tests call ACRA more than once.
-            if (!acraInitDone) {
-                ACRA.init(this);
-                acraInitDone = true;
-            }
+//            //This is a work-around because unit-tests call ACRA more than once.
+//            if (!acraInitDone) {
+//                ACRA.init(this);
+//                acraInitDone = true;
+//            }
 
         }
 

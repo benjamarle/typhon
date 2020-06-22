@@ -132,8 +132,9 @@ public class Configuration {
     // Rikai
     public static final String KEY_RIKAI = "rikai";
     public static final String KEY_DICTIONARY_VERSION = "dictionary version";
-    private static final String KEY_DICTIONARY_SETTINGS = "dictionary_settings";
-    private static final String KEY_ANKI_DECK_NAME = "anki_deck_name";
+    public static final String KEY_DICTIONARY_SETTINGS = "dictionary_settings";
+    public static final String KEY_ANKI_DECK_NAME = "anki_deck_name";
+    public static final String KEY_FURIGANA = "furigana";
 
     public static final String KEY_LAST_FILE = "last_file";
     public static final String KEY_DEVICE_NAME = "device_name";
@@ -576,7 +577,11 @@ public class Configuration {
         return settings.getBoolean(KEY_RIKAI, true);
     }
 
-    public String getAnkiDeckName(){
+    public boolean isFuriganaEnabled() {
+        return settings.getBoolean(KEY_FURIGANA, true);
+    }
+
+    public String getAnkiDeckName() {
         return settings.getString(KEY_ANKI_DECK_NAME, context.getString(R.string.pref_anki_deck_name_default));
     }
 
@@ -1030,5 +1035,13 @@ public class Configuration {
         long used = Debug.getNativeHeapAllocatedSize();
 
         return (double) used / (double) max;
+    }
+
+    public void registerOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        settings.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    public void unregisterOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        settings.unregisterOnSharedPreferenceChangeListener(listener);
     }
 }

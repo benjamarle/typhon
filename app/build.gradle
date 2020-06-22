@@ -40,10 +40,9 @@ dependencies {
     implementation 'org.slf4j:slf4j-android:1.6.1-RC1'
     implementation 'org.codehaus.jedi:jedi-core:3.0.5'
 
-    implementation('net.nightwhistler.htmlspanner:htmlspanner:0.5-SNAPSHOT') {
-        exclude module: 'ant'
-        exclude module: 'commons-io'
-    }
+    implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.16'
+    implementation 'com.osbcp:cssparser:1.5'
+    compile files('libs/htmlspanner-furigana-1.0.jar')
 
     implementation('nl.siegmann.epublib:epublib-core:3.1') {
         exclude group: 'xmlpull'

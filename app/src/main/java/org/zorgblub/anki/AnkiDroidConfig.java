@@ -1,6 +1,7 @@
 package org.zorgblub.anki;
 
-public final class AnkiDroidConfig {
+public final class
+AnkiDroidConfig {
     // Name of model which will be created in AnkiDroid
     public static final String MODEL_NAME = "org.org.zorgblub.Typhon";
     // Optional space separated list of tags to add to every note
