@@ -435,8 +435,7 @@
     <string name="dm_dict_failed_to_load">Failed to load the dictionary. Do you want to delete the
         dictionary data and re-download the dictionary?
     </string>
-    <string name="dm_dict_alternate_download_address">If you have trouble downloading the
-        dictionary, go to https://bitbucket.org/biboomig/typhon in the issue section for support.\nSorry for the inconvenience.
+    <string name="dm_dict_alternate_download_address">There was an error while downloading the file. If the problem persists, go to https://github.com/benjamarle/typhon in the issue section for support.\nSorry for the inconvenience.
     </string>
 
     <!-- option menu text -->
