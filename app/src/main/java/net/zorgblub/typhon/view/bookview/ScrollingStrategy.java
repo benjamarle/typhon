@@ -169,10 +169,14 @@ public class ScrollingStrategy implements PageChangeStrategy {
 
         for ( final HighLight highLight: highLights ) {
             if ( highLight.getIndex() == bookView.getIndex() ) {
+				try {
+					builder.setSpan(new HighlightSpan(highLight),
+							highLight.getStart(), highLight.getEnd(),
+							Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                builder.setSpan(new HighlightSpan(highLight),
-                        highLight.getStart(), highLight.getEnd(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				}catch(IndexOutOfBoundsException e){
+					// Drop highlight
+				}
             }
         }
     }
