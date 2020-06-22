@@ -210,7 +210,7 @@ public class LibraryFragment extends Fragment implements ImportCallback {
         setHasOptionsMenu(true);
         this.bookCaseView.setOnScrollListener(new CoverScrollListener());
         this.listView.setOnScrollListener(new CoverScrollListener());
-
+        context = getActivity();
         if (config.getLibraryView() == LibraryView.BOOKCASE) {
 
             this.bookAdapter = new BookCaseAdapter();
@@ -224,7 +224,7 @@ public class LibraryFragment extends Fragment implements ImportCallback {
             this.listView.setAdapter(bookAdapter);
         }
 
-        context = getActivity();
+        
 
         this.waitDialog = new ProgressDialog(context);
         this.waitDialog.setOwnerActivity(getActivity());
