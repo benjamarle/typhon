@@ -98,12 +98,12 @@ public class TextSelectionActions implements ActionMode.Callback {
                 ).setIcon(R.drawable.abc_ic_menu_share_mtrl_alpha);
 
 
-        menu.add(R.string.highlight)
+        /*menu.add(R.string.highlight)
                 .setOnMenuItemClickListener(
                         react( mode, () -> selectedTextProvider.getSelectedText().forEach((Command<? super String>) t ->
                                 callBack.highLight(selectedTextProvider.getSelectionStart(),
                                     selectedTextProvider.getSelectionEnd(), t)
-                        )));
+                        )));*/
 
         if (callBack.isDictionaryAvailable()) {
             menu.add(R.string.dictionary_lookup)

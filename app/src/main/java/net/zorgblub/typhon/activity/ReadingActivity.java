@@ -109,11 +109,11 @@ public class ReadingActivity extends TyphonActivity {
                 tocCallback.addChildren(readingFragment.getTableOfContents());
             }
 
-            if (this.readingFragment.hasHighlights()) {
+            /*if (this.readingFragment.hasHighlights()) {
                 NavigationCallback highlightsCallback = new NavigationCallback(getString(R.string.highlights));
                 readingCallback.addChild(highlightsCallback);
                 highlightsCallback.addChildren(readingFragment.getHighlights());
-            }
+            }*/
 
             if (this.readingFragment.hasSearchResults()) {
                 menuItems.add(new NavigationCallback(getString(R.string.search_results)));

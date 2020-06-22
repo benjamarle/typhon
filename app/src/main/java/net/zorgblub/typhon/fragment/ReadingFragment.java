@@ -1394,10 +1394,10 @@ public class ReadingFragment extends Fragment implements
                 onMenuPress(item).thenDo(() -> lookupDictionary(word.toString()));
             }
 
-            menu.add(R.string.highlight).setOnMenuItemClickListener(item -> {
+            /*menu.add(R.string.highlight).setOnMenuItemClickListener(item -> {
                 highLight(startIndex, endIndex, word.toString());
                 return false;
-            });
+            });*/
 
             MenuItem lookUpWikipediaItem = menu
                     .add(getString(R.string.wikipedia_lookup));
